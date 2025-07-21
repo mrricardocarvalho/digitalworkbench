@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Allow all search engines to crawl the site
+Sitemap: https://ricardocarvalho.dev/sitemap.xml
+
+# Block access to source maps and other development files
+Disallow: /*.map$
+Disallow: /src/
+Disallow: /node_modules/
+
+# Allow important files
+Allow: /resume
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.svg
+Allow: /*.webp
+
+# Crawl delay (optional - adjust based on your server capacity)
+Crawl-delay: 1

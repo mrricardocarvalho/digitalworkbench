@@ -1,0 +1,66 @@
+.projects-header {
+  text-align: center;
+  padding: 60px 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 60px;
+}
+
+.projects-header h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.projects-subtitle {
+  font-size: 1.2rem;
+  color: var(--subtle-text-color);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s ease;
+}
+
+.project-card:hover {
+  border-color: var(--accent-color);
+}
+
+.project-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.project-card p {
+  color: var(--subtle-text-color);
+  margin-bottom: 15px;
+  flex-grow: 1; /* Makes the card content fill the space */
+}
+
+.project-card a {
+  font-weight: 600;
+}
+
+.project-tech {
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-tag {
+  background-color: var(--border-color);
+  color: var(--subtle-text-color);
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+}

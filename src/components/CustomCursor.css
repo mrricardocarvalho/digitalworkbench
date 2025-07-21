@@ -1,0 +1,50 @@
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--accent-color);
+  border-radius: 50%;
+  position: fixed;
+  top: -12px; /* Center: -(20+4)/2 = -12px */
+  left: -12px; /* Center: -(20+4)/2 = -12px */
+  pointer-events: none;
+  z-index: 99999;
+  background-color: rgba(0, 124, 240, 0.2);
+  opacity: 1;
+  transition: width 0.15s ease-out, 
+              height 0.15s ease-out,
+              border-color 0.15s ease-out,
+              background-color 0.15s ease-out;
+  /* Performance optimizations */
+  backface-visibility: hidden;
+  will-change: left, top;
+  transform: translateZ(0); /* Force hardware acceleration */
+  contain: layout style paint; /* Contain layout and paint operations */
+}
+
+/* Enhanced hover state */
+.custom-cursor--hovering {
+  width: 40px;
+  height: 40px;
+  border-color: var(--accent-color);
+  background-color: rgba(0, 124, 240, 0.1);
+}
+
+/* Hide the default system cursor - but be more specific */
+body {
+  cursor: none !important;
+}
+
+a, button, [role="button"], .clickable {
+  cursor: none !important;
+}
+
+/* Hide custom cursor on touch devices and reduced motion */
+@media (hover: none) and (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .custom-cursor {
+    display: none !important;
+  }
+  
+  body {
+    cursor: auto !important;
+  }
+}

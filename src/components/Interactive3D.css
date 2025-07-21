@@ -1,0 +1,209 @@
+.interactive-3d-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  perspective: 1000px;
+  background: linear-gradient(135deg, rgba(0, 124, 240, 0.1) 0%, rgba(0, 124, 240, 0.05) 100%);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.interactive-3d-scene {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  perspective: 800px;
+  perspective-origin: center center;
+}
+
+.interactive-cube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  transform-origin: center center;
+}
+
+.interactive-cube.dragging {
+  cursor: grabbing;
+  transition: none;
+}
+
+.cube-face {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 2px solid var(--accent-color);
+  background: rgba(0, 124, 240, 0.1);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-color);
+  border-radius: 8px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  backface-visibility: hidden;
+}
+
+.cube-face:hover {
+  background: rgba(0, 124, 240, 0.2);
+  border-color: var(--accent-color);
+}
+
+.face-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.face-icon {
+  font-size: 1.8rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.face-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-color);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Cube face positioning */
+.cube-face.front {
+  transform: translateZ(60px);
+}
+
+.cube-face.back {
+  transform: translateZ(-60px) rotateY(180deg);
+}
+
+.cube-face.right {
+  transform: rotateY(90deg) translateZ(60px);
+}
+
+.cube-face.left {
+  transform: rotateY(-90deg) translateZ(60px);
+}
+
+.cube-face.top {
+  transform: rotateX(90deg) translateZ(60px);
+}
+
+.cube-face.bottom {
+  transform: rotateX(-90deg) translateZ(60px);
+}
+
+.interaction-hint {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: var(--subtle-text-color);
+  opacity: 0.8;
+  text-align: center;
+  pointer-events: none;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .interactive-3d-scene {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .cube-face {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .cube-face.front,
+  .cube-face.back {
+    transform: translateZ(50px);
+  }
+  
+  .cube-face.back {
+    transform: translateZ(-50px) rotateY(180deg);
+  }
+  
+  .cube-face.right {
+    transform: rotateY(90deg) translateZ(50px);
+  }
+  
+  .cube-face.left {
+    transform: rotateY(-90deg) translateZ(50px);
+  }
+  
+  .cube-face.top {
+    transform: rotateX(90deg) translateZ(50px);
+  }
+  
+  .cube-face.bottom {
+    transform: rotateX(-90deg) translateZ(50px);
+  }
+  
+  .face-icon {
+    font-size: 1.5rem;
+  }
+  
+  .face-text {
+    font-size: 0.65rem;
+  }
+}
+
+/* Animation for idle state */
+@keyframes idle-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.interactive-3d-container:not(:hover) .interactive-cube:not(.dragging) {
+  animation: idle-float 3s ease-in-out infinite;
+}
+
+/* Dark mode adjustments */
+.dark .cube-face {
+  background: rgba(0, 124, 240, 0.15);
+  border-color: rgba(0, 124, 240, 0.6);
+}
+
+.dark .cube-face:hover {
+  background: rgba(0, 124, 240, 0.25);
+  border-color: var(--accent-color);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .interactive-cube {
+    transition: none !important;
+  }
+  
+  .interactive-3d-container:not(:hover) .interactive-cube:not(.dragging) {
+    animation: none !important;
+  }
+}
+
+/* Touch feedback */
+.interactive-cube:active {
+  transform: scale(0.98);
+}
