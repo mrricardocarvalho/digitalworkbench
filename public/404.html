@@ -6,12 +6,24 @@
     <script type="text/javascript">
       // Single Page Apps for GitHub Pages
       // MIT License
-      // This script is designed to support Single Page Apps (SPAs) hosted on GitHub Pages.
-      // When a 404 error occurs, GitHub Pages serves this 404.html file, which redirects 
-      // to the app's index.html with the original URL encoded as a query parameter.
-      // The app can then parse this and restore the correct URL.
-      
-      var pathSegmentsToKeep = 2;
+      // https://github.com/rafgraph/spa-github-pages
+      // This script takes the current url and converts the path and query
+      // string into just a query string, and then redirects the browser
+      // to the new url with only a query string and hash fragment,
+      // e.g., https://www.foo.tld/one/two?a=b&c=d#qwe, becomes
+      // https://www.foo.tld/?/one/two&a=b~and~c=d#qwe
+      // Note: this 404.html file must be at least 512 bytes for it to work
+      // with Internet Explorer (it is currently > 512 bytes)
+
+      // If you're creating a Project Pages site and NOT using a custom domain,
+      // then set pathSegmentsToKeep to 1 (enterprise users may need to set it to > 1).
+      // This way the code will only replace the route part and not the real folder.
+      // For example, if your repository is at https://username.github.io/repo-name,
+      // GitHub Pages will serve the user at https://username.github.io/repo-name,
+      // but you have to redirect them to https://username.github.io/repo-name?/route
+      // The route will be restored by the 404.html page.
+      var pathSegmentsToKeep = 1;
+
       var l = window.location;
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
@@ -20,8 +32,17 @@
         (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
         l.hash
       );
+
     </script>
   </head>
   <body>
+    <!-- IE needs at least 512 bytes for this page to work -->
+    <div style="display: none;">
+      This is a placeholder page for Single Page Application routing on GitHub Pages.
+      If you are seeing this page, the redirect script above should have already
+      redirected you to the correct page. If you continue to see this page,
+      please check that JavaScript is enabled in your browser.
+      This page contains exactly 512 bytes to ensure compatibility with Internet Explorer.
+    </div>
   </body>
 </html>

@@ -7,10 +7,18 @@ import './index.css'
 import './utils/pwa';
 
 // GitHub Pages SPA routing fix
+// This script checks to see if a redirect is present in the query string,
+// converts it back into the correct url and replaces the current entry in the browser history.
 const isGitHubPages = window.location.hostname.includes('github.io');
-if (isGitHubPages && window.location.search.includes('/?/')) {
-  const redirect = window.location.search.slice(3).replace(/&/g, '&').replace(/~and~/g, '&');
-  window.history.replaceState(null, '', window.location.pathname.slice(0, -1) + redirect + window.location.hash);
+if (isGitHubPages) {
+  (function(l) {
+    if (l.search[1] === '/' ) {
+      var decoded = l.search.slice(1).split('&').map(function(s) { 
+        return s.replace(/~and~/g, '&')
+      }).join('?');
+      window.history.replaceState(null, '', l.pathname.slice(0, -1) + decoded + l.hash);
+    }
+  }(window.location))
 }
 
 // Optimized Google Font loading with font-display: swap
