@@ -17,7 +17,7 @@ A high-performance React portfolio showcasing modern web development practices a
 - Custom cursor with performance optimizations
 
 ### ⚡ **Performance Optimized**
-- Lighthouse scores: 95+ across all metrics
+- Lighthouse scores: 85+ performance, 90+ on other metrics
 - Code splitting and lazy loading implementation
 - Optimized asset bundling with Vite
 - Real-time Web Vitals monitoring
@@ -69,16 +69,16 @@ A high-performance React portfolio showcasing modern web development practices a
 
 ```
 Lighthouse Scores:
-├── Performance: 95+
-├── Accessibility: 100
-├── Best Practices: 100
+├── Performance: 86
+├── Accessibility: 94
+├── Best Practices: 96
 └── SEO: 100
 
 Bundle Analysis:
 ├── Initial Bundle: ~96KB (gzipped)
-├── Vendor Chunk: ~12KB (gzipped)
-├── Motion Chunk: ~36KB (gzipped)
-└── Load Time: <2s on 3G
+├── Motion Bundle: ~36KB (gzipped)
+├── Vendor Chunk: ~4KB (gzipped)
+└── Load Time: 2-3.7s on mobile
 ```
 
 ## 🏗️ Project Structure
