@@ -6,6 +6,13 @@ import './index.css'
 // Initialize PWA manager
 import './utils/pwa';
 
+// GitHub Pages SPA routing fix
+const isGitHubPages = window.location.hostname.includes('github.io');
+if (isGitHubPages && window.location.search.includes('/?/')) {
+  const redirect = window.location.search.slice(3).replace(/&/g, '&').replace(/~and~/g, '&');
+  window.history.replaceState(null, '', window.location.pathname.slice(0, -1) + redirect + window.location.hash);
+}
+
 // Optimized Google Font loading with font-display: swap
 const fontLink = document.createElement('link');
 fontLink.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap";
@@ -24,7 +31,7 @@ if (!viewportMeta) {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/digitalworkbench">
       <App />
     </BrowserRouter>
   </React.StrictMode>,
