@@ -12,7 +12,7 @@ type Project = {
   tech: string[];
 };
 
-// Create a more comprehensive list of projects for this page
+// Create a focused list of personal development projects
 const allProjects: Project[] = [
   { 
     slug: "digital-workbench-portfolio", 
@@ -20,24 +20,7 @@ const allProjects: Project[] = [
     description: "A high-performance React portfolio showcasing modern web development practices. Built with TypeScript, Vite, and Framer Motion, featuring interactive 3D elements, comprehensive SEO optimization, and real-time performance monitoring.", 
     tech: ["React 19", "TypeScript", "Vite", "Framer Motion", "CSS3 Animations", "Web Vitals API", "Vitest"] 
   },
-  {
-    slug: "enterprise-bc-migration",
-    title: "Enterprise Business Central Migration Platform",
-    description: "Led the migration of a Fortune 500 manufacturing company from Dynamics NAV to Business Central, including custom AL extensions, data transformation pipelines, and automated testing frameworks. Reduced operational costs by 40% and improved system performance by 300%.",
-    tech: ["AL Language", "Business Central", "Azure DevOps", "SQL Server", "Power BI", "C# Integration", "Azure Functions"]
-  },
-  {
-    slug: "multi-tenant-integration-hub",
-    title: "Multi-Tenant API Integration Hub",
-    description: "Architected a scalable integration platform connecting Business Central with 15+ external systems, processing 100K+ transactions daily with 99.9% uptime and comprehensive error handling. Features real-time data synchronization and automated conflict resolution.",
-    tech: ["AL Extensions", "REST APIs", "OAuth 2.0", "Redis Cache", "Docker", "Kubernetes", "Application Insights"]
-  },
-  {
-    slug: "real-time-inventory-optimization",
-    title: "Real-Time Inventory Optimization System",
-    description: "Developed an AI-powered inventory optimization system for a retail chain with 200+ locations. Reduced inventory costs by 25% while maintaining 99.5% stock availability through predictive analytics and automated reordering algorithms.",
-    tech: ["Business Central", "Machine Learning", "Azure ML", "Power Platform", "Custom AL Extensions", "SQL Analytics"]
-  }
+  // Future personal development projects will be added here
 ];
 
 const ProjectsPage: React.FC = () => {
@@ -54,8 +37,8 @@ const ProjectsPage: React.FC = () => {
   return (
     <div className="container">
       <div className="projects-header">
-        <h1>All Projects</h1>
-        <p className="projects-subtitle">A collection of my professional work and case studies.</p>
+        <h1>Development Projects</h1>
+        <p className="projects-subtitle">Personal development projects and technical experiments.</p>
       </div>
 
       <motion.div 

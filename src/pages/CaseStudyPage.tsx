@@ -33,54 +33,7 @@ const allProjects: Project[] = [
       "Created modular, maintainable codebase following React best practices and modern development patterns."
     ]
   },
-  {
-    slug: "enterprise-bc-migration",
-    title: "Enterprise Business Central Migration Platform",
-    description: "Complex enterprise migration from legacy Dynamics NAV to modern Business Central cloud infrastructure.",
-    tech: ["AL Language", "Business Central", "Azure DevOps", "SQL Server", "Power BI", "C# Integration", "Azure Functions"],
-    problem: "A Fortune 500 manufacturing company with 15 years of heavily customized Dynamics NAV 2018 needed to migrate to Business Central cloud. The system contained 500+ custom objects, complex integrations with manufacturing equipment, and critical business processes that couldn't afford downtime. Previous migration attempts by other consultants had failed due to data corruption and performance issues.",
-    solution: "I designed and executed a comprehensive migration strategy involving: custom data transformation pipelines using Azure Functions to ensure data integrity, complete AL rewrite of 200+ custom NAV objects following modern BC patterns, parallel environment setup allowing side-by-side testing, automated regression testing framework covering 95% of business processes, and a phased rollout plan minimizing business disruption. The solution included custom AL extensions for manufacturing integration, optimized performance patterns, and comprehensive error handling.",
-    outcome: [
-      "Successfully migrated 2TB+ of historical data with zero data loss and 99.9% accuracy validation.",
-      "Reduced system response times by 300% through optimized AL code and improved database indexing.",
-      "Decreased operational costs by 40% by eliminating on-premises infrastructure and maintenance overhead.",
-      "Implemented automated CI/CD pipeline reducing deployment time from days to hours.",
-      "Delivered comprehensive training program enabling internal team to maintain and extend the solution.",
-      "Achieved 100% business process continuity with zero unplanned downtime during migration."
-    ]
-  },
-  {
-    slug: "multi-tenant-integration-hub",
-    title: "Multi-Tenant API Integration Hub",
-    description: "Scalable integration platform connecting Business Central with multiple external systems in real-time.",
-    tech: ["AL Extensions", "REST APIs", "OAuth 2.0", "Redis Cache", "Docker", "Kubernetes", "Application Insights"],
-    problem: "A growing SaaS company needed to integrate their Business Central instance with 15+ external systems including e-commerce platforms, shipping providers, payment gateways, and CRM systems. The existing point-to-point integrations were fragile, difficult to maintain, and couldn't handle the growing transaction volume of 100K+ daily transactions. Data inconsistencies and failed synchronizations were causing customer service issues and revenue loss.",
-    solution: "I architected a robust integration hub using modern cloud-native patterns: microservices architecture deployed on Kubernetes for scalability, centralized authentication using OAuth 2.0 with token caching, event-driven architecture with reliable message queuing, comprehensive error handling with automatic retry mechanisms, and real-time monitoring with Application Insights. The solution featured custom AL extensions for BC integration, Redis caching for performance, and Docker containers for consistent deployment across environments.",
-    outcome: [
-      "Achieved 99.9% uptime processing 100K+ daily transactions with sub-second response times.",
-      "Reduced integration maintenance overhead by 80% through standardized patterns and monitoring.",
-      "Eliminated data inconsistencies with ACID-compliant transaction management and conflict resolution.",
-      "Enabled rapid onboarding of new integrations, reducing setup time from weeks to days.",
-      "Implemented comprehensive observability with real-time dashboards and automated alerting.",
-      "Scaled seamlessly to support 3x transaction growth without performance degradation."
-    ]
-  },
-  {
-    slug: "real-time-inventory-optimization",
-    title: "Real-Time Inventory Optimization System",
-    description: "AI-powered inventory management system with predictive analytics and automated reordering.",
-    tech: ["Business Central", "Machine Learning", "Azure ML", "Power Platform", "Custom AL Extensions", "SQL Analytics"],
-    problem: "A retail chain with 200+ locations was struggling with inventory management challenges: overstocking slow-moving items, frequent stockouts of popular products, and manual reordering processes that couldn't keep up with demand fluctuations. The company was losing $2M annually due to inventory inefficiencies, and customer satisfaction was declining due to product unavailability. Their existing BC setup had basic inventory tracking but no predictive capabilities.",
-    solution: "I developed an intelligent inventory optimization system combining Business Central with Azure ML: custom AL extensions capturing real-time sales data and inventory movements, machine learning models predicting demand patterns based on historical data, seasonal trends, and external factors, automated reordering algorithms with supplier lead time optimization, Power BI dashboards providing actionable insights to inventory managers, and integration with POS systems for real-time inventory updates across all locations. The system learned from sales patterns and continuously improved its predictions.",
-    outcome: [
-      "Reduced inventory carrying costs by 25% while maintaining 99.5% product availability.",
-      "Decreased stockouts by 60% through accurate demand forecasting and proactive reordering.",
-      "Automated 85% of reordering decisions, freeing managers to focus on strategic planning.",
-      "Improved inventory turnover rate by 40% through optimized stock level recommendations.",
-      "Generated $1.8M annual savings through reduced waste and improved cash flow management.",
-      "Increased customer satisfaction scores by 15% due to better product availability."
-    ]
-  }
+  // Future personal development projects will be documented here
 ];
 
 const CaseStudyPage: React.FC = () => {
