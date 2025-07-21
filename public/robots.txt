@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Allow all search engines to crawl the site
-Sitemap: https://ricardocarvalho.dev/sitemap.xml
+Sitemap: https://mrricardocarvalho.github.io/digitalworkbench/sitemap.xml
 
 # Block access to source maps and other development files
 Disallow: /*.map$

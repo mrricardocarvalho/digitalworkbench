@@ -1,7 +1,4 @@
-<?xml version="1.0"    <priority>0.8</priority>
-  </url>
-  
-  <!-- Blog Posts Start -->TF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
@@ -9,77 +6,63 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://ricardocarvalho.dev/</loc>
-    <lastmod>2025-01-19</lastmod>
+    <loc>https://mrricardocarvalho.github.io/digitalworkbench/</loc>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <!-- Resume Page -->
   <url>
-    <loc>https://ricardocarvalho.dev/resume</loc>
-    <lastmod>2025-01-19</lastmod>
+    <loc>https://mrricardocarvalho.github.io/digitalworkbench/resume</loc>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
-  <!-- Anchor sections -->
+  <!-- Uses Page -->
   <url>
-    <loc>https://ricardocarvalho.dev/#projects</loc>
-    <lastmod>2025-01-19</lastmod>
+    <loc>https://mrricardocarvalho.github.io/digitalworkbench/uses</loc>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://ricardocarvalho.dev/#insights</loc>
-    <lastmod>2025-01-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://ricardocarvalho.dev/#contact</loc>
-    <lastmod>2025-01-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
   </url>
 
   <!-- Insights Page -->
   <url>
-    <loc>https://ricardocarvalho.dev/insights</loc>
-    <lastmod>2025-07-20</lastmod>
+    <loc>https://mrricardocarvalho.github.io/digitalworkbench/insights</loc>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Blog Posts -->
+  <!-- Individual Insights -->
   <url>
-    <loc>https://ricardocarvalho.dev/insights/al-performance-secrets</loc>
-    <lastmod>2025-07-18</lastmod>
+    <loc>https://mrricardocarvalho.github.io/digitalworkbench/insights/business-central-performance-bottlenecks-guide</loc>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://ricardocarvalho.dev/insights/debugging-al-like-pro</loc>
-    <lastmod>2025-07-10</lastmod>
+    <loc>https://mrricardocarvalho.github.io/digitalworkbench/insights/business-central-cloud-vs-onpremises-migration-guide</loc>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://ricardocarvalho.dev/insights/bc-api-integration-masterclass</loc>
-    <lastmod>2025-06-25</lastmod>
+    <loc>https://mrricardocarvalho.github.io/digitalworkbench/insights/business-central-al-extensions-advanced-patterns</loc>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://ricardocarvalho.dev/insights/al-extension-architecture</loc>
-    <lastmod>2025-06-15</lastmod>
+    <loc>https://mrricardocarvalho.github.io/digitalworkbench/insights/business-central-data-migration-zero-downtime-strategies</loc>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
 
 </urlset>
