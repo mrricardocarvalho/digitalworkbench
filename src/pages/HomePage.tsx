@@ -110,7 +110,35 @@ const cardVariants: Variants = {
       <SEO 
         title="Ricardo Carvalho - Senior Dynamics 365 Business Central Developer"
         description="Senior D365 BC Developer with 20+ years experience architecting robust and scalable ERP solutions. Specialized in AL development, NAV migrations, and enterprise implementations."
-        canonical="https://ricardocarvalho.dev/"
+        canonical="https://mrricardocarvalho.github.io/digitalworkbench/"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Ricardo Carvalho",
+          "jobTitle": "Senior Dynamics 365 Business Central Developer",
+          "description": "Senior D365 BC Developer with 20+ years experience architecting robust and scalable ERP solutions. Specialized in AL development, NAV migrations, and enterprise implementations.",
+          "url": "https://mrricardocarvalho.github.io/digitalworkbench/",
+          "sameAs": [
+            "https://linkedin.com/in/ricardocarvalho",
+            "https://github.com/mrricardocarvalho"
+          ],
+          "knowsAbout": [
+            "Dynamics 365 Business Central",
+            "AL Programming Language",
+            "Microsoft Dynamics NAV",
+            "ERP Systems",
+            "Azure DevOps",
+            "Enterprise Software Development"
+          ],
+          "hasOccupation": {
+            "@type": "Occupation",
+            "name": "Senior Software Developer",
+            "occupationLocation": {
+              "@type": "Country",
+              "name": "Portugal"
+            }
+          }
+        }}
       />
       <div className="container">
       {/* Hero Section */}

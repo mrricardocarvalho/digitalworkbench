@@ -18,8 +18,8 @@ const SEO: React.FC<SEOProps> = ({
   title = "Ricardo Carvalho - Senior Dynamics 365 Business Central Developer",
   description = "Senior D365 BC Developer with 8+ years experience architecting robust and scalable ERP solutions. Specialized in AL development, Azure DevOps, and enterprise migrations.",
   keywords = "Dynamics 365, Business Central, AL Developer, ERP Solutions, Microsoft Partner, Azure DevOps, D365 BC Development, Enterprise Software",
-  ogImage = "https://ricardocarvalho.dev/og-image.jpg",
-  canonical = "https://ricardocarvalho.dev/",
+  ogImage = "https://mrricardocarvalho.github.io/digitalworkbench/og-image.jpg",
+  canonical = "https://mrricardocarvalho.github.io/digitalworkbench/",
   author = "Ricardo Carvalho",
   publishedTime,
   modifiedTime,
@@ -104,12 +104,12 @@ const SEO: React.FC<SEOProps> = ({
           "author": {
             "@type": "Person",
             "name": author,
-            "url": "https://ricardocarvalho.dev"
+            "url": "https://mrricardocarvalho.github.io/digitalworkbench/"
           },
           "publisher": {
             "@type": "Person",
             "name": author,
-            "url": "https://ricardocarvalho.dev"
+            "url": "https://mrricardocarvalho.github.io/digitalworkbench/"
           },
           "datePublished": publishedTime,
           "dateModified": modifiedTime || publishedTime,
