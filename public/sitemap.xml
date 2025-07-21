@@ -36,33 +36,4 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Individual Insights -->
-  <url>
-    <loc>https://mrricardocarvalho.github.io/digitalworkbench/insights/business-central-performance-bottlenecks-guide</loc>
-    <lastmod>2025-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://mrricardocarvalho.github.io/digitalworkbench/insights/business-central-cloud-vs-onpremises-migration-guide</loc>
-    <lastmod>2025-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://mrricardocarvalho.github.io/digitalworkbench/insights/business-central-al-extensions-advanced-patterns</loc>
-    <lastmod>2025-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://mrricardocarvalho.github.io/digitalworkbench/insights/business-central-data-migration-zero-downtime-strategies</loc>
-    <lastmod>2025-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
 </urlset>
