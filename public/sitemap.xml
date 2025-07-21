@@ -1,28 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <!-- Homepage -->
   <url>
     <loc>https://mrricardocarvalho.github.io/digitalworkbench/</loc>
-    <lastmod>2025-07-21</lastmod>
+    <lastmod>2025-07-21T19:45:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  
-  <!-- Homepage Projects Section -->
-  <url>
-    <loc>https://mrricardocarvalho.github.io/digitalworkbench/#projects</loc>
-    <lastmod>2025-07-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Homepage Insights Section -->
-  <url>
-    <loc>https://mrricardocarvalho.github.io/digitalworkbench/#insights</loc>
-    <lastmod>2025-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
 </urlset>
