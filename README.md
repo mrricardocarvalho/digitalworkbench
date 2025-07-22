@@ -210,7 +210,7 @@ This project is open source and available under the [MIT License](LICENSE).
 **Ricardo Carvalho** - Senior Dynamics 365 Business Central Developer
 
 - 🔗 **Portfolio**: [https://mrricardocarvalho.github.io/digitalworkbench/](https://mrricardocarvalho.github.io/digitalworkbench/)
-- 💼 **LinkedIn**: [Connect with me](https://linkedin.com/in/ricardocarvalho)
+- 💼 **LinkedIn**: [Connect with me](https://www.linkedin.com/in/ricardo-carvalho-05741519)
 - 🐱 **GitHub**: [@mrricardocarvalho](https://github.com/mrricardocarvalho)
 
 ---
