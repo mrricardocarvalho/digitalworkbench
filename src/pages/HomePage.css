@@ -55,7 +55,7 @@
   box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
   border-color: var(--accent-color);
 }
-.bento-box.clickable { cursor: none !important; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+.bento-box.clickable { cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
 .bento-box.clickable:hover { border-color: var(--accent-color); }
 .bento-box.clickable:active { 
   transform: translateY(-2px); 
