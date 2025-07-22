@@ -52,13 +52,13 @@ const CommandPalette: React.FC = () => {
         </Command.Group>
 
         <Command.Group heading="Actions">
-          <Command.Item onSelect={() => runCommand(() => window.open('mailto:ricardo@example.com'))}>
+          <Command.Item onSelect={() => runCommand(() => window.open('mailto:ricardo.sampaio@gmail.com'))}>
             Send Email
           </Command.Item>
-          <Command.Item onSelect={() => runCommand(() => window.open('https://linkedin.com/in/ricardocarvalho'))}>
+          <Command.Item onSelect={() => runCommand(() => window.open('https://www.linkedin.com/in/ricardo-carvalho-05741519'))}>
             LinkedIn Profile
           </Command.Item>
-          <Command.Item onSelect={() => runCommand(() => window.open('https://github.com/ricardocarvalho'))}>
+          <Command.Item onSelect={() => runCommand(() => window.open('https://github.com/mrricardocarvalho'))}>
             GitHub Profile
           </Command.Item>
         </Command.Group>

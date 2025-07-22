@@ -119,7 +119,7 @@ const cardVariants: Variants = {
           "description": "Senior D365 BC Developer with 20+ years experience architecting robust and scalable ERP solutions. Specialized in AL development, NAV migrations, and enterprise implementations.",
           "url": "https://mrricardocarvalho.github.io/digitalworkbench/",
           "sameAs": [
-            "https://linkedin.com/in/ricardocarvalho",
+            "https://www.linkedin.com/in/ricardo-carvalho-05741519",
             "https://github.com/mrricardocarvalho"
           ],
           "knowsAbout": [
