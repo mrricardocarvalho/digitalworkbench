@@ -41,6 +41,13 @@
   color: var(--subtle-text-color);
 }
 
+/* Strong/bold text styling for better visibility */
+.case-study-section strong {
+  font-weight: 700;
+  color: var(--text-color);
+  font-size: 1.05em;
+}
+
 .outcome-section ul {
   list-style: none;
   padding-left: 0;

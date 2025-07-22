@@ -24,13 +24,14 @@ const allProjects: Project[] = [
     description: "A high-performance React portfolio showcasing modern web development practices and interactive user experiences.", 
     tech: ["React 19", "TypeScript", "Vite", "Framer Motion", "CSS3 Animations", "Web Vitals API", "Vitest", "ESLint"],
     problem: "Creating a professional portfolio that demonstrates modern web development skills while showcasing both D365 BC expertise and full-stack capabilities. The challenge was building a platform that performs excellently, follows accessibility standards, and provides an engaging user experience that stands out in a competitive market.",
-    solution: "I architected and developed a comprehensive React application using cutting-edge technologies and best practices. Key implementations included: a custom Interactive3D component using CSS3 transforms for hardware-accelerated animations, comprehensive SEO optimization with dynamic meta tags and structured data, real-time Web Vitals monitoring using the PerformanceObserver API, full TypeScript integration for type safety, and a robust testing infrastructure with Vitest and React Testing Library. The application also features responsive design, dark/light theme support, and optimized performance with lazy loading and code splitting.",
+    solution: "I architected and developed a comprehensive React application using cutting-edge technologies and modern development practices. The solution encompasses multiple technical layers: <strong>Frontend Architecture</strong> - Built with React 19 and TypeScript using Vite for optimal build performance and developer experience. <strong>Interactive Features</strong> - Custom Interactive3D component using CSS3 transforms for hardware-accelerated animations and engaging user interactions. <strong>Performance Optimization</strong> - Implemented code splitting, lazy loading, and real-time Web Vitals monitoring using the PerformanceObserver API. <strong>SEO & Accessibility</strong> - Comprehensive meta tag optimization, structured data (JSON-LD), and ARIA-compliant accessibility features. <strong>Quality Assurance</strong> - Robust testing infrastructure with Vitest covering 12 focused test cases across critical components, plus ESLint configuration with strict TypeScript checking.",
     outcome: [
-      "Achieved 100% TypeScript coverage with strict type checking for enhanced code reliability.",
-      "Implemented comprehensive testing suite with 12+ test cases covering critical components and error scenarios.",
-      "Built interactive 3D cube component demonstrating advanced CSS animations and user engagement features.",
-      "Established robust development workflow with ESLint, environment validation, and automated performance monitoring.",
-      "Created modular, maintainable codebase following React best practices and modern development patterns."
+      "Achieved measurable performance metrics: Lighthouse scores of 86+ performance, 94+ accessibility, 96+ best practices, and 100 SEO.",
+      "Implemented comprehensive TypeScript integration with strict compiler settings for enhanced code reliability and maintainability.",
+      "Built focused testing suite with 12 test cases covering critical components (SEO, Interactive3D, CustomCursor) and error scenarios.",
+      "Created interactive 3D cube component demonstrating advanced CSS animations and responsive user engagement features.",
+      "Established modern development workflow with ESLint, environment validation, and automated performance monitoring via Web Vitals API.",
+      "Delivered production-ready codebase following React best practices with optimized bundle sizing (~96KB gzipped initial bundle)."
     ]
   },
   // Future personal development projects will be documented here
@@ -82,7 +83,7 @@ const CaseStudyPage: React.FC = () => {
 
         <div className="case-study-section">
           <h2>My Solution</h2>
-          <p>{project.solution}</p>
+          <p dangerouslySetInnerHTML={{ __html: project.solution }}></p>
         </div>
 
         <div className="case-study-section outcome-section">
