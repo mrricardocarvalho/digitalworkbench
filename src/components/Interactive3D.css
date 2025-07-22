@@ -41,23 +41,19 @@
   position: absolute;
   width: 120px;
   height: 120px;
-  border: 2px solid var(--accent-color);
   background: rgba(0, 124, 240, 0.1);
-  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-color);
-  border-radius: 8px;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease;
   backface-visibility: hidden;
 }
 
 .cube-face:hover {
   background: rgba(0, 124, 240, 0.2);
-  border-color: var(--accent-color);
 }
 
 .face-content {
@@ -184,12 +180,10 @@
 /* Dark mode adjustments */
 .dark .cube-face {
   background: rgba(0, 124, 240, 0.15);
-  border-color: rgba(0, 124, 240, 0.6);
 }
 
 .dark .cube-face:hover {
   background: rgba(0, 124, 240, 0.25);
-  border-color: var(--accent-color);
 }
 
 /* Accessibility */
