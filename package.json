@@ -6,26 +6,38 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:staging": "VITE_APP_ENV=staging npm run build",
+    "build:preview": "VITE_APP_ENV=preview npm run build",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "test:ci": "vitest run --coverage",
+    "security:audit": "npm audit --audit-level=moderate",
+    "security:fix": "npm audit fix",
+    "analyze": "npm run build && npx vite-bundle-analyzer dist/stats.html",
+    "lighthouse": "lhci autorun",
+    "deploy:staging": "npm run build:staging && surge ./dist digitalworkbench-staging.surge.sh",
+    "deploy:preview": "npm run build:preview"
   },
   "dependencies": {
     "@splinetool/react-spline": "^4.0.0",
     "cmdk": "^1.1.1",
-    "framer-motion": "^12.18.1",
+    "framer-motion": "^12.23.6",
+    "gtag": "^1.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.2"
+    "react-router-dom": "^6.30.1",
+    "web-vitals": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "@types/react": "^19.1.2",
+    "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react-swc": "^3.9.0",
     "eslint": "^9.25.0",

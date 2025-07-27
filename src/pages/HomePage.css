@@ -206,6 +206,16 @@
 .skill-category h3 { font-size: 1.2rem; font-weight: 600; color: var(--text-color); border-left: 3px solid var(--accent-color); padding-left: 10px; margin-bottom: 15px; }
 .skill-category ul { list-style: none; padding-left: 13px; }
 .skill-category li { margin-bottom: 8px; color: var(--subtle-text-color); }
+
+/* Newsletter Section */
+.newsletter-section {
+  margin-top: 6rem;
+  padding: 4rem 2rem;
+  background: var(--color-background-subtle, #f8f9fa);
+  border-radius: 24px;
+  border: 1px solid var(--color-border, #e9ecef);
+}
+
 /* Footer */
 .main-footer { padding: 40px 0; margin-top: 60px; border-top: 1px solid var(--border-color); text-align: center; color: var(--subtle-text-color); }
 .footer-contact h3 { font-size: 2rem; color: var(--text-color); margin-bottom: 10px; }

@@ -1,17 +1,193 @@
+/* Enhanced Theme Toggle with Smooth Animations */
 .theme-toggle {
   background: none;
   border: none;
   cursor: pointer;
   color: var(--subtle-text-color);
-  padding: 4px;
+  padding: 8px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.3s ease, background-color 0.3s ease;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1);
+  overflow: hidden;
 }
 
 .theme-toggle:hover {
   color: var(--text-color);
   background-color: var(--border-color);
+  transform: scale(1.1);
+}
+
+.theme-toggle:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Icon animations */
+.theme-toggle__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Theme-specific styles with animations */
+.theme-toggle--light .theme-toggle__icon {
+  animation: sunRise 0.5s ease-out;
+}
+
+.theme-toggle--dark .theme-toggle__icon {
+  animation: moonRise 0.5s ease-out;
+}
+
+.theme-toggle--auto .theme-toggle__icon {
+  animation: systemPulse 0.5s ease-out;
+}
+
+/* Transition indicator */
+.theme-toggle--transitioning::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--accent-color), transparent, var(--accent-color));
+  opacity: 0.6;
+  animation: spin 0.8s linear infinite;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.theme-toggle__transition-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 2px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  animation: transitionPulse 0.6s ease-in-out infinite;
+  transform: translate(-50%, -50%);
+}
+
+/* Keyframe animations */
+@keyframes sunRise {
+  0% {
+    transform: rotate(-90deg) scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: rotate(0deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes moonRise {
+  0% {
+    transform: rotate(90deg) scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: rotate(0deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes systemPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes transitionPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.4;
+  }
+}
+
+/* Smooth glow effect on hover */
+.theme-toggle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-color), transparent);
+  opacity: 0;
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.theme-toggle:hover::before {
+  width: 40px;
+  height: 40px;
+  opacity: 0.1;
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle,
+  .theme-toggle__icon,
+  .theme-toggle::before,
+  .theme-toggle::after,
+  .theme-toggle__transition-indicator {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .theme-toggle:hover {
+    transform: none;
+  }
 }

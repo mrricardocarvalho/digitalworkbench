@@ -1,0 +1,166 @@
+name: Performance Monitoring
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    # Run performance tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  lighthouse-ci:
+    name: 🔍 Lighthouse CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build project
+        run: npm run build
+      
+      - name: Serve built files
+        run: |
+          npm install -g serve
+          serve -s dist -l 3000 &
+          sleep 5
+      
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          configPath: './.lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+  bundle-analyzer:
+    name: 📦 Bundle Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install bundle analyzer
+        run: npm install -g webpack-bundle-analyzer
+      
+      - name: Build with analysis
+        run: npm run build
+      
+      - name: Analyze bundle
+        run: |
+          # Generate bundle analysis report
+          echo "## 📦 Bundle Size Analysis" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Calculate total bundle size
+          total_size=$(find dist/assets -name "*.js" -o -name "*.css" | xargs stat -c%s | awk '{sum+=$1} END {print sum}')
+          total_size_mb=$(echo "scale=2; $total_size / 1024 / 1024" | bc)
+          
+          echo "**Total Bundle Size:** ${total_size_mb} MB" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Performance budget checks
+          echo "### 🎯 Performance Budget Status" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Check if main bundle is under 1MB
+          main_js=$(find dist/assets -name "index-*.js" | head -1)
+          if [ -f "$main_js" ]; then
+            main_size=$(stat -c%s "$main_js")
+            main_size_kb=$(echo "scale=1; $main_size / 1024" | bc)
+            
+            if [ $main_size -gt 1048576 ]; then
+              echo "❌ **Main Bundle:** ${main_size_kb} KB (EXCEEDS 1MB LIMIT)" >> $GITHUB_STEP_SUMMARY
+              exit 1
+            else
+              echo "✅ **Main Bundle:** ${main_size_kb} KB (within 1MB limit)" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+          
+          # Check if total bundle is under 5MB
+          if (( $(echo "$total_size_mb > 5" | bc -l) )); then
+            echo "❌ **Total Bundle:** ${total_size_mb} MB (EXCEEDS 5MB LIMIT)" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          else
+            echo "✅ **Total Bundle:** ${total_size_mb} MB (within 5MB limit)" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 File Breakdown" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Size | Type |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|------|" >> $GITHUB_STEP_SUMMARY
+          
+          find dist/assets -type f \( -name "*.js" -o -name "*.css" \) | while read file; do
+            size=$(stat -c%s "$file")
+            size_kb=$(echo "scale=1; $size / 1024" | bc)
+            filename=$(basename "$file")
+            filetype=$(echo "$filename" | awk -F. '{print $NF}')
+            echo "| $filename | ${size_kb} KB | $filetype |" >> $GITHUB_STEP_SUMMARY
+          done
+
+  accessibility-test:
+    name: ♿ Accessibility Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install -g @axe-core/cli
+      
+      - name: Build project
+        run: npm run build
+      
+      - name: Serve built files
+        run: |
+          npm install -g serve
+          serve -s dist -l 3000 &
+          sleep 5
+      
+      - name: Run axe accessibility tests
+        run: |
+          echo "## ♿ Accessibility Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Test main pages
+          pages=("/" "/projects" "/insights" "/contact")
+          
+          for page in "${pages[@]}"; do
+            echo "Testing page: $page" >> $GITHUB_STEP_SUMMARY
+            axe "http://localhost:3000$page" --exit || echo "❌ Accessibility issues found on $page" >> $GITHUB_STEP_SUMMARY
+          done

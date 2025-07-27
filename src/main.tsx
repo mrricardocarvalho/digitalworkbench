@@ -5,6 +5,11 @@ import App from './App.tsx' // Note the .tsx extension
 import './index.css'
 // Initialize PWA manager
 import './utils/pwa';
+// Initialize performance optimizations
+import { loadCriticalResources, registerServiceWorker, optimizeImageLoading } from './utils/performance';
+import { initializeFontLoading } from './utils/fontLoading';
+// Initialize content management system
+import { registerAllContent } from './content/contentRegistry';
 
 // GitHub Pages SPA routing fix
 // This script checks to see if a redirect is present in the query string,
@@ -20,6 +25,21 @@ if (isGitHubPages) {
     }
   }(window.location))
 }
+
+// Determine base path: use /digitalworkbench for production/GitHub Pages, / for local dev
+const basename = import.meta.env.PROD && isGitHubPages ? '/digitalworkbench' : undefined;
+
+// Initialize performance optimizations immediately
+loadCriticalResources();
+
+// Initialize font loading optimization
+initializeFontLoading().catch(console.warn);
+
+// Register service worker for caching
+registerServiceWorker().catch(console.warn);
+
+// Initialize content management system
+registerAllContent();
 
 // Optimized Google Font loading with font-display: swap
 const fontLink = document.createElement('link');
@@ -37,10 +57,21 @@ if (!viewportMeta) {
   document.head.appendChild(viewport);
 }
 
+// Optimize images after DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  optimizeImageLoading();
+});
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter basename="/digitalworkbench">
-      <App />
-    </BrowserRouter>
+    {basename ? (
+      <BrowserRouter basename={basename}>
+        <App />
+      </BrowserRouter>
+    ) : (
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    )}
   </React.StrictMode>,
 )

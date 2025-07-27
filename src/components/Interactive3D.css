@@ -129,8 +129,7 @@
     height: 100px;
   }
   
-  .cube-face.front,
-  .cube-face.back {
+  .cube-face.front {
     transform: translateZ(50px);
   }
   
@@ -160,6 +159,102 @@
   
   .face-text {
     font-size: 0.65rem;
+  }
+  
+  .interaction-hint {
+    font-size: 0.6rem;
+    bottom: 8px;
+  }
+}
+
+/* Mobile-specific optimizations */
+.interactive-3d-container.mobile {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.interactive-3d-container.mobile .interactive-cube {
+  transition: transform 0.05s ease-out;
+}
+
+.interactive-3d-container.mobile .interactive-cube.dragging {
+  transition: none;
+}
+
+/* Performance-based optimizations */
+.interactive-3d-container.low .interactive-cube {
+  will-change: auto;
+  animation: none !important;
+}
+
+.interactive-3d-container.medium .interactive-cube {
+  will-change: transform;
+}
+
+.interactive-3d-container.high .interactive-cube {
+  will-change: transform;
+}
+
+/* Touch-specific interaction hints */
+.interactive-3d-container.mobile .interaction-hint {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+/* Small screen optimizations */
+@media (max-width: 480px) {
+  .interactive-3d-container {
+    min-height: 160px;
+  }
+  
+  .interactive-3d-scene {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .cube-face {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .cube-face.front,
+  .cube-face.back {
+    transform: translateZ(40px);
+  }
+  
+  .cube-face.back {
+    transform: translateZ(-40px) rotateY(180deg);
+  }
+  
+  .cube-face.right {
+    transform: rotateY(90deg) translateZ(40px);
+  }
+  
+  .cube-face.left {
+    transform: rotateY(-90deg) translateZ(40px);
+  }
+  
+  .cube-face.top {
+    transform: rotateX(90deg) translateZ(40px);
+  }
+  
+  .cube-face.bottom {
+    transform: rotateX(-90deg) translateZ(40px);
+  }
+  
+  .face-icon {
+    font-size: 1.2rem;
+  }
+  
+  .face-text {
+    font-size: 0.55rem;
+  }
+  
+  .interaction-hint {
+    font-size: 0.55rem;
+    bottom: 6px;
   }
 }
 

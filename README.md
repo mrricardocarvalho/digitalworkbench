@@ -16,6 +16,13 @@ A high-performance React portfolio showcasing modern web development practices a
 - Dark/Light theme support with system preference detection
 - Custom cursor with performance optimizations
 
+### 📧 **Contact & Communication**
+- Advanced contact form with validation and spam protection
+- Multi-variant newsletter signup components (inline, modal, sidebar)
+- Email validation with real-time feedback
+- Analytics tracking for form submissions and newsletter signups
+- Honeypot spam protection for contact forms
+
 ### ⚡ **Performance Optimized**
 - Lighthouse scores: 85+ performance, 90+ on other metrics
 - Code splitting and lazy loading implementation
@@ -86,12 +93,15 @@ Bundle Analysis:
 ```
 src/
 ├── components/          # Reusable UI components
+│   ├── ContactForm/    # Advanced contact form with validation
+│   ├── NewsletterSignup/ # Multi-variant newsletter component
 │   ├── CustomCursor/   # Performance-optimized cursor
 │   ├── Header/         # Navigation and branding
 │   ├── Footer/         # Contact and social links
 │   └── Layout/         # Main layout wrapper
 ├── pages/              # Route components
 │   ├── HomePage/       # Landing page with 3D elements
+│   ├── ContactPage/    # Dedicated contact page
 │   ├── ResumePage/     # Professional experience
 │   ├── ProjectsPage/   # Development projects showcase
 │   └── InsightPostPage/# Technical blog posts

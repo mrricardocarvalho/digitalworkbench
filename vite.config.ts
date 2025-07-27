@@ -2,11 +2,85 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
-  base: '/digitalworkbench/', // GitHub Pages base path
+  base: mode === 'production' ? '/digitalworkbench/' : '/', // Conditional base path
   build: {
-    // Performance optimizations
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          // React vendor libraries
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'react-vendor';
+          }
+          
+          // React Router - only if actually used
+          if (id.includes('node_modules/react-router-dom/') || id.includes('react-router')) {
+            return 'router';
+          }
+          
+          // Animation libraries
+          if (id.includes('node_modules/framer-motion/')) {
+            return 'motion';
+          }
+          
+          // 3D libraries - split Spline into smaller chunks for better loading
+          if (id.includes('node_modules/@splinetool/runtime')) {
+            return 'spline-runtime';
+          }
+          
+          if (id.includes('node_modules/@splinetool/react-spline')) {
+            return 'spline-react';
+          }
+          
+          if (id.includes('node_modules/@splinetool/')) {
+            return 'spline-core';
+          }
+          
+          if (id.includes('node_modules/three/build/three.module.js')) {
+            return 'three-core';
+          }
+          
+          if (id.includes('node_modules/three/')) {
+            return 'three-addons';
+          }
+          
+          // Physics libraries
+          if (id.includes('node_modules/@dimforge/') || id.includes('rapier')) {
+            return 'physics';
+          }
+          
+          // Audio libraries
+          if (id.includes('node_modules/howler/')) {
+            return 'audio';
+          }
+          
+          // Utility libraries
+          if (id.includes('node_modules/lodash') || id.includes('node_modules/date-fns')) {
+            return 'utils';
+          }
+          
+          // Large analysis/processing libraries
+          if (id.includes('node_modules/opentype') || id.includes('node_modules/gaussian-splat')) {
+            return 'heavy-libs';
+          }
+          
+          // App-specific chunks for large pages
+          if (id.includes('/pages/InsightPostPage')) {
+            return 'blog-post';
+          }
+          
+          if (id.includes('/pages/ProjectsPage') || id.includes('/components/ProjectGallery')) {
+            return 'projects';
+          }
+          
+          // Default to vendor for other node_modules
+          if (id.includes('node_modules/')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -14,18 +88,9 @@ export default defineConfig({
         drop_debugger: true,
       },
     },
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          motion: ['framer-motion'],
-        },
-      },
-    },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 5000, // Increased to 5MB for 3D libraries like Spline
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom'],
   },
-})
+}))

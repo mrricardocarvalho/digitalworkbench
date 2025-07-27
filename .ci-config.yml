@@ -1,0 +1,113 @@
+# CI/CD Pipeline Configuration
+# This file contains environment-specific settings for the CI/CD pipeline
+
+# Environment Variables for different deployment targets
+environments:
+  production:
+    NODE_ENV: production
+    VITE_APP_ENV: production
+    VITE_GA_TRACKING_ID: G-XXXXXXXXXX
+    VITE_BASE_URL: https://mrricardocarvalho.github.io/digitalworkbench
+    performance_budget:
+      main_bundle: 1048576  # 1MB
+      total_bundle: 5242880  # 5MB
+      lighthouse_scores:
+        performance: 85
+        accessibility: 95
+        best_practices: 90
+        seo: 95
+
+  staging:
+    NODE_ENV: staging
+    VITE_APP_ENV: staging
+    VITE_GA_TRACKING_ID: G-STAGING-ID
+    VITE_BASE_URL: https://digitalworkbench-staging.surge.sh
+    performance_budget:
+      main_bundle: 1048576  # 1MB
+      total_bundle: 5242880  # 5MB
+      lighthouse_scores:
+        performance: 80
+        accessibility: 90
+        best_practices: 85
+        seo: 90
+
+  preview:
+    NODE_ENV: development
+    VITE_APP_ENV: preview
+    VITE_GA_TRACKING_ID: null
+    VITE_BASE_URL: https://digitalworkbench-pr-{PR_NUMBER}.netlify.app
+    performance_budget:
+      main_bundle: 1572864  # 1.5MB (more lenient for previews)
+      total_bundle: 7340032  # 7MB
+      lighthouse_scores:
+        performance: 75
+        accessibility: 85
+        best_practices: 80
+        seo: 85
+
+# Security Configuration
+security:
+  allowed_licenses:
+    - MIT
+    - Apache-2.0
+    - BSD-2-Clause
+    - BSD-3-Clause
+    - ISC
+    - CC0-1.0
+    - Unlicense
+
+  blocked_licenses:
+    - GPL-2.0
+    - GPL-3.0
+    - AGPL-1.0
+    - AGPL-3.0
+    - LGPL-2.0
+    - LGPL-2.1
+    - LGPL-3.0
+
+  vulnerability_thresholds:
+    critical: 0
+    high: 0
+    moderate: 5
+    low: 10
+
+# Performance Monitoring
+monitoring:
+  lighthouse:
+    runs_per_test: 3
+    pages_to_test:
+      - /
+      - /projects
+      - /insights
+      - /contact
+    
+  bundle_analysis:
+    enabled: true
+    fail_on_budget_exceed: true
+    generate_report: true
+
+# Notification Settings
+notifications:
+  deployment_success: true
+  test_failures: true
+  security_alerts: true
+  performance_degradation: true
+
+# Deployment Settings
+deployment:
+  production:
+    branch: main
+    auto_deploy: true
+    require_reviews: true
+    require_status_checks: true
+    
+  staging:
+    branch: develop
+    auto_deploy: true
+    require_reviews: false
+    require_status_checks: true
+    
+  preview:
+    branches: ["feature/*", "fix/*", "enhancement/*"]
+    auto_deploy: true
+    cleanup_after_days: 7

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import SEO from '../components/SEO';
 import Interactive3D from '../components/Interactive3D';
+import NewsletterSignup from '../components/NewsletterSignup';
 import './HomePage.css';
 
 // ... (type definitions remain the same)
@@ -294,7 +295,7 @@ const cardVariants: Variants = {
             </div>
           </motion.div>
         ))}
-        <Link to="/insights" className="view-all-link">View All Posts</Link>
+        <Link to="/insights" className="view-all-link">View All Articles</Link>
       </motion.section>
 
       <motion.section
@@ -344,6 +345,22 @@ const cardVariants: Variants = {
           </motion.div>
         </div>
         <Link to="/resume" className="view-all-link">View Full Resume →</Link>
+      </motion.section>
+
+      {/* Newsletter Signup Section */}
+      <motion.section
+        className="newsletter-section"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionVariants}
+      >
+        <NewsletterSignup 
+          variant="inline" 
+          showName={true}
+          title="Stay Updated on Business Central"
+          description="Get exclusive insights, performance tips, and implementation strategies delivered directly to your inbox. Join 1,000+ Business Central professionals."
+        />
       </motion.section>
       </div>
     </>

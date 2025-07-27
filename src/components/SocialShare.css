@@ -1,0 +1,237 @@
+/* Social Share Component Styles */
+.social-share {
+  margin: 32px 0;
+  padding: 24px;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.social-share--compact {
+  margin: 16px 0;
+  padding: 16px;
+}
+
+.social-share--minimal {
+  background: none;
+  border: none;
+  padding: 16px 0;
+  margin: 16px 0;
+}
+
+.social-share__title {
+  margin: 0 0 16px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.social-share--minimal .social-share__title {
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.social-share__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.social-share--compact .social-share__buttons {
+  gap: 8px;
+}
+
+.social-share--minimal .social-share__buttons {
+  gap: 6px;
+}
+
+.social-share__button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  min-height: 44px; /* Touch-friendly */
+}
+
+.social-share--compact .social-share__button {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  min-height: 38px;
+}
+
+.social-share--minimal .social-share__button {
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  min-height: 32px;
+}
+
+.social-share__button:hover {
+  background: var(--platform-color, var(--accent-color));
+  color: white;
+  border-color: var(--platform-color, var(--accent-color));
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.social-share--minimal .social-share__button:hover {
+  background: var(--platform-color, var(--accent-color));
+  border-color: var(--platform-color, var(--accent-color));
+}
+
+.social-share__button--native {
+  --platform-color: #007AFF;
+}
+
+.social-share__button--copy {
+  --platform-color: #34C759;
+}
+
+.social-share__button--copied {
+  background: var(--platform-color) !important;
+  color: white !important;
+  border-color: var(--platform-color) !important;
+}
+
+.social-share__icon {
+  font-size: 1.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.social-share--compact .social-share__icon {
+  font-size: 1.1rem;
+}
+
+.social-share--minimal .social-share__icon {
+  font-size: 1rem;
+}
+
+.social-share__label {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .social-share {
+    margin: 20px 0;
+    padding: 16px;
+  }
+  
+  .social-share__buttons {
+    gap: 8px;
+  }
+  
+  .social-share__button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    min-height: 40px;
+  }
+  
+  /* Hide labels on very small screens for minimal variant */
+  .social-share--minimal .social-share__label {
+    display: none;
+  }
+  
+  .social-share--minimal .social-share__button {
+    padding: 8px;
+    min-width: 40px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-share__buttons {
+    justify-content: center;
+  }
+  
+  /* Stack buttons on very small screens */
+  .social-share--default .social-share__buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .social-share--default .social-share__button {
+    justify-content: center;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .social-share {
+  background: var(--card-background);
+  border-color: var(--border-color);
+}
+
+.dark .social-share__button {
+  background: var(--card-background);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.dark .social-share--minimal .social-share__button {
+  background: transparent;
+}
+
+/* Focus styles for accessibility */
+.social-share__button:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Specific platform color overrides */
+.social-share__button[title*="Twitter"]:hover {
+  --platform-color: #1DA1F2;
+}
+
+.social-share__button[title*="LinkedIn"]:hover {
+  --platform-color: #0077B5;
+}
+
+.social-share__button[title*="Facebook"]:hover {
+  --platform-color: #1877F2;
+}
+
+.social-share__button[title*="Reddit"]:hover {
+  --platform-color: #FF4500;
+}
+
+.social-share__button[title*="Email"]:hover {
+  --platform-color: #666666;
+}
+
+/* Animation for copy success */
+@keyframes copySuccess {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.social-share__button--copied {
+  animation: copySuccess 0.3s ease;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .social-share__button {
+    transition: none;
+  }
+  
+  .social-share__button:hover {
+    transform: none;
+  }
+  
+  .social-share__button--copied {
+    animation: none;
+  }
+}

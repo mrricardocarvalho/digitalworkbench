@@ -10,6 +10,10 @@
     --subtle-text-color: #A0A0A0;
     --accent-color: #007CF0;
     --border-color: #2a2a2a;
+    
+    /* Theme transition duration */
+    --theme-transition-duration: 0.3s;
+    --theme-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .light {
@@ -19,6 +23,45 @@
   --subtle-text-color: #525252;
   --accent-color: #007CF0;
   --border-color: #E5E5E5;
+}
+
+/* Enhanced Dark Mode Colors for Better Contrast */
+.dark {
+  --bg-color: #0a0a0a;
+  --surface-color: #121212;
+  --text-color: #ffffff;
+  --subtle-text-color: #b3b3b3;
+  --accent-color: #1e90ff;
+  --border-color: #333333;
+}
+
+/* Smooth theme transitions */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition: 
+    background-color var(--theme-transition-duration) var(--theme-transition-timing),
+    color var(--theme-transition-duration) var(--theme-transition-timing),
+    border-color var(--theme-transition-duration) var(--theme-transition-timing),
+    box-shadow var(--theme-transition-duration) var(--theme-transition-timing),
+    fill var(--theme-transition-duration) var(--theme-transition-timing),
+    stroke var(--theme-transition-duration) var(--theme-transition-timing) !important;
+}
+
+/* Accessibility: Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --theme-transition-duration: 0s;
+  }
+  
+  .theme-transitioning,
+  .theme-transitioning *,
+  .theme-transitioning *::before,
+  .theme-transitioning *::after {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 * {

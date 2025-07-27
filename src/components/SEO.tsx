@@ -98,26 +98,48 @@ const SEO: React.FC<SEOProps> = ({
       if (structuredData || publishedTime) {
         const defaultStructuredData = {
           "@context": "https://schema.org",
-          "@type": "Article",
+          "@type": publishedTime ? "Article" : "WebPage",
           "headline": title,
           "description": description,
           "author": {
             "@type": "Person",
             "name": author,
-            "url": "https://mrricardocarvalho.github.io/digitalworkbench/"
+            "url": "https://mrricardocarvalho.github.io/digitalworkbench/",
+            "jobTitle": "Senior Dynamics 365 Business Central Developer",
+            "alumniOf": "Technical Education",
+            "knowsAbout": ["Dynamics 365", "Business Central", "AL Development", "ERP Solutions", "Azure DevOps"]
           },
           "publisher": {
-            "@type": "Person",
-            "name": author,
-            "url": "https://mrricardocarvalho.github.io/digitalworkbench/"
+            "@type": "Organization",
+            "name": "Ricardo Carvalho - Digital Workbench",
+            "url": "https://mrricardocarvalho.github.io/digitalworkbench/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://mrricardocarvalho.github.io/digitalworkbench/favicon.svg"
+            }
           },
-          "datePublished": publishedTime,
-          "dateModified": modifiedTime || publishedTime,
-          "image": ogImage,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": canonical
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": ogImage,
+            "width": 1200,
+            "height": 630
+          },
           "url": canonical,
-          "mainEntityOfPage": canonical,
-          "articleSection": articleSection,
-          ...(readingTime && { "timeRequired": `PT${readingTime}M` })
+          ...(publishedTime && {
+            "datePublished": publishedTime,
+            "dateModified": modifiedTime || publishedTime,
+            "articleSection": articleSection,
+            "wordCount": readingTime ? readingTime * 200 : undefined, // Estimate based on reading time
+            "timeRequired": readingTime ? `PT${readingTime}M` : undefined,
+            "inLanguage": "en-US",
+            "isAccessibleForFree": true,
+            "genre": "Technology",
+            "keywords": keywords
+          })
         };
 
         const schemaData = structuredData || defaultStructuredData;

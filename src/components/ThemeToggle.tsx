@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '../hooks/useTheme';
+import ThemePreview from './ThemePreview';
 import './ThemeToggle.css';
 
 /**
  * Enhanced theme toggle with support for light, dark, and auto modes
+ * Includes theme preview functionality for better user experience
  */
 const ThemeToggle: React.FC = () => {
-  const { theme, resolvedTheme, toggleTheme } = useTheme();
+  const { theme, resolvedTheme, toggleTheme, isTransitioning } = useTheme();
+  const [showPreview, setShowPreview] = useState(false);
 
   const getIcon = () => {
     switch (theme) {
@@ -54,23 +57,56 @@ const ThemeToggle: React.FC = () => {
   const getAriaLabel = () => {
     const nextTheme = getNextTheme();
     const current = theme === 'auto' ? `auto (${resolvedTheme})` : theme;
-    return `Current theme: ${current}. Click to switch to ${nextTheme} mode`;
+    return `Current theme: ${current}. Click to switch to ${nextTheme} mode, or right-click for theme preview`;
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    toggleTheme();
+  };
+
+  const handleRightClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowPreview(true);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (e.shiftKey || e.ctrlKey) {
+        setShowPreview(true);
+      } else {
+        toggleTheme();
+      }
+    }
   };
 
   return (
-    <button
-      className={`theme-toggle theme-toggle--${theme}`}
-      onClick={toggleTheme}
-      aria-label={getAriaLabel()}
-      title={`Theme: ${theme === 'auto' ? `Auto (${resolvedTheme})` : theme}`}
-    >
-      <span className="theme-toggle__icon" aria-hidden="true">
-        {getIcon()}
-      </span>
-      <span className="theme-toggle__text sr-only">
-        {theme === 'auto' ? `Auto (${resolvedTheme})` : theme}
-      </span>
-    </button>
+    <>
+      <button
+        className={`theme-toggle theme-toggle--${theme} ${isTransitioning ? 'theme-toggle--transitioning' : ''}`}
+        onClick={handleClick}
+        onContextMenu={handleRightClick}
+        onKeyDown={handleKeyDown}
+        aria-label={getAriaLabel()}
+        title={`Theme: ${theme === 'auto' ? `Auto (${resolvedTheme})` : theme}\nClick to cycle themes\nRight-click for theme preview`}
+      >
+        <span className="theme-toggle__icon" aria-hidden="true">
+          {getIcon()}
+        </span>
+        <span className="theme-toggle__text sr-only">
+          {theme === 'auto' ? `Auto (${resolvedTheme})` : theme}
+        </span>
+        {isTransitioning && (
+          <span className="theme-toggle__transition-indicator" aria-hidden="true" />
+        )}
+      </button>
+
+      <ThemePreview 
+        isOpen={showPreview} 
+        onClose={() => setShowPreview(false)} 
+      />
+    </>
   );
 };
 

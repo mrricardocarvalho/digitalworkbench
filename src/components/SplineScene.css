@@ -1,0 +1,151 @@
+/* Spline Scene Mobile Optimizations */
+.spline-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.spline-container.spline-mobile {
+  touch-action: pan-x pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.spline-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 124, 240, 0.1) 0%, rgba(0, 124, 240, 0.05) 100%);
+  border-radius: 12px;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.spline-fallback--performance {
+  background: linear-gradient(135deg, rgba(0, 124, 240, 0.15) 0%, rgba(0, 124, 240, 0.08) 100%);
+}
+
+.fallback-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.fallback-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.fallback-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.fallback-content p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--subtle-text-color);
+  opacity: 0.8;
+}
+
+.spline-mobile-hint {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: var(--subtle-text-color);
+  opacity: 0.8;
+  text-align: center;
+  pointer-events: none;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 4px 8px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+/* Performance-based optimizations */
+.spline-container.low {
+  will-change: auto;
+}
+
+.spline-container.medium {
+  will-change: transform;
+}
+
+.spline-container.high {
+  will-change: transform;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .spline-mobile-hint {
+    font-size: 0.6rem;
+    bottom: 8px;
+  }
+  
+  .fallback-icon {
+    font-size: 2rem;
+  }
+  
+  .fallback-content h3 {
+    font-size: 1rem;
+  }
+  
+  .fallback-content p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .spline-mobile-hint {
+    font-size: 0.55rem;
+    bottom: 6px;
+  }
+  
+  .fallback-content {
+    padding: 16px;
+  }
+  
+  .fallback-icon {
+    font-size: 1.8rem;
+  }
+  
+  .fallback-content h3 {
+    font-size: 0.9rem;
+  }
+  
+  .fallback-content p {
+    font-size: 0.75rem;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .spline-fallback {
+  background: linear-gradient(135deg, rgba(0, 124, 240, 0.2) 0%, rgba(0, 124, 240, 0.1) 100%);
+}
+
+.dark .spline-fallback--performance {
+  background: linear-gradient(135deg, rgba(0, 124, 240, 0.25) 0%, rgba(0, 124, 240, 0.12) 100%);
+}
+
+.dark .spline-mobile-hint {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .spline-container * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

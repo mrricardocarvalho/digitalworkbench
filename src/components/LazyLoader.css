@@ -1,0 +1,223 @@
+/* LazyLoader Component Styles */
+
+.lazy-loader-fallback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  padding: 2rem;
+}
+
+.skeleton-container {
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: var(--surface-color);
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-header {
+  height: 2rem;
+  background: var(--muted-color);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  width: 60%;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.skeleton-line {
+  height: 1rem;
+  background: var(--muted-color);
+  border-radius: 4px;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-line.short {
+  width: 40%;
+}
+
+.minimal-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.page-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.page-loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-loading-content p {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+.lazy-error-fallback {
+  padding: 2rem;
+  border: 2px dashed var(--danger-color);
+  border-radius: 8px;
+  background: var(--danger-color-alpha);
+  text-align: center;
+  margin: 1rem;
+}
+
+.lazy-error-fallback h3 {
+  color: var(--danger-color);
+  margin: 0 0 1rem;
+}
+
+.lazy-error-fallback p {
+  color: var(--text-secondary);
+  margin: 0 0 1rem;
+}
+
+.lazy-error-fallback details {
+  text-align: left;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: var(--surface-color);
+  border-radius: 4px;
+}
+
+.lazy-error-fallback summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.lazy-error-fallback pre {
+  font-size: 0.75rem;
+  overflow-x: auto;
+  margin: 0.5rem 0 0;
+  color: var(--danger-color);
+}
+
+.retry-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.retry-button:hover {
+  background: var(--primary-color-dark);
+  transform: translateY(-1px);
+}
+
+.retry-button:active {
+  transform: translateY(0);
+}
+
+/* Animations */
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Progressive Enhancement Styles */
+.progressive-enhancement {
+  transition: all 0.3s ease;
+}
+
+.progressive-enhancement.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.progressive-enhancement.loaded {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .lazy-loader-fallback {
+    min-height: 150px;
+    padding: 1rem;
+  }
+  
+  .skeleton-container {
+    padding: 1rem;
+  }
+  
+  .lazy-error-fallback {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .page-loading-content p {
+    font-size: 1rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .skeleton-header,
+  .skeleton-line {
+    background: var(--text-primary);
+    opacity: 0.3;
+  }
+  
+  .lazy-error-fallback {
+    border-color: var(--text-primary);
+    background: var(--background-color);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-container,
+  .skeleton-header,
+  .skeleton-line {
+    animation: none;
+  }
+  
+  .page-loading {
+    transition: none;
+  }
+  
+  .progressive-enhancement {
+    transition: none;
+  }
+}

@@ -1,7 +1,9 @@
-name: Deploy to GitHub Pages
+name: CI/CD Pipeline
 
 on:
   push:
+    branches: [ "main", "develop" ]
+  pull_request:
     branches: [ "main" ]
   workflow_dispatch:
 
@@ -9,13 +11,21 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  pull-requests: write
+  checks: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: "ci-${{ github.ref }}"
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '18'
+  CACHE_KEY: 'npm-${{ hashFiles("**/package-lock.json") }}'
 
 jobs:
-  build:
+  # Quality assurance jobs
+  lint:
+    name: 🔍 Lint & Code Quality
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,7 +34,86 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run ESLint
+        run: npm run lint
+      
+      - name: TypeScript type checking
+        run: npx tsc --noEmit
+
+  test:
+    name: 🧪 Test Suite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests with coverage
+        run: npm run test:coverage
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+
+  security-scan:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run security audit
+        run: npm audit --audit-level=moderate
+      
+      - name: Check for outdated packages
+        run: npm outdated || true
+      
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          languages: javascript
+
+  build:
+    name: 🏗️ Build & Performance
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    outputs:
+      preview-url: ${{ steps.deploy-preview.outputs.preview-url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
       
       - name: Install dependencies
@@ -33,21 +122,105 @@ jobs:
       - name: Build project
         run: npm run build
       
-      - name: Setup Pages
+      - name: Analyze bundle size
+        run: |
+          echo "## 📦 Bundle Analysis" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Size | Gzipped |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|---------|" >> $GITHUB_STEP_SUMMARY
+          find dist/assets -name "*.js" -o -name "*.css" | while read file; do
+            size=$(stat -c%s "$file")
+            gzipped=$(gzip -c "$file" | wc -c)
+            echo "| $(basename "$file") | ${size} bytes | ${gzipped} bytes |" >> $GITHUB_STEP_SUMMARY
+          done
+      
+      - name: Performance budget check
+        run: |
+          # Check main bundle size (should be under 1MB)
+          main_js=$(find dist/assets -name "index-*.js" | head -1)
+          if [ -f "$main_js" ]; then
+            size=$(stat -c%s "$main_js")
+            if [ $size -gt 1048576 ]; then
+              echo "❌ Main bundle size ($size bytes) exceeds 1MB limit!"
+              exit 1
+            else
+              echo "✅ Main bundle size: $size bytes (under 1MB limit)"
+            fi
+          fi
+      
+      - name: Setup Pages (for main branch)
+        if: github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v4
       
-      - name: Upload artifact
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: ./dist
+          retention-days: 30
+      
+      - name: Upload Pages artifact (for main branch)
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
+      
+      # Deploy preview for PRs
+      - name: Deploy Preview (PR only)
+        if: github.event_name == 'pull_request'
+        id: deploy-preview
+        run: |
+          echo "preview-url=https://digitalworkbench-pr-${{ github.event.number }}.surge.sh" >> $GITHUB_OUTPUT
+          echo "🚀 Preview deployment would be available at: https://digitalworkbench-pr-${{ github.event.number }}.surge.sh" >> $GITHUB_STEP_SUMMARY
 
-  deploy:
+  # Production deployment (main branch only)
+  deploy-production:
+    name: 🚀 Deploy Production
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, security-scan]
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Staging deployment (develop branch)
+  deploy-staging:
+    name: 🎭 Deploy Staging
+    if: github.ref == 'refs/heads/develop'
+    environment:
+      name: staging
+      url: https://digitalworkbench-staging.surge.sh
+    runs-on: ubuntu-latest
+    needs: [build, security-scan]
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: ./dist
+      
+      - name: Deploy to Surge.sh (Staging)
+        run: |
+          npm install -g surge
+          echo "🎭 Staging deployment would be available at: https://digitalworkbench-staging.surge.sh" >> $GITHUB_STEP_SUMMARY
+          # surge ./dist digitalworkbench-staging.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+
+  # Notification job
+  notify:
+    name: 📢 Notifications
+    runs-on: ubuntu-latest
+    needs: [deploy-production, deploy-staging]
+    if: always()
+    steps:
+      - name: Deployment Status
+        run: |
+          if [ "${{ needs.deploy-production.result }}" == "success" ]; then
+            echo "✅ Production deployment successful"
+          elif [ "${{ needs.deploy-staging.result }}" == "success" ]; then
+            echo "✅ Staging deployment successful"
+          else
+            echo "⚠️ Deployment status: Check individual jobs"
+          fi

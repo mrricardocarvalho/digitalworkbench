@@ -3,6 +3,8 @@
  * Provides centralized error handling and logging capabilities
  */
 
+import { analytics } from './analytics';
+
 export interface ErrorContext {
   userId?: string;
   sessionId?: string;
@@ -11,14 +13,32 @@ export interface ErrorContext {
   timestamp?: number;
   stack?: string;
   componentStack?: string;
+  type?: string;
+  severity?: 'low' | 'medium' | 'high' | 'critical';
+  source?: string;
+  filename?: string;
+  lineno?: number;
+  colno?: number;
   [key: string]: any;
 }
 
 export interface ErrorReport {
+  id: string;
   message: string;
   stack?: string;
   level: 'error' | 'warning' | 'info';
   context?: ErrorContext;
+  count?: number;
+  firstSeen?: number;
+  lastSeen?: number;
+}
+
+export interface PerformanceMetrics {
+  loadTime: number;
+  renderTime: number;
+  memoryUsage?: number;
+  errorRate: number;
+  uptime: number;
 }
 
 class ErrorTracker {
@@ -42,7 +62,10 @@ class ErrorTracker {
    * Log error to console in development, send to tracking service in production
    */
   public logError(error: Error, context?: Partial<ErrorContext>): void {
+    const errorId = this.generateErrorId(error.message, error.stack);
+    
     const errorReport: ErrorReport = {
+      id: errorId,
       message: error.message,
       level: 'error',
       context: {
@@ -55,6 +78,18 @@ class ErrorTracker {
       errorReport.stack = error.stack;
     }
 
+    // Track with analytics
+    analytics.trackEvent({
+      event_name: 'error_logged',
+      category: 'error_tracking',
+      action: 'log_error',
+      label: error.name,
+      custom_parameters: {
+        error_message: error.message,
+        error_type: context?.type || 'unknown'
+      }
+    });
+
     if (this.isProduction) {
       this.sendToTrackingService(errorReport);
     } else {
@@ -62,11 +97,29 @@ class ErrorTracker {
     }
   }
 
+  private generateErrorId(message: string, stack?: string): string {
+    const hash = this.hashString(message + (stack || ''));
+    return `error_${hash}_${Date.now()}`;
+  }
+
+  private hashString(str: string): string {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    return Math.abs(hash).toString(36);
+  }
+
   /**
    * Log warning message
    */
   public logWarning(message: string, context?: Partial<ErrorContext>): void {
+    const warningId = this.generateErrorId(message);
+    
     const errorReport: ErrorReport = {
+      id: warningId,
       message,
       level: 'warning',
       context: {
