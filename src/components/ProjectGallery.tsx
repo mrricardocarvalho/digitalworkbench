@@ -176,7 +176,7 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
 
   // Filter and sort projects
   const filteredAndSortedProjects = useMemo(() => {
-    let filtered = projects.filter(project => {
+    const filtered = projects.filter(project => {
       // Search filter
       if (searchQuery && !project.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
           !project.description.toLowerCase().includes(searchQuery.toLowerCase())) {

@@ -35,6 +35,9 @@ jobs:
       - name: Build project
         run: npm run build
       
+      - name: Install Vite globally (for LHCI)
+        run: npm install -g vite
+
       - name: Serve built files
         run: |
           npm install -g serve
