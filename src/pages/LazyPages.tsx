@@ -12,7 +12,6 @@ export const LazyNotFoundPage = lazy(() => import('./NotFoundPage'));
 
 // Heavy Components - Lazy load to reduce initial bundle
 export const LazyInteractive3D = lazy(() => import('../components/Interactive3D'));
-export const LazySplineScene = lazy(() => import('../components/SplineScene'));
 export const LazyAnimationDemo = lazy(() => import('../components/AnimationDemo'));
 
 // Feature-specific Components (only load components with default exports)

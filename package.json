@@ -23,7 +23,6 @@
     "deploy:preview": "npm run build:preview"
   },
   "dependencies": {
-    "@splinetool/react-spline": "^4.0.0",
     "cmdk": "^1.1.1",
     "framer-motion": "^12.23.6",
     "gtag": "^1.0.1",

@@ -40,7 +40,6 @@ export const CodeSplitStrategies = {
   // Split by heavy features (only components not used in critical path)
   byFeature: {
     Interactive3D: lazy(createRetryableImport(() => import('../components/Interactive3D'))),
-    SplineScene: lazy(createRetryableImport(() => import('../components/SplineScene'))),
     AnimationDemo: lazy(createRetryableImport(() => import('../components/AnimationDemo'))),
     // PerformanceMonitor removed - statically imported in Layout
   },
