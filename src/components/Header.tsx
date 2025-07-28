@@ -91,14 +91,14 @@ const Header: React.FC = () => {
           <NavLink to="/" className="nav-link" onClick={closeMobileMenu} end>
             Home
           </NavLink>
+          <NavLink to="/resume" className="nav-link" onClick={closeMobileMenu}>
+            Resume
+          </NavLink>
           <NavLink to="/projects" className="nav-link" onClick={closeMobileMenu}>
             Projects
           </NavLink>
           <NavLink to="/insights" className="nav-link" onClick={closeMobileMenu}>
-            Insights
-          </NavLink>
-          <NavLink to="/resume" className="nav-link" onClick={closeMobileMenu}>
-            Resume
+            Articles & Insights
           </NavLink>
           <NavLink to="/contact" className="nav-link" onClick={closeMobileMenu}>
             Contact

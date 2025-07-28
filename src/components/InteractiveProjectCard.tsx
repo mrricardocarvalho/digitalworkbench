@@ -34,11 +34,7 @@ export const InteractiveProjectCard: React.FC<InteractiveProjectCardProps> = ({
 
   // Animation variants
   const cardVariants: Variants = {
-    hidden: { 
-      opacity: 0, 
-      y: 50,
-      scale: 0.95
-    },
+    hidden: viewMode === 'cards' ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.95 },
     visible: { 
       opacity: 1, 
       y: 0,
@@ -192,7 +188,7 @@ export const InteractiveProjectCard: React.FC<InteractiveProjectCardProps> = ({
       ref={cardRef}
       className={`interactive-project-card ${viewMode} ${project.featured ? 'featured' : ''}`}
       variants={cardVariants}
-      initial="hidden"
+      initial={viewMode === 'cards' ? false : 'hidden'}
       animate={isInView ? controls : 'hidden'}
       whileHover="hover"
       onMouseMove={handleMouseMove}

@@ -120,7 +120,7 @@
 
 .sort-select {
   padding: 8px 32px 8px 12px;
-  background: hsl(var(--background));
+  background: var(--controls-bg);
   border: 1px solid var(--controls-border);
   border-radius: 8px;
   color: var(--controls-text);
@@ -134,6 +134,26 @@
   background-size: 16px;
   min-width: 120px;
   transition: all 0.2s ease;
+}
+
+/* Ensure dropdown options are themed correctly */
+.sort-select option {
+  background: var(--controls-bg);
+  color: var(--controls-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .sort-select, .sort-select option {
+    background: #18181b;
+    color: #f3f4f6;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .sort-select, .sort-select option {
+    background: #fff;
+    color: #18181b;
+  }
 }
 
 .sort-select:hover {
