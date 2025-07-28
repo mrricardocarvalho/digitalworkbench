@@ -130,25 +130,21 @@ export const PerformanceDashboard: React.FC<{
   const [performanceBudget, setPerformanceBudget] = useState<any>(null);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  const refreshMetrics = () => {
+  const refreshMetrics = React.useCallback(() => {
     console.log('🔄 Refreshing metrics...');
-    
     // Force measurement of available Web Vitals
     forceWebVitalsMeasurement();
-    
     const vitals = getWebVitals();
     const budget = checkPerformanceBudget();
-    
     console.log('📊 Refreshing Performance Metrics:', {
       vitals,
       budget,
       timestamp: new Date().toISOString()
     });
-    
     setMetrics(vitals);
     setPerformanceBudget(budget);
     setLastUpdated(new Date());
-  };
+  }, [forceWebVitalsMeasurement, getWebVitals, checkPerformanceBudget]);
 
   useEffect(() => {
     if (isVisible) {
@@ -159,12 +155,12 @@ export const PerformanceDashboard: React.FC<{
       return () => clearInterval(interval);
     }
     return undefined;
-  }, [isVisible]);
+  }, [isVisible, refreshMetrics]);
 
   if (!isVisible) return null;
 
   const overallScore = performanceBudget?.passing ? 'good' : 'needs-improvement';
-  const metricsWithValues = Object.entries(metrics).filter(([_, value]) => value !== null).length;
+  const metricsWithValues = Object.values(metrics).filter(value => value !== null).length;
 
   return (
     <div className="performance-dashboard">

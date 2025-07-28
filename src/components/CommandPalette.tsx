@@ -33,7 +33,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ onShowPerformanceDashbo
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [trackUserJourney]);
+  }, [trackUserJourney, open]);
 
   const runCommand = React.useCallback((command: () => void, commandName: string) => {
     setOpen(false);

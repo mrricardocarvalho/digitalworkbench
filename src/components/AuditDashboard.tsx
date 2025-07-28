@@ -18,7 +18,7 @@ const AuditDashboard: React.FC<AuditDashboardProps> = ({ isOpen, onClose }) => {
     if (isOpen && !seoResults && !accessibilityResults) {
       runAudits();
     }
-  }, [isOpen]);
+  }, [isOpen, seoResults, accessibilityResults]);
 
   const runAudits = async () => {
     setIsRunning(true);

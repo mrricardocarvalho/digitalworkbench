@@ -163,7 +163,7 @@ class FontManager {
 /**
  * React hook for font loading
  */
-export const useFontLoading = (_fonts: FontConfig[], _options: FontLoadingOptions = {}) => {
+export const useFontLoading = () => {
   // This will be implemented in a separate React hook file
   return { isLoading: false, loadedFonts: [], error: null };
 };

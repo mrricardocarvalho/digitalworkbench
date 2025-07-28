@@ -297,7 +297,6 @@ export class AccessibilityAuditor {
   private auditImageAccessibility(issues: AccessibilityIssue[], passed: AccessibilityCheck[]): void {
     const images = document.querySelectorAll('img');
     let imagesWithoutAlt = 0;
-    let decorativeImages = 0;
     let informativeImages = 0;
 
     images.forEach((img, index) => {
@@ -317,7 +316,7 @@ export class AccessibilityAuditor {
           wcagReference: 'WCAG 1.1.1'
         });
       } else if (alt === '' || role === 'presentation') {
-        decorativeImages++;
+        // decorativeImages++;
       } else {
         informativeImages++;
         
@@ -571,7 +570,7 @@ export class AccessibilityAuditor {
 
   private auditKeyboardNavigation(issues: AccessibilityIssue[], passed: AccessibilityCheck[], recommendations: AccessibilityRecommendation[]): void {
     const interactiveElements = document.querySelectorAll('button, a[href], input, select, textarea, [tabindex]');
-    let elementsWithoutFocus = 0;
+    // let elementsWithoutFocus = 0;
 
     interactiveElements.forEach((element) => {
       const tabindex = element.getAttribute('tabindex');
@@ -592,7 +591,7 @@ export class AccessibilityAuditor {
 
       // Check for elements that should be focusable but aren't
       if (tabindex === '-1' && !element.hasAttribute('aria-hidden')) {
-        elementsWithoutFocus++;
+        // elementsWithoutFocus++;
       }
     });
 
@@ -628,7 +627,7 @@ export class AccessibilityAuditor {
   private auditARIA(issues: AccessibilityIssue[], passed: AccessibilityCheck[]): void {
     const elementsWithAria = document.querySelectorAll('[aria-label], [aria-labelledby], [aria-describedby], [role]');
     let validAriaCount = 0;
-    let invalidAriaCount = 0;
+    // let invalidAriaCount = 0;
 
     elementsWithAria.forEach((element) => {
       const role = element.getAttribute('role');
@@ -638,7 +637,7 @@ export class AccessibilityAuditor {
       const validRoles = ['button', 'link', 'tab', 'tabpanel', 'dialog', 'alert', 'status', 'banner', 'navigation', 'main', 'complementary', 'contentinfo'];
       
       if (role && !validRoles.includes(role)) {
-        invalidAriaCount++;
+        // invalidAriaCount++;
         issues.push({
           type: 'warning',
           level: 'AA',

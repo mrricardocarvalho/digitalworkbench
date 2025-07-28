@@ -477,7 +477,7 @@ export class SEOAuditor {
           if (data['@context'] && data['@type']) {
             validStructuredData++;
           }
-        } catch (error) {
+        } catch {
           issues.push({
             type: 'warning',
             category: 'Structured Data',

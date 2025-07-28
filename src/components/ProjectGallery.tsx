@@ -209,6 +209,7 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
 
     // Sort projects
     filtered.sort((a, b) => {
+      let dateA, dateB;
       switch (sortBy) {
         case 'name':
           return a.title.localeCompare(b.title);
@@ -220,8 +221,8 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
           return (b.metrics?.stars || 0) - (a.metrics?.stars || 0);
         case 'date':
           // Sort by date, most recent first
-          const dateA = new Date(a.date || '1970-01-01').getTime();
-          const dateB = new Date(b.date || '1970-01-01').getTime();
+          dateA = new Date(a.date || '1970-01-01').getTime();
+          dateB = new Date(b.date || '1970-01-01').getTime();
           return dateB - dateA;
         default:
           return a.featured ? -1 : 1; // Featured first
