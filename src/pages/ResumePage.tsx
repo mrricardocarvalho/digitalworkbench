@@ -21,10 +21,10 @@ const ResumePage: React.FC = () => {
         <section className="resume-section">
           <h2>Professional Summary</h2>
           <p className="summary-text">
-            Senior Business Central Developer with 20+ years of experience in ERP implementations, 
-            starting with Microsoft Dynamics NAV and evolving to AL development and enterprise-level 
-            Business Central customizations. Proven track record of delivering scalable solutions for 
-            manufacturing, retail, and service industries. Expert in Azure DevOps, API integrations, 
+            Senior Business Central Developer with over 20 years of hand-on experience in end-to-end ERP implementations, 
+            beginning with Microsoft Dynamics NAV and evolving to modern AL development and enterprise-level 
+            Business Central customizations. Proven ability to deliver scalable solutions, high-performance solutions across
+            manufacturing, retail, and service industries. Deep expertise in Azure DevOps, API integrations, 
             and performance optimization.
           </p>
         </section>
