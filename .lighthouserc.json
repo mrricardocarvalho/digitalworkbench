@@ -7,7 +7,7 @@
         "http://localhost:3000/insights",
         "http://localhost:3000/contact"
       ],
-      "startServerCommand": "serve -s dist -l 3000",
+      "startServerCommand": "vite preview --port 3000",
       "numberOfRuns": 3
     },
     "assert": {
