@@ -38,6 +38,8 @@ jobs:
         env:
           CACHE_KEY: ${{ hashFiles('**/package-lock.json') }}
       
+      - name: Clear npm cache
+        run: npm cache clean --force
       - name: Install dependencies
         run: npm ci
       
@@ -62,6 +64,8 @@ jobs:
         env:
           CACHE_KEY: ${{ hashFiles('**/package-lock.json') }}
       
+      - name: Clear npm cache
+        run: npm cache clean --force
       - name: Install dependencies
         run: npm ci
       
@@ -91,6 +95,8 @@ jobs:
         env:
           CACHE_KEY: ${{ hashFiles('**/package-lock.json') }}
       
+      - name: Clear npm cache
+        run: npm cache clean --force
       - name: Install dependencies
         run: npm ci
       
