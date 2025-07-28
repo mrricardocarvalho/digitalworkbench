@@ -20,7 +20,7 @@ concurrency:
 
 env:
   NODE_VERSION: '18'
-  CACHE_KEY: 'npm-${{ hashFiles("**/package-lock.json") }}'
+  CACHE_KEY: "npm-${{ hashFiles('**/package-lock.json') }}"
 
 jobs:
   # Quality assurance jobs
