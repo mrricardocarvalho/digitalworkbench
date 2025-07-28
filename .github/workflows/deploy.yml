@@ -108,8 +108,6 @@ jobs:
       
       - name: Run CodeQL Analysis
         uses: github/codeql-action/analyze@v2
-        with:
-          languages: javascript
 
   build:
     name: 🏗️ Build & Performance

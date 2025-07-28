@@ -50,7 +50,13 @@ export interface SearchState {
 
 class SearchManager {
   private content: SearchableContent[] = [];
-  private analytics = useAnalytics();
+  private analytics: ReturnType<typeof useAnalytics> | null = null;
+
+  constructor(analytics?: ReturnType<typeof useAnalytics>) {
+    if (analytics) {
+      this.analytics = analytics;
+    }
+  }
   private searchCache = new Map<string, SearchResult[]>();
 
   /**
@@ -268,7 +274,8 @@ class SearchManager {
    * Track search analytics
    */
   private trackSearch(query: string, filters: SearchFilters, resultCount: number, searchTime: number): void {
-    this.analytics.trackEvent({
+    if (this.analytics) {
+      this.analytics.trackEvent({
       event_name: 'search_performed',
       category: 'search',
       action: 'search',
@@ -371,7 +378,11 @@ export function useSearch(initialContent: SearchableContent[] = []) {
     searchTime: 0
   });
 
-  const { trackUserJourney } = useAnalytics();
+  // In your function component, use:
+  // const analytics = useAnalytics();
+  // const searchManager = useMemo(() => new SearchManager(analytics), [analytics]);
+  // useEffect(() => { if (initialContent.length > 0) searchManager.initialize(initialContent); }, [initialContent, searchManager]);
+  // ...existing code...
 
   // Initialize search manager with content
   useEffect(() => {
