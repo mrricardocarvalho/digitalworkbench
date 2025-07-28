@@ -20,7 +20,6 @@ concurrency:
 
 env:
   NODE_VERSION: '18'
-  CACHE_KEY: "npm-${{ hashFiles('**/package-lock.json') }}"
 
 jobs:
   # Quality assurance jobs
@@ -36,6 +35,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
+        env:
+          CACHE_KEY: ${{ hashFiles('**/package-lock.json') }}
       
       - name: Install dependencies
         run: npm ci
@@ -58,6 +59,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
+        env:
+          CACHE_KEY: ${{ hashFiles('**/package-lock.json') }}
       
       - name: Install dependencies
         run: npm ci
@@ -85,6 +88,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
+        env:
+          CACHE_KEY: ${{ hashFiles('**/package-lock.json') }}
       
       - name: Install dependencies
         run: npm ci
