@@ -54,7 +54,7 @@
 
 /* Mobile Menu Button */
 .mobile-menu-button {
-  display: none;
+  display: block; /* Always show hamburger menu */
   background: none;
   border: none;
   color: var(--text-color);
@@ -71,6 +71,8 @@
 }
 
 /* Mobile Navigation Overlay */
+
+
 .mobile-nav-overlay {
   display: none;
   position: fixed;
@@ -79,7 +81,8 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9;
+  z-index: 1009;
+  pointer-events: auto;
 }
 
 .mobile-nav-overlay.active {
@@ -87,20 +90,28 @@
 }
 
 /* Mobile Navigation Menu */
+/* Mobile Navigation Menu */
 .mobile-nav {
-  display: none;
+  display: flex; /* Always enable mobile nav */
+  flex-direction: column;
   position: fixed;
   top: 0;
   right: -100%;
   width: 280px;
   height: 100vh;
-  background-color: var(--color-background, var(--color-surface, #1a1a1a));
-  border-left: 1px solid var(--border-color, #333);
+  background-color: var(--surface-color);
+  border-left: 1px solid var(--border-color);
   transition: right 0.3s ease;
-  z-index: 10;
+  z-index: 1010;
   padding: 80px 2rem 2rem;
   overflow-y: auto;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.mobile-nav.active {
+  right: 0;
+  pointer-events: auto;
 }
 
 .mobile-nav.active {
@@ -109,23 +120,23 @@
 
 .mobile-nav .nav-link {
   display: block;
-  color: var(--text-color, #fff);
+  color: var(--text-color);
   text-decoration: none;
   font-weight: 500;
   font-size: 1.1rem;
   padding: 16px 0;
-  border-bottom: 1px solid var(--border-color, #333);
+  border-bottom: 1px solid var(--border-color);
   transition: all 0.2s ease;
   position: relative;
 }
 
 .mobile-nav .nav-link:hover {
-  color: var(--accent-color, #007cf0);
+  color: var(--accent-color);
   padding-left: 8px;
 }
 
 .mobile-nav .nav-link.active {
-  color: var(--accent-color, #007cf0);
+  color: var(--accent-color);
   font-weight: 600;
 }
 
@@ -137,9 +148,16 @@
   transform: translateY(-50%);
   width: 4px;
   height: 20px;
-  background-color: var(--accent-color, #007cf0);
+  background-color: var(--accent-color);
   border-radius: 2px;
 }
+
+.mobile-theme-toggle {
+  padding: 16px 0;
+  border-top: 1px solid var(--border-color);
+  margin-top: 16px;
+}
+
 /* Desktop Navigation Links */
 .nav-link {
   color: var(--subtle-text-color, #ccc);
@@ -186,10 +204,24 @@
   min-width: 0; /* Allow flex children to shrink */
 }
 
+/* Ensure adequate spacing on large screens */
+@media (min-width: 1201px) {
+  .header-right {
+    gap: 20px;
+  }
+  
+  .header-search {
+    max-width: 280px;
+    min-width: 200px;
+  }
+}
+
 .header-search {
-  max-width: 250px;
-  min-width: 180px;
+  max-width: 350px;
+  min-width: 250px;
   flex-shrink: 1;
+  position: relative;
+  z-index: 100;
 }
 
 .header-status {
@@ -227,20 +259,15 @@
 /* Responsive Design */
 
 /* Ensure desktop navigation is fully restored on larger screens */
+
 @media (min-width: 901px) {
-  .header-nav {
-    display: flex !important;
-    gap: 32px;
-    min-width: 0;
-    overflow: visible;
-  }
-  
   .mobile-menu-button {
-    display: none !important;
+    display: block !important; /* Always show hamburger menu */
   }
   
   .mobile-nav {
-    display: none !important;
+    display: flex !important;
+    flex-direction: column;
   }
   
   .mobile-nav-overlay {
@@ -266,6 +293,10 @@
     max-width: 160px;
     min-width: 100px;
   }
+  
+  .header-status {
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 1100px) {
@@ -287,8 +318,9 @@
     min-width: 80px;
   }
   
-  .header-status span:not(.status-dot) {
-    display: none;
+  .header-status {
+    font-size: 0.8rem;
+    gap: 6px;
   }
 }
 
@@ -306,6 +338,15 @@
     max-width: 120px;
     min-width: 60px;
   }
+  
+  .header-status {
+    font-size: 0.75rem;
+    gap: 4px;
+  }
+  
+  .header-status span:not(.status-dot) {
+    display: none; /* Only hide text on very small screens */
+  }
 }
 
 @media (max-width: 900px) {
@@ -315,22 +356,6 @@
   
   .header-content {
     gap: 12px;
-  }
-  
-  /* Hide desktop navigation and show mobile menu */
-  .header-nav {
-    display: none;
-  }
-  
-  /* Show mobile menu button */
-  .mobile-menu-button {
-    display: block;
-  }
-  
-  /* Show mobile navigation */
-  .mobile-nav {
-    display: flex;
-    flex-direction: column;
   }
   
   .header-right {

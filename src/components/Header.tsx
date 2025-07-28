@@ -1,48 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import ThemeToggle from './ThemeToggle';
 import GlobalSearch from './GlobalSearch';
+import ThemeToggle from './ThemeToggle';
 import './Header.css';
+
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // Close mobile menu when clicking outside or on overlay
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, []);
-
-  // Handle window resize to close mobile menu on desktop
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 900 && isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [isMobileMenuOpen]);
-
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMobileMenuOpen]);
+  const mobileNavRef = useRef<HTMLDivElement | null>(null);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -52,55 +17,39 @@ const Header: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
+  // Close menu on outside click (capture phase)
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    function handleClick(e: MouseEvent | TouchEvent) {
+      const nav = mobileNavRef.current;
+      const clickedOutside = nav && !nav.contains(e.target as Node);
+      // Debug log
+      console.log('[Header] Document click (capture phase):', {
+        target: e.target,
+        nav,
+        clickedOutside,
+        isMobileMenuOpen
+      });
+      if (clickedOutside) {
+        setIsMobileMenuOpen(false);
+      }
+    }
+    console.log('[Header] useEffect registering document click/touch listeners');
+    document.addEventListener('mousedown', handleClick, true);
+    document.addEventListener('touchstart', handleClick, true);
+    return () => {
+      document.removeEventListener('mousedown', handleClick, true);
+      document.removeEventListener('touchstart', handleClick, true);
+    };
+  }, [isMobileMenuOpen]);
+
   return (
-    <header className={`main-header ${isMobileMenuOpen ? 'mobile-menu-active' : ''}`} role="banner">
+    <header className="main-header">
       <div className="container">
         <div className="header-content">
           <Link to="/" className="header-name" aria-label="Ricardo Carvalho - Home">
             Ricardo Carvalho
           </Link>
-          
-          {/* Desktop Navigation */}
-          <nav className="header-nav" role="navigation" aria-label="Main navigation">
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-              end
-            >
-              Home
-            </NavLink>
-            <NavLink 
-              to="/resume" 
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            >
-              Resume
-            </NavLink>
-            <NavLink 
-              to="/projects" 
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            >
-              Projects
-            </NavLink>
-            <NavLink 
-              to="/insights" 
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            >
-              Articles & Insights
-            </NavLink>
-            <NavLink 
-              to="/contact" 
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            >
-              Contact
-            </NavLink>
-            <NavLink 
-              to="/search" 
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            >
-              Search
-            </NavLink>
-          </nav>
-
           <div className="header-right">
             <div className="header-search">
               <GlobalSearch 
@@ -109,82 +58,56 @@ const Header: React.FC = () => {
                 maxResults={5}
               />
             </div>
-            <div className="header-status">
+            <div className="header-status" title="Available for new opportunities">
               <span className="status-dot" aria-hidden="true"></span>
-              <span>Available for new opportunities</span>
+              <span>Available</span>
             </div>
-            <ThemeToggle />
-            
             {/* Mobile Menu Button */}
             <button
               className="mobile-menu-button"
-              onClick={toggleMobileMenu}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-nav"
+              onClick={toggleMobileMenu}
             >
-              {isMobileMenuOpen ? '✕' : '☰'}
+              <span aria-hidden="true">&#9776;</span>
             </button>
           </div>
         </div>
+        {/* Mobile Navigation Overlay */}
+        <div
+          className={`mobile-nav-overlay${isMobileMenuOpen ? ' active' : ''}`}
+          onClick={closeMobileMenu}
+          aria-hidden={!isMobileMenuOpen}
+        />
+        {/* Mobile Navigation Menu */}
+        <nav
+          ref={mobileNavRef}
+          id="mobile-nav"
+          className={`mobile-nav${isMobileMenuOpen ? ' active' : ''}`}
+          role="navigation"
+          aria-label="Mobile navigation"
+        >
+          <NavLink to="/" className="nav-link" onClick={closeMobileMenu} end>
+            Home
+          </NavLink>
+          <NavLink to="/projects" className="nav-link" onClick={closeMobileMenu}>
+            Projects
+          </NavLink>
+          <NavLink to="/insights" className="nav-link" onClick={closeMobileMenu}>
+            Insights
+          </NavLink>
+          <NavLink to="/resume" className="nav-link" onClick={closeMobileMenu}>
+            Resume
+          </NavLink>
+          <NavLink to="/contact" className="nav-link" onClick={closeMobileMenu}>
+            Contact
+          </NavLink>
+          <div className="mobile-theme-toggle">
+            <ThemeToggle />
+          </div>
+        </nav>
       </div>
-
-      {/* Mobile Navigation Overlay */}
-      <div
-        className={`mobile-nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-        onClick={closeMobileMenu}
-        aria-hidden="true"
-      />
-
-      {/* Mobile Navigation Menu */}
-      <nav
-        className={`mobile-nav ${isMobileMenuOpen ? 'active' : ''}`}
-        role="navigation"
-        aria-label="Mobile navigation"
-      >
-        <NavLink 
-          to="/" 
-          className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          onClick={closeMobileMenu}
-          end
-        >
-          Home
-        </NavLink>
-        <NavLink 
-          to="/resume" 
-          className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          onClick={closeMobileMenu}
-        >
-          Resume
-        </NavLink>
-        <NavLink 
-          to="/projects" 
-          className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          onClick={closeMobileMenu}
-        >
-          Projects
-        </NavLink>
-        <NavLink 
-          to="/insights" 
-          className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          onClick={closeMobileMenu}
-        >
-          Articles & Insights
-        </NavLink>
-        <NavLink 
-          to="/contact" 
-          className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          onClick={closeMobileMenu}
-        >
-          Contact
-        </NavLink>
-        <NavLink 
-          to="/search" 
-          className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          onClick={closeMobileMenu}
-        >
-          Search
-        </NavLink>
-      </nav>
     </header>
   );
 };
