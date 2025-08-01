@@ -42,8 +42,8 @@ Object.defineProperty(window, 'ResizeObserver', {
 })
 
 // Mock framer-motion
-vi.mock('framer-motion', async () => {
-  const React = await vi.importActual('react') as any;
+vi.mock('framer-motion', () => {
+  const React = vi.importActual('react');
   
   const createMotionComponent = (element: string) => ({ children, ...props }: any) => {
     const { 
@@ -123,9 +123,17 @@ vi.mock('framer-motion', async () => {
       ...domProps 
     } = props;
     
-    return React.createElement(element, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (React as any).createElement(element, {
       ...domProps,
-      style: { ...style }
+      style: { ...style },
+      // Keep only valid DOM attributes
+      'data-testid': domProps['data-testid'],
+      className: domProps.className,
+      id: domProps.id,
+      role: domProps.role,
+      tabIndex: domProps.tabIndex,
+      'aria-label': domProps['aria-label']
     }, children);
   };
 
