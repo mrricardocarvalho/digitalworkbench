@@ -266,17 +266,6 @@ export const InteractiveProjectCard: React.FC<InteractiveProjectCardProps> = ({
               <span className="text">Demo</span>
             </button>
           )}
-          
-          {project.caseStudyUrl && (
-            <button
-              className="quick-action-btn"
-              onClick={(e) => handleQuickAction('case-study', project.caseStudyUrl, e)}
-              title="Read Case Study"
-            >
-              <span className="icon">📖</span>
-              <span className="text">Study</span>
-            </button>
-          )}
         </motion.div>
       </div>
 
@@ -361,12 +350,12 @@ export const InteractiveProjectCard: React.FC<InteractiveProjectCardProps> = ({
 
         {/* Interactive Tags */}
         <div className="project-tags">
-          {project.tags.slice(0, 3).map((tag: string, idx: number) => (
+          {project.tags?.slice(0, 3).map((tag: string, idx: number) => (
             <span key={idx} className="project-tag">
               {tag}
             </span>
           ))}
-          {project.tags.length > 3 && (
+          {project.tags && project.tags.length > 3 && (
             <span className="project-tag more">
               +{project.tags.length - 3}
             </span>

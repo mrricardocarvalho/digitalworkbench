@@ -24,7 +24,6 @@ const projectsData: ProjectData[] = [
     date: "2025-01-15",
     githubUrl: "https://github.com/mrricardocarvalho/digitalworkbench",
     liveUrl: "https://ricardocarvalho.dev",
-    caseStudyUrl: "/projects/digital-workbench-portfolio",
     tags: ["Portfolio", "React", "TypeScript", "Performance", "SEO", "3D Graphics", "Analytics"],
     metrics: {
       stars: 42,
