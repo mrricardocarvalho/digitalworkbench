@@ -47,15 +47,78 @@ vi.mock('framer-motion', async () => {
   
   const createMotionComponent = (element: string) => ({ children, ...props }: any) => {
     const { 
-      animate, initial, exit, variants, transition, custom,
-      whileHover, whileTap, whileInView, whileFocus, whileDrag,
-      drag, dragConstraints, dragElastic, dragMomentum,
-      layoutId, layout, layoutDependency,
-      viewport, amount, once, margin, root,
-      onAnimationStart, onAnimationComplete,
-      onUpdate, onDrag, onDragStart, onDragEnd,
-      onHoverStart, onHoverEnd, onTap, onTapStart, onTapCancel,
-      onViewportEnter, onViewportLeave,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      animate, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      initial, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      exit, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      variants, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      transition, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      custom,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      whileHover, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      whileTap, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      whileInView, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      whileFocus, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      whileDrag,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      drag, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      dragConstraints, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      dragElastic, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      dragMomentum,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      layoutId, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      layout, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      layoutDependency,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      viewport, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      amount, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      once, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      margin, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      root,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onAnimationStart, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onAnimationComplete,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onUpdate, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onDrag, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onDragStart, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onDragEnd,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onHoverStart, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onHoverEnd, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onTap, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onTapStart, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onTapCancel,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onViewportEnter, 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onViewportLeave,
       style,
       ...domProps 
     } = props;
