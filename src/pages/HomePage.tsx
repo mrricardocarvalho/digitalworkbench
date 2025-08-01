@@ -141,13 +141,14 @@ const cardVariants: Variants = {
           }
         }}
       />
-      <div className="container">
+      <div className="container" id="main-content">
       {/* Hero Section */}
       <motion.section 
         className="hero-section"
         initial="hidden"
         animate="visible"
         variants={sectionVariants}
+        aria-label="Main Hero Section"
       >
         <div className="bento-grid">
           <motion.div 
@@ -167,6 +168,7 @@ const cardVariants: Variants = {
             animate="visible"
             whileHover="hover"
             variants={bentoVariants}
+            data-testid="bento-3d"
           >
             <Interactive3D />
           </motion.div>
@@ -188,6 +190,7 @@ const cardVariants: Variants = {
               }
             }}
             aria-label="Navigate to Featured Projects section"
+            data-testid="bento-project"
           >
             <h3>Featured Project</h3>
             <p>Digital Workbench Portfolio →</p>
@@ -210,6 +213,7 @@ const cardVariants: Variants = {
               }
             }}
             aria-label="Navigate to Experience and Philosophy section"
+            data-testid="bento-philosophy"
           >
             <h3>My Philosophy</h3>
             <p>"Code is a craft of precision and empathy. I build systems that are not only powerful but also intuitive."</p>
@@ -225,6 +229,7 @@ const cardVariants: Variants = {
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={sectionVariants}
+        aria-label="Projects Section"
       >
         <h2>01 / Projects</h2>
         {/* ... project mapping ... */}
@@ -265,6 +270,7 @@ const cardVariants: Variants = {
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={sectionVariants}
+        aria-label="Articles & Insights Section"
       >
         <h2>02 / Articles & Insights</h2>
         {/* ... insight mapping ... */}
@@ -295,7 +301,7 @@ const cardVariants: Variants = {
             </div>
           </motion.div>
         ))}
-        <Link to="/insights" className="view-all-link">View All Articles</Link>
+        <Link to="/insights" className="view-all-link">View All Insights</Link>
       </motion.section>
 
       <motion.section
@@ -305,6 +311,7 @@ const cardVariants: Variants = {
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={sectionVariants}
+        aria-label="Experience & Skills Section"
       >
         <h2>03 / Experience & Skills</h2>
         {/* ... experience content ... */}
@@ -354,11 +361,12 @@ const cardVariants: Variants = {
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={sectionVariants}
+        aria-label="Newsletter Signup Section"
       >
         <NewsletterSignup 
           variant="inline" 
           showName={true}
-          title="Stay Updated on Business Central"
+          title="Stay Updated"
           description="Get exclusive insights, performance tips, and implementation strategies delivered directly to your inbox. Join 1,000+ Business Central professionals."
         />
       </motion.section>

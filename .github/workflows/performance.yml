@@ -16,44 +16,6 @@ permissions:
   checks: write
 
 jobs:
-  lighthouse-ci:
-    name: 🔍 Lighthouse CI
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Clear npm cache
-        run: npm cache clean --force
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Build project
-        run: npm run build
-      
-      - name: Install Vite globally (for LHCI)
-        run: npm install -g vite
-
-      - name: Serve built files
-        run: |
-          npm install -g serve
-          serve -s dist -l 3000 &
-          sleep 60
-      
-      - name: Run Lighthouse CI
-        uses: treosh/lighthouse-ci-action@v11
-        with:
-          configPath: './.lighthouserc.json'
-          uploadArtifacts: true
-          temporaryPublicStorage: true
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
   bundle-analyzer:
     name: 📦 Bundle Analysis

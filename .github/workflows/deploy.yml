@@ -72,13 +72,6 @@ jobs:
       - name: Run tests with coverage
         run: npm run test:coverage
       
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage/lcov.info
-          flags: unittests
-          name: codecov-umbrella
 
   security-scan:
     name: 🔒 Security Scan
@@ -178,44 +171,35 @@ jobs:
         if: github.event_name == 'pull_request'
         id: deploy-preview
         run: |
-          echo "preview-url=https://digitalworkbench-pr-${{ github.event.number }}.surge.sh" >> $GITHUB_OUTPUT
-          echo "🚀 Preview deployment would be available at: https://digitalworkbench-pr-${{ github.event.number }}.surge.sh" >> $GITHUB_STEP_SUMMARY
+          echo "preview-url=https://pr-${{ github.event.number }}-preview.github.io" >> $GITHUB_OUTPUT
+          echo "🚀 Preview would be available at: https://pr-${{ github.event.number }}-preview.github.io" >> $GITHUB_STEP_SUMMARY
 
   # Production deployment (main branch only)
   deploy-production:
     name: 🚀 Deploy Production
     if: github.ref == 'refs/heads/main'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: [build, security-scan]
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-  # Staging deployment (develop branch)
+  # Staging deployment (develop branch) - Simplified
   deploy-staging:
     name: 🎭 Deploy Staging
     if: github.ref == 'refs/heads/develop'
-    environment:
-      name: staging
-      url: https://digitalworkbench-staging.surge.sh
     runs-on: ubuntu-latest
     needs: [build, security-scan]
     steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-${{ github.sha }}
-          path: ./dist
-      
-      - name: Deploy to Surge.sh (Staging)
+      - name: Staging deployment placeholder
         run: |
-          npm install -g surge
-          echo "🎭 Staging deployment would be available at: https://digitalworkbench-staging.surge.sh" >> $GITHUB_STEP_SUMMARY
-          # surge ./dist digitalworkbench-staging.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+          echo "🎭 Staging deployment would be configured here" >> $GITHUB_STEP_SUMMARY
+          echo "Currently configured for develop branch only" >> $GITHUB_STEP_SUMMARY
 
   # Notification job
   notify:

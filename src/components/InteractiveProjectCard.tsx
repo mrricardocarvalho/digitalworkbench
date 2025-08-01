@@ -190,7 +190,7 @@ export const InteractiveProjectCard: React.FC<InteractiveProjectCardProps> = ({
       variants={cardVariants}
       initial={viewMode === 'cards' ? false : 'hidden'}
       animate={isInView ? controls : 'hidden'}
-      whileHover="hover"
+      {...(viewMode === 'cards' ? { whileHover: 'hover' } : {})}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
@@ -198,6 +198,7 @@ export const InteractiveProjectCard: React.FC<InteractiveProjectCardProps> = ({
       role="article"
       tabIndex={0}
       aria-label={`${project.title} project`}
+      data-testid={`project-card-${project.id}`}
     >
       {/* Status Badge */}
       <div className="project-status-badge">

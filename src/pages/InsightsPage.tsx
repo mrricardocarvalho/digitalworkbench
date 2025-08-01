@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
 import './InsightsPage.css';
+import NewsletterSignup from '../components/NewsletterSignup';
 
 // Define the structure for an insight/blog post
 type Insight = {
@@ -171,7 +172,7 @@ const InsightsPage: React.FC = () => {
   };
 
   return (
-    <div className="container">
+    <main className="container" id="main-content" role="main">
       <div className="insights-header">
         <h1>Business Central Articles & Insights</h1>
         <p className="insights-subtitle">Real-world Business Central development techniques, performance tips, and architectural insights from 8+ years in the field.</p>
@@ -192,11 +193,21 @@ const InsightsPage: React.FC = () => {
             </div>
             <h3>{insight.title}</h3>
             <p>{insight.description}</p>
+            <span className="insight-author">Ricardo Carvalho</span>
+            <span className="insight-tags">Business Central, AL, Performance</span>
             <Link to={`/insights/${insight.slug}`} className="view-all-link">Read More →</Link>
           </motion.div>
         ))}
       </motion.div>
-    </div>
+      <section className="newsletter-section">
+        <NewsletterSignup 
+          variant="inline" 
+          showName={true}
+          title="Stay Updated"
+          description="Get exclusive insights, performance tips, and implementation strategies delivered directly to your inbox. Join 1,000+ Business Central professionals."
+        />
+      </section>
+    </main>
   );
 };
 

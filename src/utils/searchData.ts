@@ -146,7 +146,7 @@ const projects = [
 ];
 
 // Project data structure (from your existing projects)
-interface ProjectData {
+export interface ProjectData {
   slug: string;
   title: string;
   description: string;

@@ -70,7 +70,7 @@ export const ProjectGalleryControls: React.FC<ProjectGalleryControlsProps> = ({
   };
 
   return (
-    <div className="project-gallery-controls">
+    <div className="project-gallery-controls" data-testid="project-gallery-controls">
       {/* Results Summary */}
       <div className="results-summary">
         <span className="results-count">
@@ -100,6 +100,7 @@ export const ProjectGalleryControls: React.FC<ProjectGalleryControlsProps> = ({
                 title={description}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                data-testid={`view-mode-btn-${mode}`}
               >
                 <span className="view-icon">{icon}</span>
                 <span className="view-label">{label}</span>
@@ -133,6 +134,7 @@ export const ProjectGalleryControls: React.FC<ProjectGalleryControlsProps> = ({
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           title={showFiltersPanel ? 'Hide filters' : 'Show filters'}
+          data-testid="filters-toggle-btn"
         >
           <span className="filters-icon">
             {hasActiveFilters ? '🎯' : '⚙️'}
