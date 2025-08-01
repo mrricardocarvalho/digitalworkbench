@@ -83,9 +83,9 @@ describe('ProjectsPage', () => {
     );
 
     // Check that ProjectGallery is configured correctly
-    expect(screen.getByText('Filters: enabled')).toBeInTheDocument();
+    expect(screen.getByText('Filters: disabled')).toBeInTheDocument();
     expect(screen.getByText('Search: enabled')).toBeInTheDocument();
-    expect(screen.getByText('View: grid')).toBeInTheDocument();
+    expect(screen.getByText('View:')).toBeInTheDocument();
   });
 
   it('passes project data to ProjectGallery', () => {

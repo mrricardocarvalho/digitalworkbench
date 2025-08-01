@@ -139,8 +139,8 @@ describe('HomePage', () => {
       </TestWrapper>
     );
 
-    // Check for about section
-    expect(screen.getByText(/About/i)).toBeInTheDocument();
+    // Check for experience and philosophy content instead of "About"
+    expect(screen.getByText(/My Philosophy/i)).toBeInTheDocument();
     expect(screen.getByText(/20\+ years/i)).toBeInTheDocument();
   });
 
@@ -151,9 +151,10 @@ describe('HomePage', () => {
       </TestWrapper>
     );
 
-    // Check for experience section
-    expect(screen.getByText(/Experience/i)).toBeInTheDocument();
-    expect(screen.getByText(/Senior Developer/i)).toBeInTheDocument();
+    // Check for experience section using getAllByText for multiple matches
+    const experienceElements = screen.getAllByText(/Experience/i);
+    expect(experienceElements.length).toBeGreaterThan(0);
+    expect(screen.getByText(/Microsoft Dynamics ecosystem/i)).toBeInTheDocument();
   });
 
   it('displays the skills section', () => {
@@ -163,9 +164,10 @@ describe('HomePage', () => {
       </TestWrapper>
     );
 
-    // Check for developer title and core content
+    // Check for developer title and core content using getAllByText for multiple matches
     expect(screen.getByText(/Senior Dynamics 365 Business Central Developer/i)).toBeInTheDocument();
-    expect(screen.getByText(/Digital Workbench/i)).toBeInTheDocument();
+    const digitalWorkbenchElements = screen.getAllByText(/Digital Workbench/i);
+    expect(digitalWorkbenchElements.length).toBeGreaterThan(0);
   });
 
   it('displays the latest insights section', () => {
@@ -187,9 +189,10 @@ describe('HomePage', () => {
       </TestWrapper>
     );
 
-    // Check for projects section
+    // Check for projects section using getAllByText for multiple matches
     expect(screen.getByText(/01 \/ Projects/i)).toBeInTheDocument();
-    expect(screen.getByText(/Digital Workbench/i)).toBeInTheDocument();
+    const digitalWorkbenchElements = screen.getAllByText(/Digital Workbench/i);
+    expect(digitalWorkbenchElements.length).toBeGreaterThan(0);
   });
 
   it('has working CTA buttons', () => {
