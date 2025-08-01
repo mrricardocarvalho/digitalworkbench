@@ -12,7 +12,7 @@ interface SearchComponentProps {
   compact?: boolean;
 }
 
-export const SearchComponent: React.FC<SearchComponentProps> = ({
+const SearchComponent: React.FC<SearchComponentProps> = ({
   content,
   placeholder = "Search projects, articles, and case studies...",
   showFilters = true,

@@ -7,7 +7,7 @@ interface ReadingProgressProps {
   showPercentage?: boolean;
 }
 
-export const ReadingProgress: React.FC<ReadingProgressProps> = ({
+const ReadingProgress: React.FC<ReadingProgressProps> = ({
   target = '.insight-body',
   className = '',
   showPercentage = false

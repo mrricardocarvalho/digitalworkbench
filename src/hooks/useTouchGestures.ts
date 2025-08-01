@@ -238,7 +238,7 @@ export const useTouchGestures = (
     if (preventScroll) {
       e.preventDefault();
     }
-  }, [handlers, minPanDistance, doubleTapDelay]);
+  }, [handlers, minPanDistance, doubleTapDelay, preventScroll]);
 
   return {
     gesture,

@@ -65,7 +65,7 @@ const shareButtons: SharePlatform[] = [
   }
 ];
 
-export const SocialShare: React.FC<SocialShareProps> = ({
+const SocialShare: React.FC<SocialShareProps> = ({
   url = window.location.href,
   title = document.title,
   description = '',

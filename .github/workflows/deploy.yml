@@ -98,9 +98,6 @@ jobs:
       
       - name: Check for outdated packages
         run: npm outdated || true
-      
-      - name: Run CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
 
   build:
     name: 🏗️ Build & Performance

@@ -16,7 +16,7 @@ interface TableOfContentsProps {
   autoGenerate?: boolean;
 }
 
-export const TableOfContents: React.FC<TableOfContentsProps> = ({
+const TableOfContents: React.FC<TableOfContentsProps> = ({
   contentSelector = '.insight-body',
   className = '',
   maxLevel = 4,

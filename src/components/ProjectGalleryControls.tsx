@@ -16,7 +16,7 @@ interface ProjectGalleryControlsProps {
   hasActiveFilters: boolean;
 }
 
-export const ProjectGalleryControls: React.FC<ProjectGalleryControlsProps> = ({
+const ProjectGalleryControls: React.FC<ProjectGalleryControlsProps> = ({
   viewMode,
   sortBy,
   resultsCount,

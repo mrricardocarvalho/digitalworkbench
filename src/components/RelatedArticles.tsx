@@ -90,7 +90,7 @@ const getRelatedArticles = (
   return scoredArticles.slice(0, maxResults);
 };
 
-export const RelatedArticles: React.FC<RelatedArticlesProps> = ({
+const RelatedArticles: React.FC<RelatedArticlesProps> = ({
   currentSlug,
   articles,
   maxResults = 3,

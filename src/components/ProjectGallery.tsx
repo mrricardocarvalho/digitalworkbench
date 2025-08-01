@@ -300,7 +300,6 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
   void handleResetFilters;
 
   if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test' && (window as any).USE_PROJECT_GALLERY_MOCK) {
-    // @ts-ignore
     return <TestProjectGalleryMock projects={projects} />;
   }
   return (

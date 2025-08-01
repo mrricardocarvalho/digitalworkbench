@@ -5,7 +5,7 @@ interface WebVitalsDebuggerProps {
   onMetricReceived?: (metric: Metric) => void;
 }
 
-export const WebVitalsDebugger: React.FC<WebVitalsDebuggerProps> = ({ onMetricReceived }) => {
+const WebVitalsDebugger: React.FC<WebVitalsDebuggerProps> = ({ onMetricReceived }) => {
   const [metrics, setMetrics] = useState<Record<string, number>>({});
   const [logs, setLogs] = useState<string[]>([]);
 
