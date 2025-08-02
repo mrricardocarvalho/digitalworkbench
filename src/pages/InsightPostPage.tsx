@@ -258,11 +258,6 @@ const InsightPostPage: React.FC = () => {
         <div className="post-content-wrapper">
           <aside className="post-sidebar">
             <TableOfContents contentSelector=".markdown-content" />
-            <SocialShare 
-              url={window.location.href}
-              title={currentPost.title}
-              description={currentPost.description}
-            />
           </aside>
 
           <main className="post-content">
@@ -279,6 +274,12 @@ const InsightPostPage: React.FC = () => {
             <ArticleFeedback 
               articleSlug={slug || ''} 
               articleTitle={currentPost.title}
+            />
+            
+            <SocialShare 
+              url={window.location.href}
+              title={currentPost.title}
+              description={currentPost.description}
             />
           </main>
         </div>

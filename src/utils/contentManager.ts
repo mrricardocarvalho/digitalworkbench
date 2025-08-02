@@ -106,64 +106,217 @@ export const parseFrontmatter = (markdownContent: string): { frontmatter: Frontm
 };
 
 /**
- * Convert markdown to HTML with enhanced features
+ * Escape HTML entities to prevent XSS
+ */
+const escapeHTML = (text: string): string => {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+};
+
+/**
+ * Create safe anchor ID from text
+ */
+const createAnchorId = (text: string): string => {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/--+/g, '-')
+    .trim();
+};
+
+/**
+ * Process markdown lists with proper nesting
+ */
+const processLists = (text: string): string => {
+  const lines = text.split('\n');
+  const result: string[] = [];
+  let inList = false;
+  let listType = '';
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line) continue;
+    
+    const unorderedMatch = line.match(/^(\s*)-\s+(.+)$/);
+    const orderedMatch = line.match(/^(\s*)(\d+)\.\s+(.+)$/);
+
+    if (unorderedMatch || orderedMatch) {
+      const isOrdered = !!orderedMatch;
+      const content = isOrdered ? orderedMatch![3] : unorderedMatch![2];
+      const currentListType = isOrdered ? 'ol' : 'ul';
+
+      if (!inList) {
+        result.push(`<${currentListType}>`);
+        inList = true;
+        listType = currentListType;
+      } else if (listType !== currentListType) {
+        result.push(`</${listType}>`);
+        result.push(`<${currentListType}>`);
+        listType = currentListType;
+      }
+
+      result.push(`<li>${content}</li>`);
+    } else {
+      if (inList) {
+        result.push(`</${listType}>`);
+        inList = false;
+        listType = '';
+      }
+      result.push(line);
+    }
+  }
+
+  if (inList) {
+    result.push(`</${listType}>`);
+  }
+
+  return result.join('\n');
+};
+
+/**
+ * Convert markdown to HTML with enhanced features and proper formatting
  */
 export const markdownToHTML = (markdown: string): string => {
-  return markdown
-    // Headers with anchor links
-    .replace(/^### (.*$)/gim, '<h3 id="$1">$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2 id="$1">$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1 id="$1">$1</h1>')
+  if (!markdown || typeof markdown !== 'string') {
+    return '';
+  }
+
+  let html = markdown;
+
+  // First, protect code blocks from other processing
+  const codeBlockPlaceholders = new Map<string, string>();
+  let placeholderIndex = 0;
+
+  // Extract and process code blocks
+  html = html.replace(/```([a-zA-Z0-9]*)\n?([\s\S]*?)```/g, (_, language, code) => {
+    const placeholder = `__CODE_BLOCK_${placeholderIndex++}__`;
+    const lang = language ? language.toLowerCase() : '';
+    const escapedCode = escapeHTML(code.trim());
     
-    // Bold and italic
-    .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    const languageClass = lang ? ` language-${lang}` : '';
+    const dataLang = lang ? ` data-language="${lang}"` : '';
+    const langIndicator = lang ? `<span class="code-language">${lang.toUpperCase()}</span>` : '';
     
-    // Code blocks with language detection
-    .replace(/```(\w+)?\n([\s\S]*?)```/g, (_, lang, code) => {
-      const language = lang ? ` class="language-${lang}"` : '';
-      return `<pre><code${language}>${code.trim()}</code></pre>`;
-    })
+    const processedBlock = `<div class="code-block-wrapper">${langIndicator}
+      <pre class="code-block${languageClass}"${dataLang}><code>${escapedCode}</code></pre>
+    </div>`;
     
-    // Inline code
-    .replace(/`(.*?)`/g, '<code>$1</code>')
+    codeBlockPlaceholders.set(placeholder, processedBlock);
+    return placeholder;
+  });
+
+  // Process inline code (protect from other formatting)
+  const inlineCodePlaceholders = new Map<string, string>();
+  html = html.replace(/`([^`]+)`/g, (_, code) => {
+    const placeholder = `__INLINE_CODE_${placeholderIndex++}__`;
+    const processedCode = `<code class="inline-code">${escapeHTML(code)}</code>`;
+    inlineCodePlaceholders.set(placeholder, processedCode);
+    return placeholder;
+  });
+
+  // Headers with proper anchor links
+  html = html.replace(/^### (.+$)/gim, (_, text) => {
+    const id = createAnchorId(text);
+    return `<h3 id="${id}">${text}</h3>`;
+  });
+  html = html.replace(/^## (.+$)/gim, (_, text) => {
+    const id = createAnchorId(text);
+    return `<h2 id="${id}">${text}</h2>`;
+  });
+  html = html.replace(/^# (.+$)/gim, (_, text) => {
+    const id = createAnchorId(text);
+    return `<h1 id="${id}">${text}</h1>`;
+  });
+
+  // Bold and italic (avoid conflicts with other formatting)
+  html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  // Links with security attributes
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => {
+    const isExternal = url.startsWith('http') && !url.includes('localhost');
+    const attributes = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+    return `<a href="${url}"${attributes}>${text}</a>`;
+  });
+
+  // Blockquotes
+  html = html.replace(/^> (.+$)/gim, '<blockquote><p>$1</p></blockquote>');
+
+  // Process lists
+  html = processLists(html);
+
+  // Horizontal rules
+  html = html.replace(/^---$/gim, '<hr>');
+
+  // Line breaks and paragraphs (more robust handling)
+  const lines = html.split('\n');
+  const processedLines: string[] = [];
+  let inParagraph = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line) continue;
     
-    // Links with security attributes
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => {
-      const isExternal = url.startsWith('http') && !url.includes(window.location.hostname);
-      const attributes = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-      return `<a href="${url}"${attributes}>${text}</a>`;
-    })
+    const trimmedLine = line.trim();
     
-    // Blockquotes
-    .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
-    
-    // Lists
-    .replace(/^\* (.+$)/gim, '<li>$1</li>')
-    .replace(/^(\d+)\. (.+$)/gim, '<li>$2</li>')
-    
-    // Line breaks and paragraphs
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/^(?!<[h1-6]|<blockquote|<pre|<ul|<ol|<li)/, '<p>')
-    .replace(/(?<!<\/[h1-6]>|<\/blockquote>|<\/pre>|<\/ul>|<\/ol>|<\/li>)$/, '</p>')
-    
-    // Clean up
-    .replace(/<p><\/p>/g, '')
-    .replace(/<p>(<[h1-6]>)/g, '$1')
-    .replace(/(<\/[h1-6]>)<\/p>/g, '$1')
-    .replace(/<p>(<blockquote>)/g, '$1')
-    .replace(/(<\/blockquote>)<\/p>/g, '$1')
-    .replace(/<p>(<pre>)/g, '$1')
-    .replace(/(<\/pre>)<\/p>/g, '$1')
-    
-    // Wrap lists
-    .replace(/(<li>.*<\/li>)/gs, (match) => {
-      if (match.includes('<li>')) {
-        return `<ul>${match}</ul>`;
+    // Skip empty lines
+    if (trimmedLine === '') {
+      if (inParagraph) {
+        processedLines.push('</p>');
+        inParagraph = false;
       }
-      return match;
-    });
+      continue;
+    }
+
+    // Check if line is a block element
+    const isBlockElement = /^<(h[1-6]|blockquote|pre|ul|ol|li|hr|div)/.test(trimmedLine) ||
+                          trimmedLine.includes('__CODE_BLOCK_') ||
+                          trimmedLine.startsWith('<hr>');
+
+    if (isBlockElement) {
+      if (inParagraph) {
+        processedLines.push('</p>');
+        inParagraph = false;
+      }
+      processedLines.push(trimmedLine);
+    } else {
+      if (!inParagraph) {
+        processedLines.push('<p>');
+        inParagraph = true;
+      }
+      processedLines.push(trimmedLine);
+    }
+  }
+
+  if (inParagraph) {
+    processedLines.push('</p>');
+  }
+
+  html = processedLines.join('\n');
+
+  // Restore code blocks
+  codeBlockPlaceholders.forEach((replacement, placeholder) => {
+    html = html.replace(placeholder, replacement);
+  });
+
+  // Restore inline code
+  inlineCodePlaceholders.forEach((replacement, placeholder) => {
+    html = html.replace(placeholder, replacement);
+  });
+
+  // Clean up extra whitespace and empty paragraphs
+  html = html
+    .replace(/<p>\s*<\/p>/g, '')
+    .replace(/\n\s*\n/g, '\n')
+    .trim();
+
+  return html;
 };
 
 /**

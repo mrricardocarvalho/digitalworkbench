@@ -8,6 +8,7 @@ import AuditDashboard from './AuditDashboard';
 import ErrorMonitoringDashboard from './ErrorMonitoringDashboard';
 // import CustomCursor from './CustomCursor';
 import ScrollToTop from './ScrollToTop';
+import ScrollToTopOnRoute from './ScrollToTopOnRoute';
 import { usePageTracking } from '../utils/analytics';
 import './Layout.css';
 
@@ -52,6 +53,7 @@ const Layout: React.FC = () => {
     <div className="layout">
       <a href="#main-content" className="skip-link">Skip to main content</a>
       {/* <CustomCursor /> */}
+      <ScrollToTopOnRoute />
       <Header />
       <main id="main-content" className="main-content">
         <Outlet />

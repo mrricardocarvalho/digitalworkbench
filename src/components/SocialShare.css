@@ -5,6 +5,9 @@
   background: var(--card-background);
   border: 1px solid var(--border-color);
   border-radius: 8px;
+  clear: both;
+  position: relative;
+  z-index: 1;
 }
 
 .social-share--compact {

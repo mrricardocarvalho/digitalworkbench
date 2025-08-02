@@ -8,6 +8,20 @@ import { contentManager } from '../utils/contentManager';
 // Import markdown content files
 import performanceBottlenecksContent from './blog/business-central-performance-bottlenecks-guide.md?raw';
 import advancedAlDevelopmentContent from './blog/advanced-al-development-interfaces-abstract-classes.md?raw';
+import secretTextFeatureContent from './blog/exploring-secrettext-feature-business-central.md?raw';
+import automatingTestsContent from './blog/automating-tests-copilot-extensions-business-central.md?raw';
+import apiIntegrationsContent from './blog/mastering-api-integrations-business-central-external-services.md?raw';
+import performanceTuningContent from './blog/performance-tuning-business-central-extensions.md?raw';
+import appSourcePublishingContent from './blog/from-idea-to-appsource-publishing-business-central-app.md?raw';
+import businessIntelligenceContent from './blog/business-central-business-intelligence-dashboards.md?raw';
+import devOpsPipelinesContent from './blog/devops-cicd-pipelines.md?raw';
+import cloudMigrationContent from './blog/business-central-cloud-migration-strategies.md?raw';
+import userExperienceContent from './blog/business-central-user-experience-optimization.md?raw';
+import reportingAnalyticsContent from './blog/business-central-reporting-analytics-mastery.md?raw';
+import securityComplianceContent from './blog/business-central-security-compliance-framework.md?raw';
+import workflowAutomationContent from './blog/business-central-workflow-automation-guide.md?raw';
+import alExtensionsAdvancedContent from './blog/business-central-al-extensions-advanced-patterns.md?raw';
+import dataMigrationZeroDowntimeContent from './blog/business-central-data-migration-zero-downtime-strategies.md?raw';
 
 /**
  * Register all blog post content
@@ -17,11 +31,23 @@ export const registerAllContent = (): void => {
   // Register existing markdown files
   contentManager.registerContent('business-central-performance-bottlenecks-guide', performanceBottlenecksContent);
   contentManager.registerContent('advanced-al-development-interfaces-abstract-classes', advancedAlDevelopmentContent);
+  contentManager.registerContent('exploring-secrettext-feature-business-central', secretTextFeatureContent);
+  contentManager.registerContent('automating-tests-copilot-extensions-business-central', automatingTestsContent);
+  contentManager.registerContent('mastering-api-integrations-business-central-external-services', apiIntegrationsContent);
+  contentManager.registerContent('performance-tuning-business-central-extensions', performanceTuningContent);
+  contentManager.registerContent('from-idea-to-appsource-publishing-business-central-app', appSourcePublishingContent);
+  contentManager.registerContent('business-central-business-intelligence-dashboards', businessIntelligenceContent);
+  contentManager.registerContent('devops-cicd-pipelines', devOpsPipelinesContent);
+  contentManager.registerContent('business-central-cloud-migration-strategies', cloudMigrationContent);
+  contentManager.registerContent('business-central-user-experience-optimization', userExperienceContent);
+  contentManager.registerContent('business-central-reporting-analytics-mastery', reportingAnalyticsContent);
+  contentManager.registerContent('business-central-security-compliance-framework', securityComplianceContent);
+  contentManager.registerContent('business-central-workflow-automation-guide', workflowAutomationContent);
+  contentManager.registerContent('business-central-al-extensions-advanced-patterns', alExtensionsAdvancedContent);
+  contentManager.registerContent('business-central-data-migration-zero-downtime-strategies', dataMigrationZeroDowntimeContent);
 
   // For content that hasn't been migrated yet, we'll register placeholder content
   const placeholderPosts = [
-    'exploring-secrettext-feature-business-central',
-    'automating-tests-copilot-extensions-business-central',
     'leveraging-ai-resources-business-central-copilot',
     'refactoring-moving-tables-fields-extensions',
     'enhancing-user-interfaces-cardpageid-extension',
@@ -35,21 +61,9 @@ export const registerAllContent = (): void => {
     'building-first-power-app-business-central-data',
     'business-central-cloud-vs-onpremises-migration-guide',
     'deep-dive-business-foundation-module-business-central',
-    'mastering-api-integrations-business-central-external-services',
-    'performance-tuning-business-central-extensions',
-    'from-idea-to-appsource-publishing-business-central-app',
     'new-report-document-features-business-central',
     'automating-business-processes-power-automate-business-central',
-    'erp-implementation-best-practices',
-    'business-central-al-extensions-advanced-patterns',
-    'business-central-data-migration-zero-downtime-strategies',
-    'business-central-workflow-automation-guide',
-    'business-central-user-experience-optimization',
-    'business-central-reporting-analytics-mastery',
-    'business-central-cloud-migration-strategies',
-    'business-central-business-intelligence-dashboards',
-    'devops-cicd-pipelines',
-    'business-central-security-compliance-framework'
+    'erp-implementation-best-practices'
   ];
 
   // Register placeholder content for posts that haven't been migrated
