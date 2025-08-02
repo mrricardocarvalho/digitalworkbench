@@ -107,7 +107,7 @@ export default defineConfig(({ mode }) => ({
       '@radix-ui/react-use-effect-event',
       '@radix-ui/react-id'
     ],
-    exclude: ['@testing-library/react']
+    exclude: ['@testing-library/react', '@testing-library/dom', '@testing-library/jest-dom']
   },
   resolve: {
     dedupe: ['react', 'react-dom'],

@@ -31,7 +31,12 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: |
+          # Remove testing library dependencies for production build
+          npm pkg delete devDependencies.@testing-library/react
+          npm pkg delete devDependencies.@testing-library/dom  
+          npm pkg delete devDependencies.@testing-library/jest-dom
+          npm ci --legacy-peer-deps
       
       - name: Build project
         run: npm run build
