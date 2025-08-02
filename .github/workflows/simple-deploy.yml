@@ -36,7 +36,8 @@ jobs:
           rm -rf src/test/
           # Use CI-specific package.json without testing dependencies
           cp package.ci.json package.json
-          npm ci --legacy-peer-deps
+          # Use npm install instead of npm ci to avoid lock file conflicts
+          npm install --legacy-peer-deps
       
       - name: Build project
         run: npm run build
