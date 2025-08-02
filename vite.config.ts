@@ -10,21 +10,19 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // React vendor libraries - include Radix UI with React to ensure proper resolution
+          // CRITICAL: React and ALL React-related dependencies MUST be in the same chunk
+          // This includes React core, React DOM, and ALL Radix UI components
           if (id.includes('node_modules/react/') || 
               id.includes('node_modules/react-dom/') ||
-              id.includes('node_modules/@radix-ui/')) {
+              id.includes('node_modules/@radix-ui/') ||
+              id.includes('node_modules/react-router-dom/') || 
+              id.includes('react-router')) {
             return 'react-vendor';
           }
           
-          // React Router - only if actually used
-          if (id.includes('node_modules/react-router-dom/') || id.includes('react-router')) {
-            return 'router';
-          }
-          
-          // Animation libraries
+          // Animation libraries that depend on React
           if (id.includes('node_modules/framer-motion/')) {
-            return 'motion';
+            return 'react-vendor'; // Keep with React to avoid hooks issues
           }
           
           // 3D libraries - split Spline into smaller chunks for better loading
@@ -33,7 +31,7 @@ export default defineConfig(({ mode }) => ({
           }
           
           if (id.includes('node_modules/@splinetool/react-spline')) {
-            return 'spline-react';
+            return 'react-vendor'; // React component, keep with React
           }
           
           if (id.includes('node_modules/@splinetool/')) {
@@ -82,6 +80,11 @@ export default defineConfig(({ mode }) => ({
             return 'vendor';
           }
         },
+        // Ensure proper globals are available
+        globals: {
+          'react': 'React',
+          'react-dom': 'ReactDOM'
+        }
       },
     },
     minify: 'terser',
@@ -117,5 +120,8 @@ export default defineConfig(({ mode }) => ({
     global: 'globalThis',
     // Fix for @radix-ui/react-use-layout-effect and other React hooks dependencies
     'process.env.NODE_ENV': JSON.stringify(mode === 'production' ? 'production' : 'development'),
+    // Ensure React is globally available for all dependencies
+    'window.React': 'React',
+    'globalThis.React': 'React'
   },
 }))
