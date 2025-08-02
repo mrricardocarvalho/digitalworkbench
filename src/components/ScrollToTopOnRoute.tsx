@@ -10,9 +10,15 @@ const ScrollToTopOnRoute: React.FC = () => {
 
   useEffect(() => {
     // Scroll to top when pathname changes
-    // Check if window.scrollTo is available (not in test environment)
-    if (typeof window !== 'undefined' && window.scrollTo) {
-      window.scrollTo(0, 0);
+    // Skip in test environment where window.scrollTo throws "Not implemented"
+    try {
+      if (typeof window !== 'undefined' && 
+          typeof window.scrollTo === 'function') {
+        window.scrollTo(0, 0);
+      }
+    } catch (error) {
+      // Silently ignore errors in test environment
+      // JSDOM throws "Not implemented: window.scrollTo"
     }
   }, [pathname]);
 
