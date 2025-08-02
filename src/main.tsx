@@ -2,6 +2,11 @@ import React from './utils/reactCompat'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
 
+// CRITICAL: Expose React globally for Radix UI and other dependencies
+// This must happen before any other imports that depend on React hooks
+(window as any).React = React;
+(globalThis as any).React = React;
+
 import App from './App.tsx' // Note the .tsx extension
 import './index.css'
 // Initialize PWA manager
