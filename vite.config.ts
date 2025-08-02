@@ -10,8 +10,10 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // React vendor libraries
-          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+          // React vendor libraries - include Radix UI with React to ensure proper resolution
+          if (id.includes('node_modules/react/') || 
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/@radix-ui/')) {
             return 'react-vendor';
           }
           
@@ -97,7 +99,13 @@ export default defineConfig(({ mode }) => ({
       'react-dom', 
       'react-router-dom',
       'framer-motion',
-      '@radix-ui/react-use-layout-effect'
+      '@radix-ui/react-use-layout-effect',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-portal',
+      '@radix-ui/react-presence',
+      '@radix-ui/react-use-controllable-state',
+      '@radix-ui/react-use-effect-event',
+      '@radix-ui/react-id'
     ],
     exclude: ['@testing-library/react']
   },
@@ -107,5 +115,7 @@ export default defineConfig(({ mode }) => ({
   define: {
     // Ensure global React is available for dependencies that expect it
     global: 'globalThis',
+    // Fix for @radix-ui/react-use-layout-effect and other React hooks dependencies
+    'process.env.NODE_ENV': JSON.stringify(mode === 'production' ? 'production' : 'development'),
   },
 }))
