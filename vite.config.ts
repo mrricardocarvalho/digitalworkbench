@@ -92,6 +92,20 @@ export default defineConfig(({ mode }) => ({
     chunkSizeWarningLimit: 5000, // Increased to 5MB for 3D libraries like Spline
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
+    include: [
+      'react', 
+      'react-dom', 
+      'react-router-dom',
+      'framer-motion',
+      '@radix-ui/react-use-layout-effect'
+    ],
+    exclude: ['@testing-library/react']
+  },
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+  },
+  define: {
+    // Ensure global React is available for dependencies that expect it
+    global: 'globalThis',
   },
 }))

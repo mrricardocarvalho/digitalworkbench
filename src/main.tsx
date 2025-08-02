@@ -1,6 +1,7 @@
-import React from 'react'
+import React from './utils/reactCompat'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
+
 import App from './App.tsx' // Note the .tsx extension
 import './index.css'
 // Initialize PWA manager
