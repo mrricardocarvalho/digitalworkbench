@@ -10,33 +10,16 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // CRITICAL FIX: Put ALL React ecosystem in ONE chunk to ensure proper loading
-          // This includes ANY library that might use React hooks
-          if (id.includes('node_modules/react/') || 
-              id.includes('node_modules/react-dom/') ||
-              id.includes('node_modules/@radix-ui/') ||
-              id.includes('node_modules/react-router-dom/') || 
-              id.includes('react-router') ||
-              id.includes('node_modules/framer-motion/') ||
-              id.includes('node_modules/use-sidecar/') ||
-              id.includes('node_modules/use-callback-ref/') ||
-              id.includes('node_modules/use-isomorphic-layout-effect/') ||
-              id.includes('node_modules/@floating-ui/react') ||
-              id.includes('node_modules/react-') ||
-              id.includes('use-layout-effect')) {
-            return 'react-bundle';
-          }
+          // NUCLEAR OPTION: Don't chunk React ecosystem at all - keep everything in main bundle
+          // This ensures React is ALWAYS available when any component needs it
           
+          // Only chunk NON-React related large libraries
           // 3D libraries - split Spline into smaller chunks for better loading
           if (id.includes('node_modules/@splinetool/runtime')) {
             return 'spline-runtime';
           }
           
-          if (id.includes('node_modules/@splinetool/react-spline')) {
-            return 'react-bundle'; // Keep React Spline with React
-          }
-          
-          if (id.includes('node_modules/@splinetool/')) {
+          if (id.includes('node_modules/@splinetool/') && !id.includes('react-spline')) {
             return 'spline-core';
           }
           
@@ -58,7 +41,7 @@ export default defineConfig(({ mode }) => ({
             return 'audio';
           }
           
-          // Utility libraries
+          // Utility libraries (non-React)
           if (id.includes('node_modules/lodash') || id.includes('node_modules/date-fns')) {
             return 'utils';
           }
@@ -77,14 +60,18 @@ export default defineConfig(({ mode }) => ({
             return 'projects';
           }
           
-          // Default to vendor for other node_modules (BUT NOT if they're React-related)
-          if (id.includes('node_modules/')) {
-            // Double-check: if it has any React-related patterns, put in react-bundle
-            if (id.includes('react') || id.includes('use-') || id.includes('hook')) {
-              return 'react-bundle';
-            }
+          // Only vendor chunk for truly non-React dependencies
+          if (id.includes('node_modules/') && 
+              !id.includes('react') && 
+              !id.includes('use-') && 
+              !id.includes('hook') &&
+              !id.includes('@radix-ui') &&
+              !id.includes('framer-motion')) {
             return 'vendor';
           }
+          
+          // Everything else (including ALL React stuff) stays in main bundle
+          // This guarantees React is available when anything needs it
         },
         // Remove globals configuration as it might be causing issues
       },
