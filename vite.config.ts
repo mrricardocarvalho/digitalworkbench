@@ -9,91 +9,13 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // NUCLEAR OPTION: Don't chunk React ecosystem at all - keep everything in main bundle
-          // This ensures React is ALWAYS available when any component needs it
-          
-          // Only chunk NON-React related large libraries
-          // 3D libraries - split Spline into smaller chunks for better loading
-          if (id.includes('node_modules/@splinetool/runtime')) {
-            return 'spline-runtime';
-          }
-          
-          if (id.includes('node_modules/@splinetool/') && !id.includes('react-spline')) {
-            return 'spline-core';
-          }
-          
-          if (id.includes('node_modules/three/build/three.module.js')) {
-            return 'three-core';
-          }
-          
-          if (id.includes('node_modules/three/')) {
-            return 'three-addons';
-          }
-          
-          // Physics libraries
-          if (id.includes('node_modules/@dimforge/') || id.includes('rapier')) {
-            return 'physics';
-          }
-          
-          // Audio libraries
-          if (id.includes('node_modules/howler/')) {
-            return 'audio';
-          }
-          
-          // Utility libraries (non-React)
-          if (id.includes('node_modules/lodash') || id.includes('node_modules/date-fns')) {
-            return 'utils';
-          }
-          
-          // Large analysis/processing libraries
-          if (id.includes('node_modules/opentype') || id.includes('node_modules/gaussian-splat')) {
-            return 'heavy-libs';
-          }
-          
-          // App-specific chunks for large pages
-          if (id.includes('/pages/InsightPostPage')) {
-            return 'blog-post';
-          }
-          
-          if (id.includes('/pages/ProjectsPage') || id.includes('/components/ProjectGallery')) {
-            return 'projects';
-          }
-          
-          // Only vendor chunk for truly non-React dependencies
-          // Be even more strict about what goes into vendor chunk
-          if (id.includes('node_modules/') && 
-              !id.includes('react') && 
-              !id.includes('use-') && 
-              !id.includes('hook') &&
-              !id.includes('@radix-ui') &&
-              !id.includes('framer-motion') &&
-              !id.includes('react-') &&
-              !id.includes('/react/') &&
-              !id.includes('scheduler') &&
-              !id.includes('@types/react') &&
-              !id.includes('prop-types') &&
-              !id.includes('react-dom') &&
-              !id.includes('react-router') &&
-              !id.includes('react-spline') &&
-              // Exclude any library that might depend on React hooks
-              !id.includes('emotion') &&
-              !id.includes('styled') &&
-              !id.includes('chakra') &&
-              !id.includes('mantine') &&
-              !id.includes('antd') &&
-              !id.includes('material-ui') &&
-              !id.includes('@mui/') &&
-              !id.includes('next/') &&
-              !id.includes('gatsby/')) {
-            return 'vendor';
-          }
-          
-          // Everything else (including ALL React stuff) stays in main bundle
-          // This guarantees React is available when anything needs it
-        },
-        // Remove globals configuration as it might be causing issues
-      },
+        manualChunks: () => {
+          // ABSOLUTE NUCLEAR OPTION: NO CHUNKING AT ALL
+          // Everything goes into the main bundle to eliminate any possibility
+          // of React hooks being undefined due to load order issues
+          return undefined;
+        }
+      }
     },
     minify: 'terser',
     terserOptions: {
@@ -102,7 +24,7 @@ export default defineConfig(({ mode }) => ({
         drop_debugger: true,
       },
     },
-    chunkSizeWarningLimit: 5000, // Increased to 5MB for 3D libraries like Spline
+    chunkSizeWarningLimit: 5000, // Increased to 5MB for all dependencies
   },
   optimizeDeps: {
     include: [
