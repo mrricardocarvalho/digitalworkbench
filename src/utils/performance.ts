@@ -62,8 +62,8 @@ export const preloadResource = (
 // Critical font preloading
 export const preloadCriticalFonts = () => {
   const fonts = [
-    '/fonts/inter-var.woff2',
-    '/fonts/jetbrains-mono.woff2'
+    '/digitalworkbench/fonts/inter-var.woff2',
+    '/digitalworkbench/fonts/jetbrains-mono.woff2'
   ];
   
   const cleanupFunctions = fonts.map(font => 
