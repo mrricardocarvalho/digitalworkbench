@@ -1,4 +1,4 @@
-name: Simple Deploy
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -31,13 +31,7 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: |
-          # Remove test files to avoid compilation issues
-          rm -rf src/test/
-          # Use CI-specific package.json without testing dependencies
-          cp package.ci.json package.json
-          # Use npm install instead of npm ci to avoid lock file conflicts
-          npm install --legacy-peer-deps
+        run: npm ci
       
       - name: Build project
         run: npm run build
