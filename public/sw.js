@@ -3,9 +3,9 @@
  * Provides offline capabilities, caching strategies, and background sync
  */
 
-const CACHE_NAME = 'digital-workbench-v4';
-const RUNTIME_CACHE = 'runtime-cache-v3';
-const IMAGE_CACHE = 'image-cache-v3';
+const CACHE_NAME = 'digital-workbench-v5';
+const RUNTIME_CACHE = 'runtime-cache-v4';
+const IMAGE_CACHE = 'image-cache-v4';
 
 // Assets to cache on install
 const STATIC_ASSETS = [
