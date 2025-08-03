@@ -10,19 +10,14 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // SIMPLIFIED APPROACH: Keep ONLY React core together, everything else separate
-          // This prevents the hooks from being split across chunks
+          // CRITICAL FIX: Put ALL React ecosystem in ONE chunk to ensure proper loading
           if (id.includes('node_modules/react/') || 
-              id.includes('node_modules/react-dom/')) {
-            return 'react-core';
-          }
-          
-          // Keep all other React-related libs in vendor to share the same React instance
-          if (id.includes('node_modules/@radix-ui/') ||
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/@radix-ui/') ||
               id.includes('node_modules/react-router-dom/') || 
               id.includes('react-router') ||
               id.includes('node_modules/framer-motion/')) {
-            return 'vendor';
+            return 'react-bundle';
           }
           
           // 3D libraries - split Spline into smaller chunks for better loading
@@ -31,7 +26,7 @@ export default defineConfig(({ mode }) => ({
           }
           
           if (id.includes('node_modules/@splinetool/react-spline')) {
-            return 'vendor'; // React component, keep with other React libs
+            return 'react-bundle'; // Keep React Spline with React
           }
           
           if (id.includes('node_modules/@splinetool/')) {
@@ -106,7 +101,9 @@ export default defineConfig(({ mode }) => ({
       '@radix-ui/react-use-effect-event',
       '@radix-ui/react-id'
     ],
-    exclude: ['@testing-library/react', '@testing-library/dom', '@testing-library/jest-dom']
+    exclude: ['@testing-library/react', '@testing-library/dom', '@testing-library/jest-dom'],
+    // Force pre-bundling of React to ensure it's available first
+    force: true
   },
   resolve: {
     dedupe: ['react', 'react-dom'],
