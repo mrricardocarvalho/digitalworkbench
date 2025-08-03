@@ -61,12 +61,31 @@ export default defineConfig(({ mode }) => ({
           }
           
           // Only vendor chunk for truly non-React dependencies
+          // Be even more strict about what goes into vendor chunk
           if (id.includes('node_modules/') && 
               !id.includes('react') && 
               !id.includes('use-') && 
               !id.includes('hook') &&
               !id.includes('@radix-ui') &&
-              !id.includes('framer-motion')) {
+              !id.includes('framer-motion') &&
+              !id.includes('react-') &&
+              !id.includes('/react/') &&
+              !id.includes('scheduler') &&
+              !id.includes('@types/react') &&
+              !id.includes('prop-types') &&
+              !id.includes('react-dom') &&
+              !id.includes('react-router') &&
+              !id.includes('react-spline') &&
+              // Exclude any library that might depend on React hooks
+              !id.includes('emotion') &&
+              !id.includes('styled') &&
+              !id.includes('chakra') &&
+              !id.includes('mantine') &&
+              !id.includes('antd') &&
+              !id.includes('material-ui') &&
+              !id.includes('@mui/') &&
+              !id.includes('next/') &&
+              !id.includes('gatsby/')) {
             return 'vendor';
           }
           
