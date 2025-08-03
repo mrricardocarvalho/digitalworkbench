@@ -1,4 +1,4 @@
-import React from './utils/reactCompat'
+import * as React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
 
@@ -6,6 +6,15 @@ import { BrowserRouter } from 'react-router-dom';
 // This must happen before any other imports that depend on React hooks
 (window as any).React = React;
 (globalThis as any).React = React;
+
+// Ensure React hooks are available globally
+if (typeof window !== 'undefined') {
+  (window as any).useState = React.useState;
+  (window as any).useEffect = React.useEffect;
+  (window as any).useLayoutEffect = React.useLayoutEffect;
+  (window as any).useContext = React.useContext;
+  (window as any).createContext = React.createContext;
+}
 
 import App from './App.tsx' // Note the .tsx extension
 import './index.css'
