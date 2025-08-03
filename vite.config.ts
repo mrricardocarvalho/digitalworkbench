@@ -11,12 +11,19 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: (id) => {
           // CRITICAL FIX: Put ALL React ecosystem in ONE chunk to ensure proper loading
+          // This includes ANY library that might use React hooks
           if (id.includes('node_modules/react/') || 
               id.includes('node_modules/react-dom/') ||
               id.includes('node_modules/@radix-ui/') ||
               id.includes('node_modules/react-router-dom/') || 
               id.includes('react-router') ||
-              id.includes('node_modules/framer-motion/')) {
+              id.includes('node_modules/framer-motion/') ||
+              id.includes('node_modules/use-sidecar/') ||
+              id.includes('node_modules/use-callback-ref/') ||
+              id.includes('node_modules/use-isomorphic-layout-effect/') ||
+              id.includes('node_modules/@floating-ui/react') ||
+              id.includes('node_modules/react-') ||
+              id.includes('use-layout-effect')) {
             return 'react-bundle';
           }
           
@@ -70,8 +77,12 @@ export default defineConfig(({ mode }) => ({
             return 'projects';
           }
           
-          // Default to vendor for other node_modules
+          // Default to vendor for other node_modules (BUT NOT if they're React-related)
           if (id.includes('node_modules/')) {
+            // Double-check: if it has any React-related patterns, put in react-bundle
+            if (id.includes('react') || id.includes('use-') || id.includes('hook')) {
+              return 'react-bundle';
+            }
             return 'vendor';
           }
         },
@@ -99,7 +110,10 @@ export default defineConfig(({ mode }) => ({
       '@radix-ui/react-presence',
       '@radix-ui/react-use-controllable-state',
       '@radix-ui/react-use-effect-event',
-      '@radix-ui/react-id'
+      '@radix-ui/react-id',
+      'use-sidecar',
+      'use-callback-ref',
+      'use-isomorphic-layout-effect'
     ],
     exclude: ['@testing-library/react', '@testing-library/dom', '@testing-library/jest-dom'],
     // Force pre-bundling of React to ensure it's available first
