@@ -59,11 +59,12 @@ export const preloadResource = (
   };
 };
 
-// Critical font preloading
+// Critical font preloading - DISABLED due to missing font files
 export const preloadCriticalFonts = () => {
-  const fonts = [
-    '/digitalworkbench/fonts/inter-var.woff2',
-    '/digitalworkbench/fonts/jetbrains-mono.woff2'
+  // Fonts disabled to avoid 404 errors - using Google Fonts fallback
+  const fonts: string[] = [
+    // '/digitalworkbench/fonts/inter-var.woff2',
+    // '/digitalworkbench/fonts/jetbrains-mono.woff2'
   ];
   
   const cleanupFunctions = fonts.map(font => 

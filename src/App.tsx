@@ -4,27 +4,21 @@ import { LazyMotion, domAnimation } from 'framer-motion';
 import Layout from './components/Layout';
 import ErrorBoundary from './components/ErrorBoundary';
 import LazyLoader from './components/LazyLoader';
-import LoadingSpinner from './components/LoadingSpinner'; // Import a spinner
-import { CodeSplitStrategies, BundleUtils } from './utils/codeSplitting';
+import LoadingSpinner from './components/LoadingSpinner';
 
-// Destructure the lazy components
-const {
-  HomePage,
-  ProjectsPage,
-  InsightsPage,
-  InsightPostPage,
-  CaseStudyPage,
-  ResumePage,
-  ContactPage,
-  NotFoundPage
-} = CodeSplitStrategies.byRoute;
+// Direct imports since we're using nuclear bundling (no code splitting)
+import HomePage from './pages/HomePage';
+import ProjectsPage from './pages/ProjectsPage';
+import InsightsPage from './pages/InsightsPage';
+import InsightPostPage from './pages/InsightPostPage';
+import CaseStudyPage from './pages/CaseStudyPage';
+import ResumePage from './pages/ResumePage';
+import ContactPage from './pages/ContactPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 const App: React.FC = () => {
-  // Prefetch critical chunks on app load
-  React.useEffect(() => {
-    BundleUtils.prefetchCriticalChunks();
-  }, []);
-
+  // No need for chunk prefetching with nuclear bundling
+  
   return (
     <ErrorBoundary>
       <LazyMotion features={domAnimation}>
