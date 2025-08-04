@@ -97,57 +97,66 @@ export const addPreconnect = (origins: string[]) => {
   });
 };
 
-// Web Vitals measurement
+// Web Vitals measurement with proper browser support detection
 export const measureWebVitals = (): Promise<PerformanceMetrics> => {
   return new Promise((resolve) => {
     const metrics: PerformanceMetrics = {};
+    const observers: PerformanceObserver[] = [];
+    
+    // Helper function to safely create observers
+    const createObserver = (callback: PerformanceObserverCallback, entryTypes: string[]) => {
+      try {
+        // Check if browser supports these entry types
+        const supportedTypes = PerformanceObserver.supportedEntryTypes || [];
+        const validTypes = entryTypes.filter(type => supportedTypes.includes(type));
+        
+        if (validTypes.length > 0) {
+          const observer = new PerformanceObserver(callback);
+          observer.observe({ entryTypes: validTypes });
+          observers.push(observer);
+        }
+      } catch (error) {
+        // Silently fail for unsupported browsers
+      }
+    };
     
     // Measure FCP (First Contentful Paint)
-    const fcpObserver = new PerformanceObserver((list) => {
+    createObserver((list) => {
       const entries = list.getEntries();
       const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
       if (fcpEntry) {
         metrics.fcp = fcpEntry.startTime;
       }
-    });
+    }, ['paint']);
     
     // Measure LCP (Largest Contentful Paint)
-    const lcpObserver = new PerformanceObserver((list) => {
+    createObserver((list) => {
       const entries = list.getEntries();
       const lastEntry = entries[entries.length - 1];
       if (lastEntry) {
         metrics.lcp = lastEntry.startTime;
       }
-    });
+    }, ['largest-contentful-paint']);
     
     // Measure FID (First Input Delay)
-    const fidObserver = new PerformanceObserver((list) => {
+    createObserver((list) => {
       const entries = list.getEntries();
-      const firstEntry = entries[0] as any; // Type assertion for PerformanceEventTiming
+      const firstEntry = entries[0] as any;
       if (firstEntry && firstEntry.processingStart) {
         metrics.fid = firstEntry.processingStart - firstEntry.startTime;
       }
-    });
+    }, ['first-input']);
     
-    // Measure CLS (Cumulative Layout Shift)
+    // Measure CLS (Cumulative Layout Shift) - only if supported
     let clsValue = 0;
-    const clsObserver = new PerformanceObserver((list) => {
+    createObserver((list) => {
       for (const entry of list.getEntries()) {
         if (!(entry as any).hadRecentInput) {
           clsValue += (entry as any).value;
         }
       }
       metrics.cls = clsValue;
-    });
-    
-    try {
-      fcpObserver.observe({ entryTypes: ['paint'] });
-      lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-      fidObserver.observe({ entryTypes: ['first-input'] });
-      clsObserver.observe({ entryTypes: ['layout-shift'] });
-    } catch (error) {
-      console.warn('Performance observer not supported:', error);
-    }
+    }, ['layout-shift']);
     
     // Get TTFB from navigation timing
     if ('navigation' in performance) {
@@ -161,11 +170,8 @@ export const measureWebVitals = (): Promise<PerformanceMetrics> => {
     setTimeout(() => {
       resolve(metrics);
       
-      // Cleanup observers
-      fcpObserver.disconnect();
-      lcpObserver.disconnect();
-      fidObserver.disconnect();
-      clsObserver.disconnect();
+      // Cleanup all observers
+      observers.forEach(observer => observer.disconnect());
     }, 3000);
   });
 };
