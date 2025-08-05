@@ -69,7 +69,8 @@ const getArticleMetadata = (slug: string) => {
 };
 
 // Get all blog posts from content management system
-const blogPosts = contentManager.getAllBlogPosts();
+// This will be moved inside the component to ensure it runs after content registration
+// const blogPosts = contentManager.getAllBlogPosts();
 
 // Function to get markdown content for each post using content management system
 const getPostContent = async (slug: string): Promise<string> => {
@@ -95,8 +96,16 @@ const InsightPostPage: React.FC = () => {
   const [error, setError] = useState<string>('');
   const [startTime] = useState<number>(Date.now());
   const [scrollDepth, setScrollDepth] = useState<number>(0);
+  const [blogPosts, setBlogPosts] = useState<any[]>([]);
   
   const { trackArticleEngagement, trackUserJourney, trackError } = useAnalytics();
+
+  // Load blog posts after content registration
+  useEffect(() => {
+    const posts = contentManager.getAllBlogPosts();
+    setBlogPosts(posts);
+    console.log('📋 Loaded blog posts:', posts.length, 'posts found');
+  }, []);
 
   const currentPost = blogPosts.find(post => post.slug === slug);
 

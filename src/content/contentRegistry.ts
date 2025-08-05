@@ -5,25 +5,8 @@
 
 import { contentManager } from '../utils/contentManager';
 
-// Import markdown content files
-import performanceBottlenecksContent from './blog/business-central-performance-bottlenecks-guide.md?raw';
-import advancedAlDevelopmentContent from './blog/advanced-al-development-interfaces-abstract-classes.md?raw';
-import secretTextFeatureContent from './blog/exploring-secrettext-feature-business-central.md?raw';
-import automatingTestsContent from './blog/automating-tests-copilot-extensions-business-central.md?raw';
-import apiIntegrationsContent from './blog/mastering-api-integrations-business-central-external-services.md?raw';
-import performanceTuningContent from './blog/performance-tuning-business-central-extensions.md?raw';
-import appSourcePublishingContent from './blog/from-idea-to-appsource-publishing-business-central-app.md?raw';
-import businessIntelligenceContent from './blog/business-central-business-intelligence-dashboards.md?raw';
-import devOpsPipelinesContent from './blog/devops-cicd-pipelines.md?raw';
-import cloudMigrationContent from './blog/business-central-cloud-migration-strategies.md?raw';
-import userExperienceContent from './blog/business-central-user-experience-optimization.md?raw';
-import reportingAnalyticsContent from './blog/business-central-reporting-analytics-mastery.md?raw';
-import securityComplianceContent from './blog/business-central-security-compliance-framework.md?raw';
-import workflowAutomationContent from './blog/business-central-workflow-automation-guide.md?raw';
-import alExtensionsAdvancedContent from './blog/business-central-al-extensions-advanced-patterns.md?raw';
-import dataMigrationZeroDowntimeContent from './blog/business-central-data-migration-zero-downtime-strategies.md?raw';
-import leveragingAiResourcesContent from './blog/leveraging-ai-resources-business-central-copilot.md?raw';
-import refactoringMovingTablesContent from './insights/refactoring-moving-tables-fields-extensions.md?raw';
+// TESTING - Remove markdown import completely
+// import performanceBottlenecksContent from './blog/business-central-performance-bottlenecks-guide.md?raw';
 
 /**
  * Register all blog post content
@@ -33,11 +16,163 @@ export const registerAllContent = (): void => {
   try {
     console.log('🔄 Starting content registration...');
     
-    // Register existing markdown files
+    // Register existing markdown files - TESTING WITH SIMPLE STRING
     console.log('📝 Registering real markdown content...');
-    contentManager.registerContent('business-central-performance-bottlenecks-guide', performanceBottlenecksContent);
+    
+    // TESTING: Use complete article content instead of just short test
+    const testContent = `---
+title: "Business Central Performance Bottlenecks: The Complete Developer's Guide"
+description: "Complete guide to identifying and fixing performance bottlenecks"
+date: "2025-07-22"
+readingTime: 15
+featured: true
+tags: ["Business Central", "Performance"]
+categories: ["Development"]
+author: "Ricardo Carvalho"
+published: true
+---
+
+# Business Central Performance Bottlenecks: The Complete Developer's Guide
+
+Performance issues in Business Central don't just frustrate users—they cost businesses thousands in lost productivity daily. After optimizing hundreds of BC environments over 20+ years, I've identified the most critical bottlenecks that plague implementations.
+
+**The reality**: Most performance problems aren't infrastructure-related. They're caused by **poor coding practices**, **inefficient database queries**, and **architectural decisions** made during development.
+
+In this comprehensive guide, you'll discover the exact techniques I use to diagnose, fix, and prevent the 7 most critical performance bottlenecks in Business Central.
+
+## Why Performance Optimization Is Business-Critical
+
+The hidden cost of poor performance affects every aspect of your business:
+
+- **58% of users abandon tasks** when pages take over 3 seconds to load
+- **Every additional second** of loading time reduces user satisfaction by 16%
+- **Poor performing systems** increase error rates by 23%
+- **Frustrated users** create 40% more support tickets
+
+## Bottleneck #1: Inefficient Database Queries
+
+The most common performance killer I encounter is the N+1 query pattern, where a loop executes individual database queries instead of using set-based operations.
+
+### The Problem: N+1 Query Patterns
+
+**Bad Pattern (Avoid This):**
+
+\`\`\`al
+procedure CalculateCustomerTotals()
+var
+    Customer: Record Customer;
+    SalesHeader: Record "Sales Header";
+    CustomerTotal: Decimal;
+begin
+    // DON'T DO THIS - Creates N+1 queries
+    if Customer.FindSet() then
+        repeat
+            SalesHeader.SetRange("Sell-to Customer No.", Customer."No.");
+            SalesHeader.CalcSums(Amount);
+            CustomerTotal := SalesHeader.Amount;
+            // Process individual customer
+            UpdateCustomerStatistics(Customer."No.", CustomerTotal);
+        until Customer.Next() = 0;
+end;
+\`\`\`
+
+**Optimized Solution:**
+
+\`\`\`al
+procedure CalculateCustomerTotalsOptimized()
+var
+    Customer: Record Customer;
+    SalesHeader: Record "Sales Header";
+    TempCustomerTotals: Record "Integer" temporary;
+begin
+    // Use set-based operation with single query
+    SalesHeader.SetCurrentKey("Sell-to Customer No.");
+    if SalesHeader.FindSet() then begin
+        repeat
+            if TempCustomerTotals.Get(SalesHeader."Sell-to Customer No.") then begin
+                TempCustomerTotals.Number += SalesHeader.Amount;
+                TempCustomerTotals.Modify();
+            end else begin
+                TempCustomerTotals."No." := SalesHeader."Sell-to Customer No.";
+                TempCustomerTotals.Number := SalesHeader.Amount;
+                TempCustomerTotals.Insert();
+            end;
+        until SalesHeader.Next() = 0;
+        
+        // Process all customers in single operation
+        ProcessCustomerTotalsBatch(TempCustomerTotals);
+    end;
+end;
+\`\`\`
+
+**Performance Impact**: 95% reduction in database calls, 70% faster execution time.
+
+## Bottleneck #2: Unoptimized FlowFields
+
+FlowFields that aren't properly optimized can trigger expensive calculations on every record access.
+
+### The Problem: Excessive FlowField Calculations
+
+**Problem Code:**
+
+\`\`\`al
+// Expensive FlowField calculation
+flowfield("Total Sales Amount"; Decimal)
+{
+    FieldClass = FlowField;
+    CalcFormula = Sum("Sales Line".Amount WHERE("Sell-to Customer No." = FIELD("No.")));
+    Editable = false;
+}
+\`\`\`
+
+**Optimized Solution:**
+
+\`\`\`al
+// Optimized with proper filtering
+flowfield("Total Sales Amount"; Decimal)
+{
+    FieldClass = FlowField;
+    CalcFormula = Sum("Sales Line".Amount WHERE(
+        "Sell-to Customer No." = FIELD("No."),
+        "Document Type" = CONST(Order),
+        "Line Type" = CONST(Item)));
+    Editable = false;
+}
+
+// Use explicit CalcFields only when needed
+procedure GetCustomerSalesTotal(CustomerNo: Code[20]): Decimal
+var
+    Customer: Record Customer;
+begin
+    if Customer.Get(CustomerNo) then begin
+        Customer.CalcFields("Total Sales Amount");
+        exit(Customer."Total Sales Amount");
+    end;
+    exit(0);
+end;
+\`\`\`
+
+## Conclusion: Building Performance Into Your Development Process
+
+Performance optimization isn't a one-time task—it's a mindset that should be integrated into every development decision:
+
+- **Design with performance in mind** from the beginning
+- **Profile early and often** during development
+- **Use proper indexing strategies** for your data access patterns
+- **Implement monitoring** to catch issues before users do
+- **Test with realistic data volumes** and user loads
+
+Remember: **Every millisecond counts**. In today's competitive landscape, system performance directly impacts business success.
+
+*Need help optimizing your Business Central environment? As a Senior Business Central Developer with 20+ years of experience, I've helped hundreds of organizations achieve dramatic performance improvements through strategic optimization and architectural best practices.*`;
+    
+    console.log('📋 Registering test content with length: ' + testContent.length);
+    
+    contentManager.registerContent('business-central-performance-bottlenecks-guide', testContent);
     console.log('✅ Registered: business-central-performance-bottlenecks-guide');
     
+    // TEMPORARILY COMMENTED OUT FOR TESTING
+    /*
     contentManager.registerContent('advanced-al-development-interfaces-abstract-classes', advancedAlDevelopmentContent);
     contentManager.registerContent('exploring-secrettext-feature-business-central', secretTextFeatureContent);
     console.log('✅ Registered: exploring-secrettext-feature-business-central');
@@ -57,6 +192,7 @@ export const registerAllContent = (): void => {
     contentManager.registerContent('business-central-data-migration-zero-downtime-strategies', dataMigrationZeroDowntimeContent);
     contentManager.registerContent('leveraging-ai-resources-business-central-copilot', leveragingAiResourcesContent);
     contentManager.registerContent('refactoring-moving-tables-fields-extensions', refactoringMovingTablesContent);
+    */
 
     console.log('✅ All real content registered successfully!');
 
@@ -75,7 +211,27 @@ export const registerAllContent = (): void => {
       'deep-dive-business-foundation-module-business-central',
       'new-report-document-features-business-central',
       'automating-business-processes-power-automate-business-central',
-      'erp-implementation-best-practices'
+      'erp-implementation-best-practices',
+      // Add the missing articles you mentioned
+      'automating-tests-copilot-extensions-business-central',
+      'leveraging-ai-resources-business-central-copilot',
+      'refactoring-moving-tables-fields-extensions',
+      // Add this missing article from the commented section
+      'exploring-secrettext-feature-business-central',
+      // Add all the remaining commented-out articles
+      'advanced-al-development-interfaces-abstract-classes',
+      'mastering-api-integrations-business-central-external-services',
+      'performance-tuning-business-central-extensions',
+      'from-idea-to-appsource-publishing-business-central-app',
+      'business-central-business-intelligence-dashboards',
+      'devops-cicd-pipelines',
+      'business-central-cloud-migration-strategies',
+      'business-central-user-experience-optimization',
+      'business-central-reporting-analytics-mastery',
+      'business-central-security-compliance-framework',
+      'business-central-workflow-automation-guide',
+      'business-central-al-extensions-advanced-patterns',
+      'business-central-data-migration-zero-downtime-strategies'
     ];
 
     // Register placeholder content for posts that haven't been migrated
@@ -84,7 +240,7 @@ export const registerAllContent = (): void => {
       contentManager.registerContent(slug, placeholderContent);
     });
 
-    console.log(`✅ REGISTRATION COMPLETE: ${18} real posts + ${placeholderPosts.length} placeholder posts registered!`);
+    console.log(`✅ REGISTRATION COMPLETE: ${1} real posts + ${placeholderPosts.length} placeholder posts registered!`);
   } catch (error) {
     console.error('❌ CONTENT REGISTRATION FAILED:', error);
     console.error('Stack trace:', (error as Error)?.stack || 'No stack trace available');

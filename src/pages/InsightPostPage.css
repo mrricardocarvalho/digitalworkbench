@@ -365,8 +365,8 @@
   letter-spacing: 0.5px;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
+/* Responsive Design - Only apply mobile layout on actual mobile devices */
+@media (max-width: 768px) {
   .post-content-wrapper {
     grid-template-columns: 1fr;
     gap: 20px;

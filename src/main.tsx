@@ -24,7 +24,11 @@ import './utils/pwa';
 import { loadCriticalResources, registerServiceWorker, optimizeImageLoading } from './utils/performance';
 import { initializeFontLoading } from './utils/fontLoading';
 // Initialize content management system
+console.log('🔄 About to import registerAllContent...');
+
 import { registerAllContent } from './content/contentRegistry';
+
+console.log('✅ registerAllContent imported successfully!');
 
 // GitHub Pages SPA routing fix
 // This script checks to see if a redirect is present in the query string,
@@ -54,7 +58,17 @@ initializeFontLoading().catch(console.warn);
 registerServiceWorker().catch(console.warn);
 
 // Initialize content management system
-registerAllContent();
+try {
+  console.log('🔄 About to register content...');
+  registerAllContent();
+  console.log('✅ Content registration completed successfully!');
+} catch (error) {
+  console.error('❌ CRITICAL ERROR in content registration:', error);
+  console.error('Stack:', (error as Error)?.stack);
+  
+  // Continue anyway with empty content
+  console.log('⚠️ Continuing with empty content...');
+}
 
 // Optimized Google Font loading with font-display: swap
 const fontLink = document.createElement('link');
