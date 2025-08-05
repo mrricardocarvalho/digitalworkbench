@@ -30,56 +30,65 @@ import refactoringMovingTablesContent from './insights/refactoring-moving-tables
  * This function should be called during app initialization
  */
 export const registerAllContent = (): void => {
-  console.log('🔄 Starting content registration...');
-  
-  // Register existing markdown files
-  console.log('📝 Registering real markdown content...');
-  contentManager.registerContent('business-central-performance-bottlenecks-guide', performanceBottlenecksContent);
-  console.log('✅ Registered: business-central-performance-bottlenecks-guide');
-  contentManager.registerContent('advanced-al-development-interfaces-abstract-classes', advancedAlDevelopmentContent);
-  contentManager.registerContent('exploring-secrettext-feature-business-central', secretTextFeatureContent);
-  console.log('✅ Registered: exploring-secrettext-feature-business-central');
-  contentManager.registerContent('automating-tests-copilot-extensions-business-central', automatingTestsContent);
-  contentManager.registerContent('mastering-api-integrations-business-central-external-services', apiIntegrationsContent);
-  contentManager.registerContent('performance-tuning-business-central-extensions', performanceTuningContent);
-  contentManager.registerContent('from-idea-to-appsource-publishing-business-central-app', appSourcePublishingContent);
-  contentManager.registerContent('business-central-business-intelligence-dashboards', businessIntelligenceContent);
-  contentManager.registerContent('devops-cicd-pipelines', devOpsPipelinesContent);
-  contentManager.registerContent('business-central-cloud-migration-strategies', cloudMigrationContent);
-  contentManager.registerContent('business-central-user-experience-optimization', userExperienceContent);
-  contentManager.registerContent('business-central-reporting-analytics-mastery', reportingAnalyticsContent);
-  contentManager.registerContent('business-central-security-compliance-framework', securityComplianceContent);
-  contentManager.registerContent('business-central-workflow-automation-guide', workflowAutomationContent);
-  contentManager.registerContent('business-central-al-extensions-advanced-patterns', alExtensionsAdvancedContent);
-  contentManager.registerContent('business-central-data-migration-zero-downtime-strategies', dataMigrationZeroDowntimeContent);
-  contentManager.registerContent('leveraging-ai-resources-business-central-copilot', leveragingAiResourcesContent);
-  contentManager.registerContent('refactoring-moving-tables-fields-extensions', refactoringMovingTablesContent);
+  try {
+    console.log('🔄 Starting content registration...');
+    
+    // Register existing markdown files
+    console.log('📝 Registering real markdown content...');
+    contentManager.registerContent('business-central-performance-bottlenecks-guide', performanceBottlenecksContent);
+    console.log('✅ Registered: business-central-performance-bottlenecks-guide');
+    
+    contentManager.registerContent('advanced-al-development-interfaces-abstract-classes', advancedAlDevelopmentContent);
+    contentManager.registerContent('exploring-secrettext-feature-business-central', secretTextFeatureContent);
+    console.log('✅ Registered: exploring-secrettext-feature-business-central');
+    
+    contentManager.registerContent('automating-tests-copilot-extensions-business-central', automatingTestsContent);
+    contentManager.registerContent('mastering-api-integrations-business-central-external-services', apiIntegrationsContent);
+    contentManager.registerContent('performance-tuning-business-central-extensions', performanceTuningContent);
+    contentManager.registerContent('from-idea-to-appsource-publishing-business-central-app', appSourcePublishingContent);
+    contentManager.registerContent('business-central-business-intelligence-dashboards', businessIntelligenceContent);
+    contentManager.registerContent('devops-cicd-pipelines', devOpsPipelinesContent);
+    contentManager.registerContent('business-central-cloud-migration-strategies', cloudMigrationContent);
+    contentManager.registerContent('business-central-user-experience-optimization', userExperienceContent);
+    contentManager.registerContent('business-central-reporting-analytics-mastery', reportingAnalyticsContent);
+    contentManager.registerContent('business-central-security-compliance-framework', securityComplianceContent);
+    contentManager.registerContent('business-central-workflow-automation-guide', workflowAutomationContent);
+    contentManager.registerContent('business-central-al-extensions-advanced-patterns', alExtensionsAdvancedContent);
+    contentManager.registerContent('business-central-data-migration-zero-downtime-strategies', dataMigrationZeroDowntimeContent);
+    contentManager.registerContent('leveraging-ai-resources-business-central-copilot', leveragingAiResourcesContent);
+    contentManager.registerContent('refactoring-moving-tables-fields-extensions', refactoringMovingTablesContent);
 
-  // For content that hasn't been migrated yet, we'll register placeholder content
-  const placeholderPosts = [
-    'enhancing-user-interfaces-cardpageid-extension',
-    'ai-powered-features-business-central-guide',
-    'migrating-dynamics-gp-business-central-guide',
-    'mastering-dotnet-assemblies-business-central',
-    'crafting-effective-success-messages-business-central',
-    'advanced-email-handling-business-central',
-    'getting-started-ai-customizing-copilot-business-central',
-    'whats-new-developers-business-central-2026-release',
-    'building-first-power-app-business-central-data',
-    'business-central-cloud-vs-onpremises-migration-guide',
-    'deep-dive-business-foundation-module-business-central',
-    'new-report-document-features-business-central',
-    'automating-business-processes-power-automate-business-central',
-    'erp-implementation-best-practices'
-  ];
+    console.log('✅ All real content registered successfully!');
 
-  // Register placeholder content for posts that haven't been migrated
-  placeholderPosts.forEach(slug => {
-    const placeholderContent = createPlaceholderContent(slug);
-    contentManager.registerContent(slug, placeholderContent);
-  });
+    // For content that hasn't been migrated yet, we'll register placeholder content
+    const placeholderPosts = [
+      'enhancing-user-interfaces-cardpageid-extension',
+      'ai-powered-features-business-central-guide',
+      'migrating-dynamics-gp-business-central-guide',
+      'mastering-dotnet-assemblies-business-central',
+      'crafting-effective-success-messages-business-central',
+      'advanced-email-handling-business-central',
+      'getting-started-ai-customizing-copilot-business-central',
+      'whats-new-developers-business-central-2026-release',
+      'building-first-power-app-business-central-data',
+      'business-central-cloud-vs-onpremises-migration-guide',
+      'deep-dive-business-foundation-module-business-central',
+      'new-report-document-features-business-central',
+      'automating-business-processes-power-automate-business-central',
+      'erp-implementation-best-practices'
+    ];
 
-  console.log(`Registered ${18} real posts + ${placeholderPosts.length} placeholder posts in content management system`);
+    // Register placeholder content for posts that haven't been migrated
+    placeholderPosts.forEach(slug => {
+      const placeholderContent = createPlaceholderContent(slug);
+      contentManager.registerContent(slug, placeholderContent);
+    });
+
+    console.log(`✅ REGISTRATION COMPLETE: ${18} real posts + ${placeholderPosts.length} placeholder posts registered!`);
+  } catch (error) {
+    console.error('❌ CONTENT REGISTRATION FAILED:', error);
+    console.error('Stack trace:', (error as Error)?.stack || 'No stack trace available');
+  }
 };
 
 /**

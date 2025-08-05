@@ -74,10 +74,15 @@ const blogPosts = contentManager.getAllBlogPosts();
 // Function to get markdown content for each post using content management system
 const getPostContent = async (slug: string): Promise<string> => {
   try {
+    console.log(`🔍 Loading content for slug: ${slug}`);
     const blogPost = await contentManager.loadBlogPost(slug);
+    console.log(`📄 Blog post found:`, blogPost ? 'YES' : 'NO');
+    if (blogPost) {
+      console.log(`📝 Content length:`, blogPost.content?.length || 0);
+    }
     return blogPost?.content || '';
   } catch (error) {
-    console.error(`Error loading content for slug: ${slug}`, error);
+    console.error(`❌ Error loading content for slug: ${slug}`, error);
     return '';
   }
 };
