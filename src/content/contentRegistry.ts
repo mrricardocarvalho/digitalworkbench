@@ -1,8 +1,5 @@
 /**
- * Content Registimport alExtensionsAdvancedContent from './blog/business-central-al-extensions-advanced-patterns.md?raw';
-import dataMigrationZeroDowntimeContent from './insights/business-central-data-migration-zero-downtime-strategies.md?raw';
-import leveragingAiResourcesContent from './insights/leveraging-ai-resources-business-central-copilot.md?raw';
-import refactoringMovingTablesContent from './insights/refactoring-moving-tables-fields-extensions.md?raw';
+ * Content Registry
  * Registers all blog post content for the content management system
  */
 
