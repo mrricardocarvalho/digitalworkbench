@@ -1,5 +1,8 @@
 /**
- * Content Registry
+ * Content Registimport alExtensionsAdvancedContent from './blog/business-central-al-extensions-advanced-patterns.md?raw';
+import dataMigrationZeroDowntimeContent from './insights/business-central-data-migration-zero-downtime-strategies.md?raw';
+import leveragingAiResourcesContent from './insights/leveraging-ai-resources-business-central-copilot.md?raw';
+import refactoringMovingTablesContent from './insights/refactoring-moving-tables-fields-extensions.md?raw';
  * Registers all blog post content for the content management system
  */
 
@@ -23,6 +26,7 @@ import workflowAutomationContent from './blog/business-central-workflow-automati
 import alExtensionsAdvancedContent from './blog/business-central-al-extensions-advanced-patterns.md?raw';
 import dataMigrationZeroDowntimeContent from './blog/business-central-data-migration-zero-downtime-strategies.md?raw';
 import leveragingAiResourcesContent from './blog/leveraging-ai-resources-business-central-copilot.md?raw';
+import refactoringMovingTablesContent from './insights/refactoring-moving-tables-fields-extensions.md?raw';
 
 /**
  * Register all blog post content
@@ -47,10 +51,10 @@ export const registerAllContent = (): void => {
   contentManager.registerContent('business-central-al-extensions-advanced-patterns', alExtensionsAdvancedContent);
   contentManager.registerContent('business-central-data-migration-zero-downtime-strategies', dataMigrationZeroDowntimeContent);
   contentManager.registerContent('leveraging-ai-resources-business-central-copilot', leveragingAiResourcesContent);
+  contentManager.registerContent('refactoring-moving-tables-fields-extensions', refactoringMovingTablesContent);
 
   // For content that hasn't been migrated yet, we'll register placeholder content
   const placeholderPosts = [
-    'refactoring-moving-tables-fields-extensions',
     'enhancing-user-interfaces-cardpageid-extension',
     'ai-powered-features-business-central-guide',
     'migrating-dynamics-gp-business-central-guide',
