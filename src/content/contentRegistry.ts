@@ -30,10 +30,15 @@ import refactoringMovingTablesContent from './insights/refactoring-moving-tables
  * This function should be called during app initialization
  */
 export const registerAllContent = (): void => {
+  console.log('🔄 Starting content registration...');
+  
   // Register existing markdown files
+  console.log('📝 Registering real markdown content...');
   contentManager.registerContent('business-central-performance-bottlenecks-guide', performanceBottlenecksContent);
+  console.log('✅ Registered: business-central-performance-bottlenecks-guide');
   contentManager.registerContent('advanced-al-development-interfaces-abstract-classes', advancedAlDevelopmentContent);
   contentManager.registerContent('exploring-secrettext-feature-business-central', secretTextFeatureContent);
+  console.log('✅ Registered: exploring-secrettext-feature-business-central');
   contentManager.registerContent('automating-tests-copilot-extensions-business-central', automatingTestsContent);
   contentManager.registerContent('mastering-api-integrations-business-central-external-services', apiIntegrationsContent);
   contentManager.registerContent('performance-tuning-business-central-extensions', performanceTuningContent);
@@ -74,7 +79,7 @@ export const registerAllContent = (): void => {
     contentManager.registerContent(slug, placeholderContent);
   });
 
-  console.log(`Registered ${placeholderPosts.length + 2} blog posts in content management system`);
+  console.log(`Registered ${18} real posts + ${placeholderPosts.length} placeholder posts in content management system`);
 };
 
 /**

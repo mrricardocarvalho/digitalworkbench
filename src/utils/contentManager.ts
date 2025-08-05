@@ -384,6 +384,7 @@ class ContentManager {
    * Register content for a slug
    */
   registerContent(slug: string, markdownContent: string): void {
+    console.log(`📋 Registering content for slug: ${slug}, content length: ${markdownContent.length}`);
     this.contentRegistry.set(slug, markdownContent);
   }
 
@@ -391,16 +392,23 @@ class ContentManager {
    * Load blog post by slug
    */
   async loadBlogPost(slug: string): Promise<BlogPostContent | null> {
+    console.log(`🔍 Loading blog post: ${slug}`);
+    
     // Check cache first
     if (this.cache.has(slug)) {
+      console.log(`💾 Found in cache: ${slug}`);
       return this.cache.get(slug)!;
     }
 
     // Get content from registry
     const markdownContent = this.contentRegistry.get(slug);
     if (!markdownContent) {
+      console.log(`❌ No content found in registry for: ${slug}`);
+      console.log(`📋 Available slugs:`, Array.from(this.contentRegistry.keys()));
       return null;
     }
+
+    console.log(`✅ Found content for ${slug}, length: ${markdownContent.length}`);
 
     try {
       const { frontmatter, content } = parseFrontmatter(markdownContent);
