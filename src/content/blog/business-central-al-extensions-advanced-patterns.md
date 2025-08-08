@@ -1,7 +1,7 @@
 ---
 title: "Business Central AL Extensions Advanced Patterns: Master Enterprise-Grade Development"
 description: "Unlock advanced AL development patterns including dependency injection, factory patterns, observer design, event-driven architecture, and enterprise scalability techniques for Business Central extensions."
-date: "2025-08-04"
+date: "2025-08-03"
 readingTime: 18
 featured: true
 tags: ["Business Central", "AL Development", "Design Patterns", "Enterprise Development", "Software Architecture", "Extension Development"]

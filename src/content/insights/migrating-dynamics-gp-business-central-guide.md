@@ -1,7 +1,7 @@
 ---
 title: "Migrating from Dynamics GP to Business Central: Benefits and Best Practices"
 description: "Complete migration guide from Dynamics GP to Business Central. Cloud-native scalability, modern features, step-by-step developer assistance, and common challenge solutions."
-date: "2025-08-07"
+date: "2025-07-23"
 readingTime: 13
 featured: false
 tags: ["Migration", "Dynamics GP", "Cloud Migration", "Data Migration"]

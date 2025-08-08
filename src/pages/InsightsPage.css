@@ -1,10 +1,53 @@
+/* ===== INSIGHTS PAGE - UNIFIED DESIGN SYSTEM ===== */
 .insights-header { text-align: center; padding: 60px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 60px; }
 .insights-header h1 { font-size: 3rem; margin-bottom: 10px; }
 .insights-subtitle { font-size: 1.2rem; color: var(--subtle-text-color); }
-.insights-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-.insight-card { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; display: flex; flex-direction: column; transition: border-color 0.3s ease; }
-.insight-card:hover { border-color: var(--accent-color); }
-.insight-card h3 { font-size: 1.6rem; margin-bottom: 10px; }
-.insight-card p { color: var(--subtle-text-color); margin-bottom: 20px; flex-grow: 1; }
-.insight-meta { color: var(--subtle-text-color); font-size: 0.9rem; margin-bottom: 15px; }
+
+/* UPDATED: Unified grid system */
+.insights-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+  gap: 1.5rem; 
+}
+
+/* UPDATED: Unified card design */
+.insight-card { 
+  background-color: var(--surface-color); 
+  border: 1px solid var(--border-color); 
+  border-radius: 12px; /* Updated from 8px for consistency */
+  padding: 1.5rem; /* Standardized from 25px */
+  display: flex; 
+  flex-direction: column; 
+  transition: all 0.2s ease; /* Smoother transition */
+  height: 100%; /* Ensure equal height cards */
+}
+
+/* UPDATED: Enhanced hover effects */
+.insight-card:hover { 
+  border-color: var(--accent-color);
+  transform: translateY(-4px) scale(1.01); /* Unified hover animation */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* UPDATED: Improved typography */
+.insight-card h3 { 
+  font-size: 1.25rem; /* Slightly smaller for better hierarchy */
+  margin-bottom: 0.75rem; /* Consistent spacing */
+  color: var(--text-color);
+}
+
+.insight-card p { 
+  color: var(--subtle-text-color); 
+  margin-bottom: 1rem; /* Consistent spacing */
+  flex-grow: 1; 
+  line-height: 1.6; /* Better readability */
+}
+
+/* UPDATED: Consistent metadata styling */
+.insight-meta { 
+  color: var(--subtle-text-color); 
+  font-size: 0.875rem; /* Using consistent text scale */
+  margin-bottom: 0.75rem; 
+}
+
 .insight-meta span { margin-right: 8px; }

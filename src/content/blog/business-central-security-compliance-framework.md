@@ -1,7 +1,7 @@
 ---
 title: "Business Central Security Compliance Framework: Enterprise-Grade Protection and Governance"
 description: "Master Business Central security and compliance with comprehensive frameworks covering GDPR, SOX, ISO 27001, data protection, access controls, and audit trails for enterprise environments."
-date: "2025-08-04"
+date: "2025-08-01"
 readingTime: 17
 featured: true
 tags: ["Business Central", "Security", "Compliance", "GDPR", "SOX", "ISO 27001", "Data Protection", "Access Control"]

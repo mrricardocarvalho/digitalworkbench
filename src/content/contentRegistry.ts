@@ -38,7 +38,7 @@ export const registerAllContent = (): void => {
     const testContent = `---
 title: "Business Central Performance Bottlenecks: The Complete Developer's Guide"
 description: "Complete guide to identifying and fixing performance bottlenecks that cost businesses thousands daily. Master the 7 critical optimization techniques used by top BC developers."
-date: "2025-07-22"
+date: "2025-07-31"
 readingTime: 15
 featured: true
 tags: ["Business Central", "Performance", "Optimization", "AL Development"]

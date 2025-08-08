@@ -1,7 +1,7 @@
 ---
 title: "Mastering .NET Assemblies in Business Central Development"
 description: "In-depth guide to using .NET assemblies in AL code. Setup, integration, common use cases with examples for external APIs and complex data processing to extend BC functionality."
-date: "2025-08-07"
+date: "2025-07-25"
 readingTime: 10
 featured: false
 tags: [".NET", "AL Development", "Integration", "External APIs"]

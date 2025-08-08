@@ -7,7 +7,7 @@ const blogPosts = [
     slug: "exploring-secrettext-feature-business-central",
     title: "Exploring the New SecretText Feature in Business Central Control Add-ins",
     description: "Master the SecretText feature introduced in 2025 release wave 1. Complete guide to secure data handling in control add-ins and JSON objects with AL code examples and compliance best practices.",
-    date: "July 21, 2025",
+    date: "July 11, 2025",
     readingTime: 8,
     featured: false,
     category: "Security & Compliance"
@@ -16,7 +16,7 @@ const blogPosts = [
     slug: "automating-tests-copilot-extensions-business-central",
     title: "Automating Tests for Copilot Extensions Using Business Central Test Toolkit",
     description: "Comprehensive guide to testing AI-driven features in Business Central. Learn setup, test scripts, and interpretation with practical examples that save time and improve Copilot reliability.",
-    date: "July 21, 2025",
+    date: "July 13, 2025",
     readingTime: 10,
     featured: false,
     category: "Testing & Quality Assurance"
@@ -25,7 +25,7 @@ const blogPosts = [
     slug: "leveraging-ai-resources-business-central-copilot",
     title: "Leveraging AI Resources in Your Business Central Copilot Extensions",
     description: "Explore Azure AI integration in Business Central 2025. Build intelligent extensions with predictive analytics, natural language processing, and sample projects demonstrating AI capabilities.",
-    date: "July 21, 2025",
+    date: "July 15, 2025",
     readingTime: 12,
     featured: false,
     category: "AI & Machine Learning"
@@ -34,7 +34,7 @@ const blogPosts = [
     slug: "refactoring-moving-tables-fields-extensions",
     title: "Refactoring Made Easy: Moving Tables and Fields Across Extensions with Data",
     description: "Master the new capability to move tables and fields with data during refactoring. Streamline extension updates, reduce errors, and maintain data integrity with real-world scenarios.",
-    date: "July 21, 2025",
+    date: "July 17, 2025",
     readingTime: 9,
     featured: false,
     category: "Database & Extensions"
@@ -43,7 +43,7 @@ const blogPosts = [
     slug: "enhancing-user-interfaces-cardpageid-extension",
     title: "Enhancing User Interfaces: Extending CardPageId on List and ListPart Pages",
     description: "Customize user interfaces with CardPageId extension features. Create intuitive navigation and tailored user experiences with practical AL code samples and implementation examples.",
-    date: "July 21, 2025",
+    date: "July 19, 2025",
     readingTime: 7,
     featured: false,
     category: "User Interface"
@@ -61,7 +61,7 @@ const blogPosts = [
     slug: "migrating-dynamics-gp-business-central-guide",
     title: "Migrating from Dynamics GP to Business Central: Benefits and Best Practices",
     description: "Complete migration guide from Dynamics GP to Business Central. Cloud-native scalability, modern features, step-by-step developer assistance, and common challenge solutions.",
-    date: "July 21, 2025",
+    date: "July 23, 2025",
     readingTime: 13,
     featured: false,
     category: "Migration & Cloud"
@@ -70,7 +70,7 @@ const blogPosts = [
     slug: "mastering-dotnet-assemblies-business-central",
     title: "Mastering .NET Assemblies in Business Central Development",
     description: "In-depth guide to using .NET assemblies in AL code. Setup, integration, common use cases with examples for external APIs and complex data processing to extend BC functionality.",
-    date: "July 21, 2025",
+    date: "July 25, 2025",
     readingTime: 10,
     featured: false,
     category: "Advanced Development"
@@ -79,7 +79,7 @@ const blogPosts = [
     slug: "crafting-effective-success-messages-business-central",
     title: "Crafting Effective Success Messages in Business Central",
     description: "Design clear, user-friendly success messages in Business Central applications. Best practices for meaningful feedback, graceful error handling, and improved user experience with AL examples.",
-    date: "July 21, 2025",
+    date: "July 27, 2025",
     readingTime: 6,
     featured: false,
     category: "User Experience"
@@ -88,7 +88,7 @@ const blogPosts = [
     slug: "advanced-email-handling-business-central",
     title: "Advanced Email Handling in Business Central: CC, BCC, and More",
     description: "Implement advanced email functionalities including CC and BCC. Complete tutorial on email workflows, external service integration, and ensuring deliverability with code samples.",
-    date: "July 21, 2025",
+    date: "July 29, 2025",
     readingTime: 8,
     featured: false,
     category: "Integration & Email"
@@ -98,7 +98,7 @@ const blogPosts = [
     slug: "business-central-performance-bottlenecks-guide",
     title: "Business Central Performance Bottlenecks: The Complete Developer's Guide",
     description: "Master 7 critical performance bottlenecks that impact Business Central systems. Includes AL code optimizations, SQL tuning techniques, and proven strategies used in enterprise implementations.",
-    date: "July 22, 2025",
+    date: "July 31, 2025",
     readingTime: 12,
     featured: true,
     category: "Performance Optimization"
@@ -107,7 +107,7 @@ const blogPosts = [
     slug: "business-central-cloud-vs-onpremises-migration-guide",
     title: "Business Central Cloud vs On-Premises: Complete Migration Decision Framework",
     description: "Strategic guide using the SCALE methodology to make informed migration decisions. Includes TCO calculator, decision matrix, and real-world migration timelines for enterprise implementations.",
-    date: "July 22, 2025",
+    date: "August 1, 2025",
     readingTime: 15,
     featured: true,
     category: "Migration & Cloud"
@@ -116,7 +116,7 @@ const blogPosts = [
     slug: "business-central-al-extensions-advanced-patterns",
     title: "Business Central AL Extensions: Advanced Patterns for Enterprise-Grade Development",
     description: "Master advanced AL extension patterns used in enterprise implementations. Learn dependency injection, event-driven architecture, and scalable patterns that handle 1000+ concurrent users.",
-    date: "July 22, 2025",
+    date: "August 3, 2025",
     readingTime: 18,
     featured: true,
     category: "Advanced Development"
@@ -125,7 +125,7 @@ const blogPosts = [
     slug: "business-central-data-migration-zero-downtime-strategies",
     title: "Business Central Data Migration: Zero-Downtime Strategies for Enterprise Implementations",
     description: "Complete framework for zero-downtime data migration with parallel loading, delta synchronization, and proven strategies that handle 2TB+ databases without business disruption.",
-    date: "July 22, 2025",
+    date: "August 5, 2025",
     readingTime: 20,
     featured: true,
     category: "Data Migration"

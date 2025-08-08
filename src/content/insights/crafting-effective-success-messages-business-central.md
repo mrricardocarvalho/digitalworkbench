@@ -1,7 +1,7 @@
 ---
 title: "Crafting Effective Success Messages in Business Central"
 description: "Design psychology-backed success messages that guide user behavior, reduce support tickets by 67%, and improve workflow completion rates by 89% in Business Central applications."
-date: "2025-08-07"
+date: "2025-07-27"
 readingTime: 9
 featured: false
 tags: ["UX Design", "User Interface", "AL Development", "User Experience"]

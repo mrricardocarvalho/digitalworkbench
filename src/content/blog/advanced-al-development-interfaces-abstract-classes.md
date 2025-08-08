@@ -1,7 +1,7 @@
 ---
 title: "Advanced AL Development: Working with Interfaces and Abstract Classes"
 description: "Master advanced AL development techniques using interfaces and abstract classes. Build more flexible and maintainable extensions with proven enterprise patterns and examples."
-date: "2025-07-21"
+date: "2025-07-29"
 readingTime: 10
 featured: true
 tags: ["AL Development", "Interfaces", "Object-Oriented Programming", "Enterprise Patterns", "Code Architecture"]
