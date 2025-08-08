@@ -20,8 +20,9 @@ import App from './App.tsx' // Note the .tsx extension
 import './index.css'
 // Initialize PWA manager
 import './utils/pwa';
-// Initialize performance optimizations
+// Enhanced performance optimizations
 import { loadCriticalResources, registerServiceWorker, optimizeImageLoading } from './utils/performance';
+import { initializePerformanceOptimizations } from './utils/criticalPerformance';
 import { initializeFontLoading } from './utils/fontLoading';
 // Initialize content management system
 console.log('🔄 About to import registerAllContent...');
@@ -46,9 +47,12 @@ if (isGitHubPages) {
 }
 
 // Determine base path: use /digitalworkbench for production/GitHub Pages, / for local dev
-const basename = import.meta.env.PROD && isGitHubPages ? '/digitalworkbench' : undefined;
+// Note: This is used in the render section below
 
-// Initialize performance optimizations immediately
+// Initialize critical performance optimizations immediately (Week 2 enhancement)
+initializePerformanceOptimizations();
+
+// Initialize performance optimizations
 loadCriticalResources();
 
 // Initialize font loading optimization
@@ -96,16 +100,13 @@ if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 
+// Render the application
+const basePath = import.meta.env.PROD && isGitHubPages ? '/digitalworkbench' : undefined;
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {basename ? (
-      <BrowserRouter basename={basename}>
-        <App />
-      </BrowserRouter>
-    ) : (
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    )}
+    <BrowserRouter {...(basePath && { basename: basePath })}>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
 )

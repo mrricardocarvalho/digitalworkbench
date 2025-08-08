@@ -9,11 +9,15 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: () => {
-          // ABSOLUTE NUCLEAR OPTION: NO CHUNKING AT ALL
-          // Everything goes into the main bundle to eliminate any possibility
-          // of React hooks being undefined due to load order issues
-          return undefined;
+        manualChunks: {
+          // Core React libraries
+          'react-vendor': ['react', 'react-dom'],
+          // Routing
+          'routing': ['react-router-dom'],
+          // UI/Animation libraries
+          'ui-vendor': ['framer-motion', '@radix-ui/react-dialog', 'cmdk'],
+          // Performance utilities
+          'performance': ['web-vitals']
         }
       }
     },
@@ -22,9 +26,14 @@ export default defineConfig(({ mode }) => ({
       compress: {
         drop_console: true,
         drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug'],
+        passes: 2
       },
+      mangle: {
+        safari10: true
+      }
     },
-    chunkSizeWarningLimit: 5000, // Increased to 5MB for all dependencies
+    chunkSizeWarningLimit: 1000, // Stricter chunk size monitoring
   },
   optimizeDeps: {
     include: [
