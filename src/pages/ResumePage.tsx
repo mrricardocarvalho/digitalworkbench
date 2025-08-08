@@ -5,12 +5,7 @@ import './ResumePage.css';
 const ResumePage: React.FC = () => {
   return (
     <>
-      <SEO 
-        title="Resume - Ricardo Carvalho | Senior Business Central Developer"
-        description="Download Ricardo Carvalho's resume. 8+ years of Business Central development experience, AL programming, Azure DevOps, ERP implementations, and enterprise solutions across manufacturing and retail sectors."
-        keywords="Ricardo Carvalho Resume, Business Central Developer CV, AL Developer Resume, Dynamics 365 BC Expert, ERP Developer Portfolio, Microsoft Dynamics Consultant, Business Central Specialist"
-        canonical="https://ricardocarvalho.dev/resume"
-      />
+      <SEO pageType="resume" />
       <div className="container">
         <header className="page-header">
           <h1>My Resume</h1>

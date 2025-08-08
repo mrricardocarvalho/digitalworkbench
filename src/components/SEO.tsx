@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { pageSEOConfig, generateArticleSEO, generateProjectSEO, getOGImage, generateArticleStructuredData } from '../utils/seoConfig';
 
 interface SEOProps {
   title?: string;
@@ -11,31 +12,75 @@ interface SEOProps {
   modifiedTime?: string;
   articleSection?: string;
   readingTime?: number;
-  structuredData?: object;
+  structuredData?: object | object[];
+  // Enhanced props for our new system
+  pageType?: keyof typeof pageSEOConfig;
+  articleSlug?: string;
+  projectSlug?: string;
+  tags?: string[];
+  technologies?: string[];
+  // Verification props
+  googleSiteVerification?: string;
+  bingVerification?: string;
 }
 
 const SEO: React.FC<SEOProps> = ({
-  title = "Ricardo Carvalho - Senior Dynamics 365 Business Central Developer",
-  description = "Senior D365 BC Developer with 8+ years experience architecting robust and scalable ERP solutions. Specialized in AL development, Azure DevOps, and enterprise migrations.",
-  keywords = "Dynamics 365, Business Central, AL Developer, ERP Solutions, Microsoft Partner, Azure DevOps, D365 BC Development, Enterprise Software",
-  ogImage = "https://mrricardocarvalho.github.io/digitalworkbench/og-image.jpg",
-  canonical = "https://mrricardocarvalho.github.io/digitalworkbench/",
+  title,
+  description,
+  keywords,
+  ogImage,
+  canonical,
   author = "Ricardo Carvalho",
   publishedTime,
   modifiedTime,
   articleSection = "Technology",
   readingTime,
-  structuredData
+  structuredData,
+  // Enhanced props
+  pageType,
+  articleSlug,
+  projectSlug,
+  tags,
+  technologies,
+  // Verification props
+  googleSiteVerification,
+  bingVerification
 }) => {
   useEffect(() => {
     try {
-      // Ensure we're in browser environment
       if (typeof document === 'undefined') return;
 
-      // Update document title
-      document.title = title;
+      // Determine SEO data source
+      let seoData;
+      
+      if (pageType && pageSEOConfig[pageType]) {
+        // Use predefined page configuration
+        seoData = pageSEOConfig[pageType];
+      } else if (articleSlug && title && description) {
+        // Generate article SEO
+        seoData = generateArticleSEO(articleSlug, title, description, tags);
+      } else if (projectSlug && title && description) {
+        // Generate project SEO
+        seoData = generateProjectSEO(projectSlug, title, description, technologies);
+      } else {
+        // Fall back to provided props or defaults
+        seoData = {
+          title: title || "Ricardo Carvalho - Senior Dynamics 365 Business Central Developer",
+          description: description || "Senior D365 BC Developer with 8+ years experience architecting robust and scalable ERP solutions. Specialized in AL development, Azure DevOps, and enterprise migrations.",
+          keywords: keywords || "Dynamics 365, Business Central, AL Developer, ERP Solutions, Microsoft Partner, Azure DevOps, D365 BC Development, Enterprise Software",
+          canonical: canonical || "https://mrricardocarvalho.github.io/digitalworkbench/"
+        };
+      }
 
-      // Helper function to safely update meta tags
+      // Override with provided props if available
+      const finalTitle = title || seoData.title;
+      const finalDescription = description || seoData.description;
+      const finalKeywords = keywords || seoData.keywords;
+      const finalCanonical = canonical || seoData.canonical;
+      const finalOgImage = ogImage || seoData.ogImage || getOGImage('page');
+
+      document.title = finalTitle;
+
       const updateMetaTag = (selector: string, content: string) => {
         try {
           const element = document.querySelector(selector);
@@ -47,7 +92,6 @@ const SEO: React.FC<SEOProps> = ({
         }
       };
 
-      // Helper function to safely create or update link tags
       const updateLinkTag = (rel: string, href: string) => {
         try {
           let link = document.querySelector(`link[rel="${rel}"]`);
@@ -62,22 +106,28 @@ const SEO: React.FC<SEOProps> = ({
         }
       };
 
-      // Update meta tags safely
-      updateMetaTag('meta[name="description"]', description);
-      updateMetaTag('meta[name="keywords"]', keywords);
+      updateMetaTag('meta[name="description"]', finalDescription);
+      updateMetaTag('meta[name="keywords"]', finalKeywords);
       updateMetaTag('meta[name="author"]', author);
-      updateMetaTag('meta[property="og:title"]', title);
-      updateMetaTag('meta[property="og:description"]', description);
-      updateMetaTag('meta[property="og:image"]', ogImage);
+      updateMetaTag('meta[property="og:title"]', finalTitle);
+      updateMetaTag('meta[property="og:description"]', finalDescription);
+      updateMetaTag('meta[property="og:image"]', finalOgImage);
       updateMetaTag('meta[property="og:type"]', publishedTime ? 'article' : 'website');
-      updateMetaTag('meta[property="og:url"]', canonical);
+      updateMetaTag('meta[property="og:url"]', finalCanonical);
       updateMetaTag('meta[property="twitter:card"]', 'summary_large_image');
-      updateMetaTag('meta[property="twitter:title"]', title);
-      updateMetaTag('meta[property="twitter:description"]', description);
-      updateMetaTag('meta[property="twitter:image"]', ogImage);
+      updateMetaTag('meta[property="twitter:title"]', finalTitle);
+      updateMetaTag('meta[property="twitter:description"]', finalDescription);
+      updateMetaTag('meta[property="twitter:image"]', finalOgImage);
       updateMetaTag('meta[property="twitter:creator"]', '@ricardocarvalho');
 
-      // Article-specific meta tags
+      // Site verification meta tags
+      if (googleSiteVerification) {
+        updateMetaTag('meta[name="google-site-verification"]', googleSiteVerification);
+      }
+      if (bingVerification) {
+        updateMetaTag('meta[name="msvalidate.01"]', bingVerification);
+      }
+
       if (publishedTime) {
         updateMetaTag('meta[property="article:published_time"]', publishedTime);
         updateMetaTag('meta[property="article:author"]', author);
@@ -91,78 +141,49 @@ const SEO: React.FC<SEOProps> = ({
         }
       }
 
-      // Update canonical URL safely
-      updateLinkTag('canonical', canonical);
+      updateLinkTag('canonical', finalCanonical);
 
-      // Add structured data for articles
-      if (structuredData || publishedTime) {
-        const defaultStructuredData = {
-          "@context": "https://schema.org",
-          "@type": publishedTime ? "Article" : "WebPage",
-          "headline": title,
-          "description": description,
-          "author": {
-            "@type": "Person",
-            "name": author,
-            "url": "https://mrricardocarvalho.github.io/digitalworkbench/",
-            "jobTitle": "Senior Dynamics 365 Business Central Developer",
-            "alumniOf": "Technical Education",
-            "knowsAbout": ["Dynamics 365", "Business Central", "AL Development", "ERP Solutions", "Azure DevOps"]
-          },
-          "publisher": {
-            "@type": "Organization",
-            "name": "Ricardo Carvalho - Digital Workbench",
-            "url": "https://mrricardocarvalho.github.io/digitalworkbench/",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "https://mrricardocarvalho.github.io/digitalworkbench/favicon.svg"
-            }
-          },
-          "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": canonical
-          },
-          "image": {
-            "@type": "ImageObject",
-            "url": ogImage,
-            "width": 1200,
-            "height": 630
-          },
-          "url": canonical,
-          ...(publishedTime && {
-            "datePublished": publishedTime,
-            "dateModified": modifiedTime || publishedTime,
-            "articleSection": articleSection,
-            "wordCount": readingTime ? readingTime * 200 : undefined, // Estimate based on reading time
-            "timeRequired": readingTime ? `PT${readingTime}M` : undefined,
-            "inLanguage": "en-US",
-            "isAccessibleForFree": true,
-            "genre": "Technology",
-            "keywords": keywords
-          })
-        };
-
-        const schemaData = structuredData || defaultStructuredData;
+      // Add structured data 
+      if (structuredData || articleSlug || pageType) {
+        let finalStructuredData;
         
-        // Remove existing structured data
-        const existingScript = document.querySelector('script[type="application/ld+json"]');
-        if (existingScript) {
-          existingScript.remove();
+        if (structuredData) {
+          // Handle both single objects and arrays of structured data
+          finalStructuredData = Array.isArray(structuredData) ? structuredData : [structuredData];
+        } else if (articleSlug && tags) {
+          finalStructuredData = [generateArticleStructuredData(
+            finalTitle, 
+            finalDescription, 
+            articleSlug, 
+            publishedTime, 
+            modifiedTime, 
+            tags, 
+            readingTime
+          )];
         }
 
-        // Add new structured data
-        const script = document.createElement('script');
-        script.type = 'application/ld+json';
-        script.textContent = JSON.stringify(schemaData);
-        document.head.appendChild(script);
+        if (finalStructuredData) {
+          // Remove existing structured data scripts
+          const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
+          existingScripts.forEach(script => script.remove());
+
+          // Add new structured data scripts
+          finalStructuredData.forEach((data, index) => {
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.setAttribute('data-schema-index', index.toString());
+            script.textContent = JSON.stringify(data);
+            document.head.appendChild(script);
+          });
+        }
       }
 
     } catch (error) {
       console.error('SEO component error:', error);
     }
-  }, [title, description, keywords, ogImage, canonical, author, publishedTime, modifiedTime, articleSection, readingTime, structuredData]);
+  }, [title, description, keywords, ogImage, canonical, author, publishedTime, modifiedTime, articleSection, readingTime, structuredData, pageType, articleSlug, projectSlug, tags, technologies, googleSiteVerification, bingVerification]);
 
-  return null; // This component doesn't render anything
+  return null;
 };
 
 export default SEO;

@@ -18,6 +18,10 @@ dist-ssr
 .idea
 .DS_Store
 *.suo
+
+# Project management
+TODO.md
+NOTES.md
 *.ntvs*
 *.njsproj
 *.sln

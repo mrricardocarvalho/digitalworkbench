@@ -2,6 +2,7 @@ import React from 'react';
 import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
 import { ProjectGallery, type ProjectData } from '../components/ProjectGallery';
+import SEO from '../components/SEO';
 import './ProjectsPage.css';
 
 // Enhanced project data for the gallery
@@ -44,7 +45,9 @@ const ProjectsPage: React.FC = () => {
   };
 
   return (
-    <div className="container">
+    <>
+      <SEO pageType="projects" />
+      <div className="container">
       <motion.div 
         className="projects-page"
         variants={pageVariants}
@@ -70,6 +73,7 @@ const ProjectsPage: React.FC = () => {
         />
       </motion.div>
     </div>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
+import SEO from '../components/SEO';
 import './InsightsPage.css';
 import NewsletterSignup from '../components/NewsletterSignup';
 import { contentManager } from '../utils/contentManager';
@@ -58,7 +59,9 @@ const InsightsPage: React.FC = () => {
   };
 
   return (
-    <main className="container" id="main-content" role="main">
+    <>
+      <SEO pageType="insights" />
+      <main className="container" id="main-content" role="main">
       <div className="insights-header">
         <h1>Business Central Articles & Insights</h1>
         <p className="insights-subtitle">Real-world Business Central development techniques, performance tips, and architectural insights from 8+ years in the field.</p>
@@ -105,6 +108,7 @@ const InsightsPage: React.FC = () => {
         />
       </section>
     </main>
+    </>
   );
 };
 

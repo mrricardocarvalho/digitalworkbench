@@ -241,13 +241,12 @@ const InsightPostPage: React.FC = () => {
   return (
     <div className="insight-post-page">
       <SEO 
+        {...(slug && { articleSlug: slug })}
         title={currentPost.title}
         description={currentPost.description}
-        ogImage="/images/og-article.jpg"
-        author="Ricardo Carvalho"
         publishedTime={currentPost.date}
         readingTime={currentPost.readingTime}
-        keywords={articleMetadata.tags.join(', ')}
+        tags={articleMetadata.tags}
       />
       
       <ReadingProgress />

@@ -1,4 +1,19 @@
 User-agent: *
 Allow: /
 
+# Sitemaps
 Sitemap: https://mrricardocarvalho.github.io/digitalworkbench/sitemap.xml
+Sitemap: https://mrricardocarvalho.github.io/digitalworkbench/site-sitemap.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Disallow development/testing paths
+Disallow: /test/
+Disallow: /dev/
+Disallow: /*.json$
+Disallow: /*?*
+
+# Allow important files
+Allow: /manifest.json
+Allow: /sw.js

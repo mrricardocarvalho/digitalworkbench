@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import SEO from '../components/SEO';
+import { generateWebsiteStructuredData, generateOrganizationStructuredData } from '../utils/seoConfig';
+import { seoConfig } from '../config/seo';
 import Interactive3D from '../components/Interactive3D';
 import NewsletterSignup from '../components/NewsletterSignup';
 import './HomePage.css';
@@ -12,6 +14,39 @@ type Project = { slug: string; title: string; description: string; };
 type Insight = { slug:string; title: string; description: string; };
 
 const HomePage: React.FC = () => {
+  // Generate composite structured data for the homepage
+  const compositeStructuredData = [
+    generateWebsiteStructuredData(),
+    generateOrganizationStructuredData(),
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Ricardo Carvalho",
+      "jobTitle": "Senior Dynamics 365 Business Central Developer",
+      "description": "Senior D365 BC Developer with 8+ years experience architecting robust and scalable ERP solutions. Specialized in AL development, Azure DevOps, and enterprise migrations.",
+      "url": "https://mrricardocarvalho.github.io/digitalworkbench/",
+      "sameAs": [
+        "https://www.linkedin.com/in/ricardo-carvalho-05741519",
+        "https://github.com/mrricardocarvalho"
+      ],
+      "knowsAbout": [
+        "Dynamics 365 Business Central",
+        "AL Programming Language",
+        "Microsoft Dynamics NAV",
+        "ERP Systems",
+        "Azure DevOps",
+        "Enterprise Software Development"
+      ],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Senior Software Developer",
+        "occupationLocation": {
+          "@type": "Country",
+          "name": "Portugal"
+        }
+      }
+    }
+  ];
   const projects: Project[] = [
     { 
       slug: "digital-workbench-portfolio", 
@@ -109,37 +144,10 @@ const cardVariants: Variants = {
   return (
     <>
       <SEO 
-        title="Ricardo Carvalho - Senior Dynamics 365 Business Central Developer"
-        description="Senior D365 BC Developer with 20+ years experience architecting robust and scalable ERP solutions. Specialized in AL development, NAV migrations, and enterprise implementations."
-        canonical="https://mrricardocarvalho.github.io/digitalworkbench/"
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "Person",
-          "name": "Ricardo Carvalho",
-          "jobTitle": "Senior Dynamics 365 Business Central Developer",
-          "description": "Senior D365 BC Developer with 20+ years experience architecting robust and scalable ERP solutions. Specialized in AL development, NAV migrations, and enterprise implementations.",
-          "url": "https://mrricardocarvalho.github.io/digitalworkbench/",
-          "sameAs": [
-            "https://www.linkedin.com/in/ricardo-carvalho-05741519",
-            "https://github.com/mrricardocarvalho"
-          ],
-          "knowsAbout": [
-            "Dynamics 365 Business Central",
-            "AL Programming Language",
-            "Microsoft Dynamics NAV",
-            "ERP Systems",
-            "Azure DevOps",
-            "Enterprise Software Development"
-          ],
-          "hasOccupation": {
-            "@type": "Occupation",
-            "name": "Senior Software Developer",
-            "occupationLocation": {
-              "@type": "Country",
-              "name": "Portugal"
-            }
-          }
-        }}
+        pageType="home"
+        googleSiteVerification={seoConfig.googleSiteVerification}
+        bingVerification={seoConfig.bingVerification}
+        structuredData={compositeStructuredData}
       />
       <div className="container" id="main-content">
       {/* Hero Section */}

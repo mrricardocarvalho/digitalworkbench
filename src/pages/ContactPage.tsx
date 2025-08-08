@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ContactForm from '../components/ContactForm';
 import NewsletterSignup from '../components/NewsletterSignup';
+import SEO from '../components/SEO';
 import { useAnalytics } from '../utils/analytics';
 import './ContactPage.css';
 
@@ -71,7 +72,9 @@ const ContactPage: React.FC = () => {
   ];
 
   return (
-    <div className="contact-page">
+    <>
+      <SEO pageType="contact" />
+      <div className="contact-page">
       {/* Hero Section */}
       <section className="contact-hero">
         <div className="contact-hero__content">
@@ -215,6 +218,7 @@ const ContactPage: React.FC = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
